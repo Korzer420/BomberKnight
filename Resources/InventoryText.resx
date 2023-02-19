@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BombBag_Desc" xml:space="preserve">
+    <value>A small bag hold together by grass and silk. No liquid will pass its surface, keeping the content dry. Perfect to keep dangerous items like bombs.
+
+Currently it has space for {0} bombs.</value>
+  </data>
+  <data name="BombBag_ItemScreen_Desc1" xml:space="preserve">
+    <value>You can now place bombs, which explodes three seconds later causing major destruction. Can break damaged walls and floors. Holds </value>
+  </data>
+  <data name="BombBag_ItemScreen_Desc2" xml:space="preserve">
+    <value>Already contains a few grass bombs. Holds space for 5 bombs.</value>
+  </data>
+  <data name="BombBag_Title" xml:space="preserve">
+    <value>Bomb Bag</value>
+  </data>
+  <data name="BounceBomb_Desc" xml:space="preserve">
+    <value>Specially crafted by high members of the city council. They were developed for amusment on the parties of the higher ranks. After some time, although their explosion don't harm anything with a shell by itself, they were banned due to concerns of accidently being thrown in spikes while playing around with them. There have been rumours that the guards made this concern up, to take full control of these "toys" for military purposes...</value>
+  </data>
+  <data name="BounceBomb_Title" xml:space="preserve">
+    <value>Bounce Bombs</value>
+  </data>
+  <data name="Charm_BombMaster_Desc" xml:space="preserve">
+    <value>A leftover key used for controlled explosions to proceed in the shining caves of the Crystal Peak even further. Ironically the crystals on the other hand became more unpredictable somehow...
+
+Bombs connected to this piece may not explode on their own in most circumstances, allowing for safer operations.</value>
+  </data>
+  <data name="Charm_BombMaster_Title" xml:space="preserve">
+    <value>Bomb Master</value>
+  </data>
+  <data name="Charm_Pyromaniac_Desc" xml:space="preserve">
+    <value>Glowing ash is stuck to this charm. Whatever had posession of this before, surely liked the burning pain of explosions.
+
+Protects the bearer from their own explosions. Sometimes the fire may cauterize wounds on your shell as well.</value>
+  </data>
+  <data name="Charm_Pyromaniac_Title" xml:space="preserve">
+    <value>Pyromaniac</value>
+  </data>
+  <data name="Charm_ShellSalvager_Desc" xml:space="preserve">
+    <value>A badge granted to the valiant heroes which tried their best to get use from every single leftover shell piece they could find, saving their kingdom by creating near endless resources.
+
+Holder of these badges may find more "explosionable" material.</value>
+  </data>
+  <data name="Charm_ShellSalvager_Title" xml:space="preserve">
+    <value>Shell Savager</value>
+  </data>
+  <data name="EchoBomb_Desc" xml:space="preserve">
+    <value>Formed by the banished Moth tribe members to surpass death and revive with a new glow. The sealed souls inside of this vessel however, left behind a furious amalgamation with the only desire to finally go the afterlife. Releasing it may cause it's scream to echo repeatedly in the realm of the living ones. But maybe after some time, they can finally rest in peace?</value>
+  </data>
+  <data name="EchoBomb_Title" xml:space="preserve">
+    <value>Echo Bombs</value>
+  </data>
+  <data name="GoldBomb_Desc" xml:space="preserve">
+    <value>&lt;i&gt;... Lost in his greed to obtain a kings wealth, a bug pour the gold blood over everything he could find. The blood quickly turned all objects touched into massive gold. He started to seeing everything as a wealthy property. Eventually he turned even his own family in gold statues, not considering them as bugs anymore. At one point, he looked at himself in the mirror, knowing what he's missing to truly have a "golden" life...&lt;i&gt; 
+-The Golden Curse</value>
+  </data>
+  <data name="GoldBomb_Title" xml:space="preserve">
+    <value>Gold Bombs</value>
+  </data>
+  <data name="GrassBomb_Desc" xml:space="preserve">
+    <value>Carefully crafted by Moss Knights for desperate times, to overcome a siege in their territory. Effective at what it should do, no more not less.</value>
+  </data>
+  <data name="GrassBomb_Title" xml:space="preserve">
+    <value>Grass Bombs</value>
+  </data>
+  <data name="PowerBomb_Desc" xml:space="preserve">
+    <value>These objects are fueled with the power of the blue blood, granting them an excessive amount of power at the cost of life force. No one was able to store these bombs as the king would quickly ban everything related to the blue curse and due to the fact they are incredible unstable.</value>
+  </data>
+  <data name="PowerBomb_Title" xml:space="preserve">
+    <value>Power Bombs</value>
+  </data>
+  <data name="SporeBomb_Desc" xml:space="preserve">
+    <value>Over the ages a few guards lost some ammunition in the Fungal Wastes. It is said that even though those weapons are useless once they roll down the wastes, through the years of being exposed to the spore, they will recover their strength and unleash the initial power amplified by all the spores which now resides inside them.</value>
+  </data>
+  <data name="SporeBomb_Title" xml:space="preserve">
+    <value>Spore Bombs</value>
+  </data>
+</root>

@@ -25,11 +25,22 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Resources\BombBag.png" />
+      <None Remove="Resources\BombMaster.png" />
+      <None Remove="Resources\Pyromaniac.png" />
+      <None Remove="Resources\Sentry_Stone.png" />
+      <None Remove="Resources\ShellSalvager.png" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Reference Include="Assembly-CSharp">
             <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Assembly-CSharp.dll</HintPath>
         </Reference>
         <Reference Include="ItemChanger">
             <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\ItemChanger\ItemChanger.dll</HintPath>
+        </Reference>
+        <Reference Include="KorzUtils">
+          <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\KorzUtils\KorzUtils.dll</HintPath>
         </Reference>
         <Reference Include="MMHOOK_Assembly-CSharp">
             <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\MMHOOK_Assembly-CSharp.dll</HintPath>
@@ -37,8 +48,26 @@
         <Reference Include="MMHOOK_PlayMaker">
             <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\MMHOOK_PlayMaker.dll</HintPath>
         </Reference>
+        <Reference Include="Mono.Cecil">
+          <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mono.Cecil.dll</HintPath>
+        </Reference>
+        <Reference Include="Mono.Security">
+          <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mono.Security.dll</HintPath>
+        </Reference>
+        <Reference Include="MonoMod.RuntimeDetour">
+          <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\MonoMod.RuntimeDetour.dll</HintPath>
+        </Reference>
+        <Reference Include="MonoMod.Utils">
+          <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\MonoMod.Utils.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Newtonsoft.Json.dll</HintPath>
+        </Reference>
         <Reference Include="PlayMaker">
             <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\PlayMaker.dll</HintPath>
+        </Reference>
+        <Reference Include="SFCore">
+          <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\SFCore\SFCore.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine">
             <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\UnityEngine.dll</HintPath>
@@ -55,6 +84,24 @@
         <Reference Include="UnityEngine.Physics2DModule">
             <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.UI">
+          <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\UnityEngine.UI.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\InventoryText.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>InventoryText.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\InventoryText.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>InventoryText.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <Target Name="CopyMod" AfterTargets="PostBuildEvent">

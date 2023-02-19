@@ -1,20 +1,18 @@
-using BomberKnight;
 using BomberKnight.Enums;
-using BomberKnight.Helper;
-using ItemChanger.Extensions;
 using ItemChanger.FsmStateActions;
+using KorzUtils.Enums;
+using KorzUtils.Helper;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using UnityEngine;
-using static tk2dSpriteCollectionDefinition;
-using static UnityEngine.GraphicsBuffer;
 using Color = UnityEngine.Color;
 
-namespace LoreMaster.UnityComponents;
+namespace BomberKnight.UnityComponents;
 
+/// <summary>
+/// A bomb gameobject that... well explodes.
+/// </summary>
 public class Bomb : MonoBehaviour
 {
     #region Event Data
@@ -39,6 +37,7 @@ public class Bomb : MonoBehaviour
     private bool _isHoming;
     private Rigidbody2D _rigidBody;
     private int _echoStack = 0;
+    private bool _canDealContactDamage = false;
 
     #endregion
 
@@ -47,12 +46,24 @@ public class Bomb : MonoBehaviour
     /// <summary>
     /// Gets or sets the explosion object which will be created upon destruction.
     /// </summary>
-    public static GameObject Explosion { get; set; }
+    internal static GameObject Explosion { get; set; }
+
+    /// <summary>
+    /// Gets or sets the time the bomb should take before exploding.
+    /// </summary>
+    internal static float FuseTime { get; set; } = 3f;
 
     /// <summary>
     /// Gets or sets the type of the bomb to apply special effects.
     /// </summary>
     public BombType Type { get; set; }
+
+    /// <summary>
+    /// Gets or sets if the bomb can cancel the fuse time time.
+    /// </summary>
+    public bool CanExplode { get; set; }
+
+    public bool EnemyBomb { get; set; }
 
     /// <summary>
     /// Gets the cloud object
@@ -67,9 +78,39 @@ public class Bomb : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        if (EnemyBomb && collision.gameObject.name == "Knight")
+            CanExplode = true;
         // Ignore hero.
-        if (collision.gameObject.name == "Knight" || (collision.gameObject.layer == 8 && _isHoming))
+        if (collision.gameObject.name == "Knight" || (collision.gameObject.layer == 8 && _isHoming) || (collision.gameObject.layer == 11 && EnemyBomb))
             Physics2D.IgnoreCollision(collision.collider, GetComponent<CircleCollider2D>());
+        else if (!EnemyBomb && (_canDealContactDamage || CharmHelper.EquippedCharm(CharmRef.Grubsong)) && collision.gameObject.GetComponent<HealthManager>() is HealthManager enemy)
+        {
+            if (CharmHelper.EquippedCharm(CharmRef.Grubsong))
+                HeroController.instance.AddMPCharge(2);
+            if (_canDealContactDamage)
+            {
+                int damage = PlayerData.instance.GetInt(nameof(PlayerData.instance.nailDamage));
+                if (Type == BombType.PowerBomb)
+                    damage *= 2;
+                enemy.Hit(new()
+                {
+                    AttackType = AttackTypes.Generic,
+                    DamageDealt = damage,
+                    IgnoreInvulnerable = true,
+                    Source = gameObject,
+                    MagnitudeMultiplier = 0f
+                });
+
+                // 5% chance to explode immediatly.
+                if (UnityEngine.Random.Range(0, 20) == 0)
+                    CanExplode = true;
+                else
+                {
+                    _canDealContactDamage = false;
+                    StartCoroutine(DamageCooldown());
+                }
+            }
+        }
     }
 
     #endregion
@@ -78,24 +119,20 @@ public class Bomb : MonoBehaviour
 
     private IEnumerator Ticking()
     {
+        gameObject.layer = HeroController.instance.gameObject.layer;
         BombSpawned?.Invoke(new(Type, transform.localPosition));
         float passedTime = 0f;
         float passedMilestone = 0f; // Used to blink faster over time.
-        Color bombColor = Type switch
-        {
-            BombType.GrassBomb => Color.green,
-            BombType.SporeBomb => new(1f, 0.4f, 0f),
-            BombType.GoldBomb => Color.yellow,
-            BombType.EchoBomb => new(1f, 0f, 1f),
-            BombType.BounceBomb => Color.white,
-            _ => Color.cyan
-        };
+        Color bombColor = BombManager.GetBombColor(Type);
         Color currentColor = bombColor;
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = currentColor;
 
         (GameObject, float) homingData = CheckForHoming();
-        while (passedTime < 3f)
+        _canDealContactDamage = CharmHelper.EquippedCharm(CharmRef.ThornsOfAgony) && !EnemyBomb;
+        FuseTime = CharmHelper.EquippedCharm(CharmRef.DeepFocus) && EnemyBomb ? 6f : 3f;
+
+        while (passedTime < FuseTime && !CanExplode)
         {
             if ((passedMilestone >= 0.5f && passedTime < 1f)
                 || (passedMilestone >= .25f && passedTime >= 1f && passedTime <= 2f)
@@ -119,7 +156,7 @@ public class Bomb : MonoBehaviour
         if (Type != BombType.EchoBomb)
             GameObject.Destroy(gameObject);
         else
-        { 
+        {
             spriteRenderer.color = new(0f, 0f, 0f, 0f);
             StartCoroutine(Repeat());
         }
@@ -136,7 +173,12 @@ public class Bomb : MonoBehaviour
         for (_echoStack = 1; _echoStack < 5; _echoStack++)
         {
             GetComponent<SpriteRenderer>().color = new(1f, 0f, 1f, 1f - 0.2f * _echoStack);
-            yield return new WaitForSeconds(3f);
+            float passedTime = 0f;
+            while(passedTime < 3f)
+            {
+                passedTime += Time.deltaTime;
+                yield return new WaitUntil(() => !GameManager.instance.IsGamePaused());
+            }
             Explode(new(1f, 0f, 1f));
         }
         GameObject.Destroy(gameObject);
@@ -148,10 +190,15 @@ public class Bomb : MonoBehaviour
     private (GameObject, float) CheckForHoming()
     {
         GameObject enemyToChase = null;
-        float homingSpeed = PlayerData.instance.GetBool(nameof(PlayerData.instance.equippedCharm_7))
-                ? 15f
-                : 10f;
-        if (PlayerData.instance.GetBool(nameof(PlayerData.instance.equippedCharm_28)))
+        float homingSpeed = 10f;
+        if (CharmHelper.EquippedCharm(CharmRef.Dashmaster))
+            homingSpeed += 5f;
+        if (CharmHelper.EquippedCharm(CharmRef.Sprintmaster))
+            homingSpeed += 5f;
+        // If both are equipped it is increased even further.
+        if (homingSpeed == 20f)
+            homingSpeed += 22.5f;
+        if (!EnemyBomb && CharmHelper.EquippedCharm(CharmRef.GatheringSwarm))
         {
             _rigidBody = GetComponent<Rigidbody2D>();
 
@@ -222,17 +269,20 @@ public class Bomb : MonoBehaviour
             _ => new(1.2f, 1.2f, explosion.transform.localScale.z)
         };
 
+        if (!EnemyBomb && CharmHelper.EquippedCharm(CharmRef.DeepFocus))
+            explosion.transform.localScale *= 1.5f;
+
         explosion.GetComponent<CircleCollider2D>().isTrigger = true;
         explosion.AddComponent<Rigidbody2D>().gravityScale = 0f;
 
         if (Type == BombType.GoldBomb)
         {
-            bool hasGreed = PlayerData.instance.GetBool(nameof(PlayerData.instance.equippedCharm_24));
+            bool hasGreed = CharmHelper.EquippedCharm(CharmRef.FragileGreed);
             FlingGeoAction.SpawnGeo(UnityEngine.Random.Range(1, hasGreed ? 100 : 25), hasGreed ? 10 : 5, 0, ItemChanger.FlingType.Everywhere, explosion.transform);
         }
         else if (Type == BombType.SporeBomb)
             GameManager.instance.StartCoroutine(SporeCloud());
-        
+
         explosion.SetActive(true);
         BombExploded?.Invoke(new(Type, transform.localPosition));
 
@@ -244,11 +294,16 @@ public class Bomb : MonoBehaviour
 
     private void CalculateDamage(GameObject explosion)
     {
+        if (EnemyBomb)
+        {
+            Destroy(explosion.LocateMyFSM("damages_enemy"));
+            return;
+        }    
         float damage = Type switch
         {
             BombType.GrassBomb => 20,
-            BombType.GoldBomb => Mathf.Min(PlayerData.instance.GetBool(nameof(PlayerData.instance.equippedCharm_24))
-            ? 100 : 50,
+            BombType.GoldBomb => Mathf.Min(CharmHelper.EquippedCharm(CharmRef.UnbreakableGreed)
+            ? 150 : (CharmHelper.EquippedCharm(CharmRef.FragileGreed) ? 100 : 50),
             PlayerData.instance.GetInt("geo") / 100 + 5),
             BombType.BounceBomb => 1,
             BombType.PowerBomb => 40,
@@ -257,8 +312,12 @@ public class Bomb : MonoBehaviour
         };
 
         // Bonus damage with shaman stone
-        if (PlayerData.instance.GetBool(nameof(PlayerData.instance.equippedCharm_19)))
-            damage *= 1.2f;
+        if (CharmHelper.EquippedCharm(CharmRef.ShamanStone))
+        {
+            damage *= 1.3f;
+            // Bombs also count as spell damage if shaman stone is equipped.
+            explosion.LocateMyFSM("damages_enemy").FsmVariables.FindFsmInt("attackType").Value = (int)AttackTypes.Spell;
+        }
 
         explosion.LocateMyFSM("damages_enemy").FsmVariables.FindFsmInt("damageDealt").Value = Convert.ToInt32(damage);
     }
@@ -268,13 +327,20 @@ public class Bomb : MonoBehaviour
         GameObject newCloud = GameObject.Instantiate(Cloud, transform.position,
                 Quaternion.identity);
         newCloud.SetActive(true);
-        newCloud.LocateMyFSM("Control")
-            .GetState("Init")
-            .AdjustTransition("NORMAL", "Deep");
         yield return new WaitForSeconds(4.1f);
         GameObject.Destroy(newCloud);
     }
 
-    #endregion
+    private IEnumerator DamageCooldown()
+    {
+        float passedTime = 0f;
+        while (passedTime < 0.5f)
+        {
+            passedTime += Time.deltaTime;
+            yield return new WaitUntil(() => !GameManager.instance.IsGamePaused());
+        }
+        _canDealContactDamage = true;
+    }
 
+    #endregion
 }

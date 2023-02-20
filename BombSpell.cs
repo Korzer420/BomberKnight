@@ -106,7 +106,7 @@ internal static class BombSpell
     {
         if (HeroController.instance == null)
             return;
-        LogHelper.Write("Modify spell control");
+        LogHelper.Write<BomberKnight>("Modify spell control");
         PlayMakerFSM fsm = HeroController.instance.spellControl;
         if (fsm.GetState("Normal bomb") is not null)
             return;
@@ -151,7 +151,7 @@ internal static class BombSpell
         if (normalTake)
         {
             spawnedBomb.GetComponent<Bomb>().Type = BombManager.BombQueue[0];
-            //BombManager.TakeBombs();
+            BombManager.TakeBombs();
         }
         else
             spawnedBomb.GetComponent<Bomb>().Type = bombType;

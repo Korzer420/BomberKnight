@@ -89,7 +89,7 @@ internal class EchoBombLocation : AutoLocation
             gate.SetActive(false);
             GameObject bombWall = new("Bomb Wall");
             bombWall.AddComponent<BoxCollider2D>().size = gate.GetComponent<BoxCollider2D>().size;
-            bombWall.AddComponent<BombWall>().NewGate = gate;
+            bombWall.AddComponent<BombWall>().Bombed += () => gate.SetActive(true);
             bombWall.transform.localPosition = gate.transform.localPosition;
             bombWall.transform.localScale = gate.transform.localScale;
             bombWall.layer = 7;

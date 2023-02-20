@@ -25,11 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Resources\BombBag.png" />
-      <None Remove="Resources\BombMaster.png" />
-      <None Remove="Resources\Pyromaniac.png" />
-      <None Remove="Resources\Sentry_Stone.png" />
-      <None Remove="Resources\ShellSalvager.png" />
+      <None Remove="Resources\Door.png" />
     </ItemGroup>
 
     <ItemGroup>

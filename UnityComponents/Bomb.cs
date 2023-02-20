@@ -119,7 +119,6 @@ public class Bomb : MonoBehaviour
 
     private IEnumerator Ticking()
     {
-        gameObject.layer = HeroController.instance.gameObject.layer;
         BombSpawned?.Invoke(new(Type, transform.localPosition));
         float passedTime = 0f;
         float passedMilestone = 0f; // Used to blink faster over time.
@@ -340,6 +339,29 @@ public class Bomb : MonoBehaviour
             yield return new WaitUntil(() => !GameManager.instance.IsGamePaused());
         }
         _canDealContactDamage = true;
+    }
+
+    /// <summary>
+    /// Creates a harmless explosion.
+    /// </summary>
+    public static void FakeExplosion(Vector3 position, Color color, Vector3 scale)
+    {
+        if (Vector3.Distance(HeroController.instance.transform.position, position) > 50)
+            return;
+        GameObject explosion = GameObject.Instantiate(Bomb.Explosion);
+        explosion.name = "Fake Explosion";
+        // Color explosion
+        ParticleSystem.MainModule settings = explosion.GetComponentInChildren<ParticleSystem>().main;
+        settings.startColor = new ParticleSystem.MinMaxGradient(color);
+        explosion.GetComponentInChildren<SpriteRenderer>().color = color;
+        explosion.GetComponentInChildren<SimpleSpriteFade>().fadeInColor = color;
+        typeof(SimpleSpriteFade).GetField("normalColor", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+            .SetValue(explosion.GetComponentInChildren<SimpleSpriteFade>(), color);
+
+        Destroy(explosion.GetComponent<DamageHero>());
+        Destroy(explosion.LocateMyFSM("damages_enemy"));
+        explosion.transform.position = position;
+        explosion.transform.localScale = scale;
     }
 
     #endregion

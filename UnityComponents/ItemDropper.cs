@@ -17,21 +17,26 @@ internal class ItemDropper : MonoBehaviour
 
     public Color FireworkColor { get; set; } = Color.white;
 
-    public void PrepareDrop()
+    public void PrepareDrop(bool destroyAfter = false)
     {
         if (!_alreadyThrown)
         {
             _alreadyThrown = true;
             if (Firework)
-                GameManager.instance.StartCoroutine(DoFirework());
+            { 
+                GameManager.instance.StartCoroutine(DoFirework(destroyAfter));
+                return;
+            }
             else if (DropPosition != Vector3.zero)
                 ItemHelper.SpawnShiny(DropPosition, Placement);
             else
                 ItemHelper.SpawnShiny(transform.position, Placement);
+            if (destroyAfter)
+                Destroy(gameObject);
         }
     }
 
-    private IEnumerator DoFirework()
+    private IEnumerator DoFirework(bool destroyAfter = false)
     {
         GameObject explosion = GameObject.Instantiate(Bomb.Explosion);
         explosion.transform.localScale = new(1.8f, 1.8f, 1.8f);
@@ -114,6 +119,8 @@ internal class ItemDropper : MonoBehaviour
             GameObject.Instantiate(explosion, transform.position, Quaternion.identity).SetActive(true);
             ItemHelper.SpawnShiny(transform.position, Placement);
         }
+        if (destroyAfter)
+            Destroy(gameObject);
     }
 
     private static Vector3 RollDistance() => new(Random.Range(0f, 3f) - 1.5f, Random.Range(0f, 3f) - 1.5f);

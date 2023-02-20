@@ -41,6 +41,7 @@ public static class BombManager
             if (_bomb == null)
             {
                 _bomb = new("Bomb");
+                _bomb.layer = 12;
                 _bomb.SetActive(false);
                 _bomb.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
                 Rigidbody2D rigidbody = _bomb.AddComponent<Rigidbody2D>();
@@ -99,7 +100,7 @@ public static class BombManager
     {
         StartListening();
         orig(self);
-        GiveBombs(new List<BombType>() { BombType.BounceBomb, BombType.EchoBomb });
+        GiveBombs(new List<BombType>() { BombType.SporeBomb, BombType.EchoBomb, BombType.GrassBomb, BombType.GoldBomb, BombType.BounceBomb });
     }
 
     private static void UIManager_StartNewGame(On.UIManager.orig_StartNewGame orig, UIManager self, bool permaDeath, bool bossRush)
@@ -107,10 +108,10 @@ public static class BombManager
         StartListening();
         orig(self, permaDeath, bossRush);
         ItemChangerMod.CreateSettingsProfile(false);
-        AbstractPlacement greenPath = new EchoBombLocation()
+        AbstractPlacement greenPath = new PowerBombLocation()
         {
             name = "Greenpath_Bag",
-            sceneName = "Ruins2_04"
+            sceneName = "Ruins1_06"
         }.Wrap();
         greenPath.Add(new BombBagItem() { name = "bombBag", 
             UIDef = new BigUIDef()
@@ -126,15 +127,19 @@ public static class BombManager
         {
             greenPath
         });
-        GiveBombs(new List<BombType>() { BombType.SporeBomb, BombType.EchoBomb });
+        GiveBombs(new List<BombType>() { BombType.SporeBomb, BombType.EchoBomb, BombType.GrassBomb, BombType.GoldBomb, BombType.BounceBomb });
     }
 
     private static void HeroController_TakeDamage(On.HeroController.orig_TakeDamage orig, HeroController self, GameObject go, GlobalEnums.CollisionSide damageSide, int damageAmount, int hazardType)
     {
-        if (go.name == "BounceBomb Explosion")
+        if (go?.name == "BounceBomb Explosion")
             GameManager.instance.StartCoroutine(YeetKnight(go.transform.position, go.GetComponent<CircleCollider2D>().bounds.max));
         else
+        {
+            if (go?.name.StartsWith("Fake Explosion") == true)
+                damageAmount = 0;
             orig(self, go, damageSide, damageAmount, hazardType);
+        }
     }
 
     private static bool ModHooks_GetPlayerBoolHook(string name, bool orig)
@@ -204,7 +209,7 @@ public static class BombManager
         }
         catch (Exception exception)
         {
-            LogHelper.Write("Error trying to set up modifications: " + exception.ToString(), KorzUtils.Enums.LogType.Error);
+            LogHelper.Write<BomberKnight>("Error trying to set up modifications: " + exception.ToString(), KorzUtils.Enums.LogType.Error);
         }
     }
 

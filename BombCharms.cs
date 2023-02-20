@@ -137,7 +137,9 @@ internal static class BombCharms
 
     private static CharmData CheckCustomCharm(string key, string prefix)
     {
-        int charmId = Convert.ToInt32(key.Substring(prefix.Length));
+        if (!int.TryParse(key.Substring(prefix.Length), out int charmId))
+            // Unbreakable charms end with _G
+            charmId = Convert.ToInt32(key.Substring(prefix.Length, 2));
         return CustomCharms.FirstOrDefault(x => x.Id == charmId);
     }
 

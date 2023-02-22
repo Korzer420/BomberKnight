@@ -39,8 +39,9 @@ public class BomberKnight : Mod
     public override List<(string, string)> GetPreloadNames()
          => new()
          {
-             ("Ruins1_05c", "Ceiling Dropper (4)"),
-             ("Ruins1_05c", "Ruins Sentry Fat")
+             ("Ruins1_05c", "Ceiling Dropper (4)"), // The explosion
+             ("Ruins1_05c", "Ruins Sentry Fat"), // For the bridge fight
+             ("Ruins1_24_boss", "Mage Lord") // For the edge fight (shockwave)
          };
 
     public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
@@ -53,7 +54,11 @@ public class BomberKnight : Mod
             .GetState("Explode")
             .GetFirstActionOfType<SpawnObjectFromGlobalPool>().gameObject.Value;
         GameObject.DontDestroyOnLoad(Bomb.Explosion);
-
+        EdgeBombBagLocation.Shockwave = preloadedObjects["Ruins1_24_boss"]["Mage Lord"].LocateMyFSM("Mage Lord")
+            .GetState("Quake Waves")
+            .GetFirstActionOfType<SpawnObjectFromGlobalPool>()
+            .gameObject.Value;
+        GameObject.DontDestroyOnLoad(EdgeBombBagLocation.Shockwave);
         BounceBombLocation.Sentry = preloadedObjects["Ruins1_05c"]["Ruins Sentry Fat"];
     }
 

@@ -41,7 +41,8 @@ public class BomberKnight : Mod
          {
              ("Ruins1_05c", "Ceiling Dropper (4)"), // The explosion
              ("Ruins1_05c", "Ruins Sentry Fat"), // For the bridge fight
-             ("Ruins1_24_boss", "Mage Lord") // For the edge fight (shockwave)
+             ("Ruins1_24_boss", "Mage Lord"), // For the edge fight (shockwave)
+             ("Deepnest_39", "Spider Flyer (1)") // For the deepnest fight
          };
 
     public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
@@ -60,6 +61,7 @@ public class BomberKnight : Mod
             .gameObject.Value;
         GameObject.DontDestroyOnLoad(EdgeBombBagLocation.Shockwave);
         BounceBombLocation.Sentry = preloadedObjects["Ruins1_05c"]["Ruins Sentry Fat"];
+        DeepnestBombBagLocation.Spider = preloadedObjects["Deepnest_39"]["Spider Flyer (1)"];
     }
 
     #endregion

@@ -108,7 +108,7 @@ public static class BombManager
         StartListening();
         orig(self, permaDeath, bossRush);
         ItemChangerMod.CreateSettingsProfile(false);
-        AbstractPlacement greenPath = new EdgeBombBagLocation()
+        AbstractPlacement greenPath = new DeepnestBombBagLocation()
         {
             name = "Greenpath_Bag",
             sceneName = "Ruins1_06"

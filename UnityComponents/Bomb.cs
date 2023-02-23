@@ -78,12 +78,10 @@ public class Bomb : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (EnemyBomb && (collision.gameObject.name == "Knight" || collision.gameObject.layer == 7))
-            CanExplode = true;
         // Ignore hero.
-        if (collision.gameObject.name == "Knight" || (collision.gameObject.layer == 8 && _isHoming) || (collision.gameObject.layer == 11 && EnemyBomb))
+        if (collision.gameObject.name == "Knight" || (collision.gameObject.layer == 8 && _isHoming))
             Physics2D.IgnoreCollision(collision.collider, GetComponent<CircleCollider2D>());
-        else if (!EnemyBomb && (_canDealContactDamage || CharmHelper.EquippedCharm(CharmRef.Grubsong)) && collision.gameObject.GetComponent<HealthManager>() is HealthManager enemy)
+        else if ((_canDealContactDamage || CharmHelper.EquippedCharm(CharmRef.Grubsong)) && collision.gameObject.GetComponent<HealthManager>() is HealthManager enemy)
         {
             if (CharmHelper.EquippedCharm(CharmRef.Grubsong))
                 HeroController.instance.AddMPCharge(2);

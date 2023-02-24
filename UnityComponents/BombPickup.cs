@@ -57,6 +57,16 @@ internal class BombPickup : MonoBehaviour
                 Third.transform.localPosition = new(.12f, .24f, -1.2f);
             }
         }
+        GetComponent<SpriteRenderer>().color = Bombs[0] switch
+         {
+             BombType.GrassBomb => Color.green,
+             BombType.SporeBomb => new(1f, 0.4f, 0f),
+             BombType.GoldBomb => Color.yellow,
+             BombType.EchoBomb => new(1f, 0f, 1f),
+             BombType.BounceBomb => Color.white,
+             BombType.MiningBomb => Color.red,
+             _ => Color.cyan
+         };
     }
 
     void FixedUpdate()

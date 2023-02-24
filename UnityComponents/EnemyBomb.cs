@@ -47,8 +47,9 @@ internal class EnemyBomb : MonoBehaviour
         _spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
         _spriteRenderer.sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
         _spriteRenderer.color = ExplosionColor;
+        // Let the bombs render before anything (besides the menu) to increase invisibity (This is the sorting layer of the full soul sprite)
         _spriteRenderer.sortingLayerID = -349214895;
-        gameObject.AddComponent<EnemyBombDetector>().Data= CollisionBehaviour;
+        gameObject.AddComponent<EnemyBombDetector>().Data = CollisionBehaviour;
 
         GameObject child = new("Hero Detector");
         child.transform.SetParent(transform);

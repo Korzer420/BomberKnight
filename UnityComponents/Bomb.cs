@@ -291,11 +291,6 @@ public class Bomb : MonoBehaviour
 
     private void CalculateDamage(GameObject explosion)
     {
-        if (EnemyBomb)
-        {
-            Destroy(explosion.LocateMyFSM("damages_enemy"));
-            return;
-        }    
         float damage = Type switch
         {
             BombType.GrassBomb => 20,
@@ -305,6 +300,7 @@ public class Bomb : MonoBehaviour
             BombType.BounceBomb => 1,
             BombType.PowerBomb => 40,
             BombType.EchoBomb => 10 * (1 - _echoStack * .2f),
+            BombType.MiningBomb => 30,
             _ => 10
         };
 

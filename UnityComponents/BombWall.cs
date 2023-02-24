@@ -1,11 +1,10 @@
-using HutongGames.PlayMaker.Actions;
 using UnityEngine;
 
 namespace BomberKnight.UnityComponents;
 
 internal class BombWall : MonoBehaviour
 {
-    internal delegate void ExplosionTrigger();
+    internal delegate bool? ExplosionTrigger(string explosionName);
 
     internal event ExplosionTrigger Bombed;
 
@@ -19,8 +18,9 @@ internal class BombWall : MonoBehaviour
     {
         if (coll.gameObject.name.Contains("Explosion"))
         {
-            Bombed?.Invoke();
-            Destroy(gameObject);
+            bool? shouldDestroy = Bombed?.Invoke(coll.gameObject.name);
+            if (shouldDestroy == true)
+                Destroy(gameObject);
         }
     }
 }

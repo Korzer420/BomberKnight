@@ -14,7 +14,7 @@ internal class BombBagItem : AbstractItem
         BombManager.BombBagLevel++;
 
         // Auto fill the bomb bag with rando available bombs.
-        List<BombType> availableBombs = BombManager.AvailableBombs.Keys.Where(x => x != BombType.PowerBomb && BombManager.AvailableBombs[x]).ToList();
+        List<BombType> availableBombs = BombManager.AvailableBombs.Keys.Where(x => x != BombType.PowerBomb && x != BombType.MiningBomb && BombManager.AvailableBombs[x]).ToList();
         List<BombType> selectedBombs = new();
 
         for (int i = BombManager.BombQueue.Count; i < BombManager.BombBagLevel * 10; i++)

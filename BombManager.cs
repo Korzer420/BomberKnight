@@ -13,7 +13,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TMPro;
 using UnityEngine;
+using static Mono.Security.X509.X520;
 
 namespace BomberKnight;
 
@@ -23,9 +25,13 @@ public static class BombManager
 
     private static GameObject _bomb;
 
+    private static GameObject _tracker;
+
     private static List<BombType> _bombQueue = new();
 
     private static Coroutine _shapeshiftRoutine;
+
+    private static Coroutine _miningCounter;
 
     #endregion
 
@@ -82,6 +88,11 @@ public static class BombManager
 
     private static IEnumerator UIManager_ReturnToMainMenu(On.UIManager.orig_ReturnToMainMenu orig, UIManager self)
     {
+        _bombQueue.RemoveAll(x => x == BombType.MiningBomb);
+        if (_tracker != null)
+            GameObject.Destroy(_tracker);
+        if (_miningCounter != null)
+            GameManager.instance.StopCoroutine(_miningCounter);
         On.HeroController.Start -= HeroController_Start;
         On.HeroController.TakeDamage -= HeroController_TakeDamage;
         ModHooks.GetPlayerBoolHook -= ModHooks_GetPlayerBoolHook;
@@ -108,14 +119,16 @@ public static class BombManager
         StartListening();
         orig(self, permaDeath, bossRush);
         ItemChangerMod.CreateSettingsProfile(false);
-        AbstractPlacement greenPath = new DeepnestBombBagLocation()
+        AbstractPlacement greenPath = new ExplosionMasterCharmLocation()
         {
             name = "Greenpath_Bag",
             sceneName = "Ruins1_06"
         }.Wrap();
-        greenPath.Add(new BombBagItem() { name = "bombBag", 
+        greenPath.Add(new BombBagItem()
+        {
+            name = "bombBag",
             UIDef = new BigUIDef()
-            { 
+            {
                 bigSprite = new WrappedSprite("BombBag"),
                 name = new BoxedString("Bomb Bag"),
                 descOne = new BoxedString(InventoryText.BombBag_ItemScreen_Desc1),
@@ -223,11 +236,21 @@ public static class BombManager
         if (BombQueue.Count >= maxAmount)
             return;
 
-        // Discard all bombs that exceed the limit.
-        if (BombQueue.Count + bombs.Count() > maxAmount)
-            _bombQueue.AddRange(bombs.Take(BombQueue.Count + bombs.Count() - maxAmount));
+        if (bombs.Any(x => x == BombType.MiningBomb))
+        {
+            if (BombQueue.Count == maxAmount)
+                _bombQueue.RemoveAt(0);
+            _bombQueue.Insert(0, BombType.MiningBomb);
+            _miningCounter = GameManager.instance.StartCoroutine(TickMiningBomb());
+        }
         else
-            _bombQueue.AddRange(bombs);
+        {
+            // Discard all bombs that exceed the limit.
+            if (BombQueue.Count + bombs.Count() > maxAmount)
+                _bombQueue.AddRange(bombs.Take(BombQueue.Count + bombs.Count() - maxAmount));
+            else
+                _bombQueue.AddRange(bombs);
+        }
 
         BombUI.Tracker.GetComponent<SpriteRenderer>().color = GetBombColor(BombQueue[0]);
         BombUI.Tracker.GetComponent<DisplayItemAmount>().textObject.text = _bombQueue.Count.ToString();
@@ -248,14 +271,21 @@ public static class BombManager
     /// <param name="amount">The amount that should be taken.</param>
     public static void TakeBombs(int amount = 1)
     {
-        // Spelltwister grants a 25% chance that bombs are not taken.
-        if (CharmHelper.EquippedCharm(CharmRef.SpellTwister))
+        if (_bombQueue[0] == BombType.MiningBomb && _miningCounter != null)
+        { 
+            GameManager.instance.StopCoroutine(_miningCounter);
+            if (_tracker != null)
+                GameObject.Destroy(_tracker);
+            amount = 1;
+        }
+        // Spell Twister grants a 25% chance that bombs are not taken.
+        else if (CharmHelper.EquippedCharm(CharmRef.SpellTwister))
             for (int i = amount; i > 0; i--)
                 if (UnityEngine.Random.Range(0, 4) == 0)
                     amount--;
         _bombQueue = _bombQueue.Skip(amount).ToList();
-
-        if (_bombQueue.Count > 0 && _bombQueue[0] == BombType.GrassBomb 
+        
+        if (_bombQueue.Count > 0 && _bombQueue[0] == BombType.GrassBomb
             && CharmHelper.EquippedCharm(CharmRef.ShapeOfUnn) && UnityEngine.Random.Range(0, 2) == 0)
             _shapeshiftRoutine ??= GameManager.instance.StartCoroutine(Shapeshift());
         else if (_shapeshiftRoutine != null)
@@ -267,7 +297,7 @@ public static class BombManager
     {
         float passedTime = 0f;
         float knockback = CalculateKnockback(explosionPosition, maxPoint);
-  
+
         Rigidbody2D hero = HeroController.instance.GetComponent<Rigidbody2D>();
         // Trigger invincibility
         GameManager.instance.StartCoroutine((IEnumerator)HeroController.instance.GetType()
@@ -300,6 +330,7 @@ public static class BombManager
         BombType.GoldBomb => Color.yellow,
         BombType.EchoBomb => new(1f, 0f, 1f),
         BombType.BounceBomb => Color.white,
+        BombType.MiningBomb => Color.red,
         _ => Color.cyan
     };
 
@@ -309,7 +340,7 @@ public static class BombManager
         if (bombTypes.Count <= 1)
             yield break;
         float timer = 0f;
-        while(BombQueue.Count > 0 && CharmHelper.EquippedCharm(CharmRef.ShapeOfUnn))
+        while (BombQueue.Count > 0 && CharmHelper.EquippedCharm(CharmRef.ShapeOfUnn))
         {
             timer += Time.deltaTime;
             if (timer >= 1f)
@@ -320,6 +351,46 @@ public static class BombManager
             }
             yield return null;
         }
+    }
+
+    private static IEnumerator TickMiningBomb()
+    {
+        float time = 480f;
+        if (_tracker == null)
+        {
+            GameObject prefab = GameObject.Find("_GameCameras").transform.Find("HudCamera/Inventory/Inv/Inv_Items/Geo").gameObject;
+            GameObject hudCanvas = GameObject.Find("_GameCameras").transform.Find("HudCamera/Hud Canvas").gameObject;
+            _tracker = GameObject.Instantiate(prefab, hudCanvas.transform, true);
+            _tracker.name = "Mining timer";
+            _tracker.transform.localPosition = new(7.7818f, 0.5418f, 0);
+            _tracker.transform.localScale = new(1.3824f, 1.3824f, 1.3824f);
+            _tracker.GetComponent<DisplayItemAmount>().playerDataInt = _tracker.name;
+            _tracker.GetComponent<DisplayItemAmount>().textObject.text = "";
+            _tracker.GetComponent<DisplayItemAmount>().textObject.fontSize = 3;
+            _tracker.GetComponent<DisplayItemAmount>().textObject.gameObject.name = "Counter";
+            Component.Destroy(_tracker.GetComponent<SpriteRenderer>());
+        }
+        _tracker.SetActive(true);
+        TextMeshPro textContainer = _tracker.GetComponent<DisplayItemAmount>().textObject;
+        while (time > 0f)
+        {
+            time -= Time.deltaTime;
+            if (time > 60f)
+                textContainer.text = TimeSpan.FromSeconds(time).ToString(@"mm\:ss");
+            else
+                textContainer.text = "<color=#f77a31>" + TimeSpan.FromSeconds(time).ToString("ss") + "</color>";
+            yield return null;
+        }
+        _bombQueue.Remove(BombType.MiningBomb);
+        GameObject spawnedBomb = GameObject.Instantiate(Bomb);
+        spawnedBomb.GetComponent<Bomb>().Type = BombType.MiningBomb;
+        spawnedBomb.GetComponent<Bomb>().CanExplode = true;
+        spawnedBomb.transform.localPosition = HeroController.instance.transform.localPosition;
+        spawnedBomb.transform.localScale = new(2f, 2f, 1f);
+        spawnedBomb.name = "Bomb";
+        spawnedBomb.SetActive(true);
+        if (_tracker != null)
+            GameObject.Destroy(_tracker);
     }
 
     #endregion

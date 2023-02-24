@@ -36,10 +36,11 @@ internal class BounceBombLocation : AutoLocation
         {
             GameObject statue = new("Statue");
             statue.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sentry_Stone");
-            statue.AddComponent<BombWall>().Bombed += () =>
+            statue.AddComponent<BombWall>().Bombed += (x) =>
             {
                 StartFight();
                 statue.SetActive(false);
+                return true;
             };
             statue.layer = 11;
             statue.SetActive(true);

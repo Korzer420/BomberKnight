@@ -175,7 +175,7 @@ public static class BombDrop
             amount = 4;
 
         // Charm doubles the dropped amount.
-        if (PlayerData.instance.GetBool("equippedCharm_BombScraper"))
+        if (CharmHelper.EquippedCharm("BombScraper"))
             amount *= 2;
 
         for (int i = 0; i < amount; i++)
@@ -212,7 +212,7 @@ public static class BombDrop
 
         // Set up base chances based on the amount of viable bombs in the same quality.
         Dictionary<BombType, float> chances = ((BombType[])Enum.GetValues(typeof(BombType)))
-            .ToDictionary(x => x, (Func<BombType, float>)(x =>
+            .ToDictionary(x => x, x =>
             {
                 if (unavailableBombTypes.Contains(x))
                     return 0f;
@@ -223,7 +223,7 @@ public static class BombDrop
                 else if (RareBombs.Contains(x))
                     return _rareDropChance / RareBombs.Except(unavailableBombTypes).Count();
                 return 0f;
-            }));
+            });
 
         // Remove undroppable bombs.
         foreach (BombType type in (BombType[])Enum.GetValues(typeof(BombType)))

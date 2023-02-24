@@ -137,10 +137,18 @@ internal static class BombCharms
 
     private static CharmData CheckCustomCharm(string key, string prefix)
     {
-        if (!int.TryParse(key.Substring(prefix.Length), out int charmId))
-            // Unbreakable charms end with _G
-            charmId = Convert.ToInt32(key.Substring(prefix.Length, 2));
-        return CustomCharms.FirstOrDefault(x => x.Id == charmId);
+        try
+        {
+            if (!int.TryParse(key.Substring(prefix.Length), out int charmId))
+                // Unbreakable charms end with _G
+                charmId = Convert.ToInt32(key.Substring(prefix.Length, 2));
+            return CustomCharms.FirstOrDefault(x => x.Id == charmId);
+        }
+        catch (Exception)
+        {
+            LogHelper.Write<BomberKnight>("Tried requesting stuff for unknown key: " + key + " with prefix " + prefix);
+            return null;
+        }
     }
 
     #endregion

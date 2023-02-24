@@ -30,5 +30,10 @@ public enum BombType
     /// <summary>
     /// Larger hitbox with increased damage. Strong enough to break one way walls. Takes 1 lifeblood and 5 bombs.
     /// </summary>
-    PowerBomb
+    PowerBomb,
+
+    /// <summary>
+    /// Quest bomb with a larger radius that can destroy the crystal.
+    /// </summary>
+    MiningBomb
 }

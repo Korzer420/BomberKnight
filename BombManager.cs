@@ -119,11 +119,13 @@ public static class BombManager
         StartListening();
         orig(self, permaDeath, bossRush);
         ItemChangerMod.CreateSettingsProfile(false);
-        AbstractPlacement greenPath = new ExplosionMasterCharmLocation()
+        BombScraperCharmLocation location = new BombScraperCharmLocation()
         {
             name = "Greenpath_Bag",
             sceneName = "Ruins1_06"
-        }.Wrap();
+        };
+        location.RollOrder();
+        AbstractPlacement greenPath = location.Wrap();
         greenPath.Add(new BombBagItem()
         {
             name = "bombBag",
@@ -290,6 +292,7 @@ public static class BombManager
             _shapeshiftRoutine ??= GameManager.instance.StartCoroutine(Shapeshift());
         else if (_shapeshiftRoutine != null)
             GameManager.instance.StopCoroutine(_shapeshiftRoutine);
+        BombUI.UpdateTracker();
         BombUI.UpdateBombPage();
     }
 

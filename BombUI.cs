@@ -337,7 +337,6 @@ public static class BombUI
 
     public static void UpdateBombPage()
     {
-        LogHelper.Write<BomberKnight>("Update bomb page. Dictionary count "+ _controlElements.Count, KorzUtils.Enums.LogType.Debug);
         for (int i = 0; i < _controlElements["Available"].Length; i++)
         {
             GameObject currentBomb = _controlElements["Available"][i];

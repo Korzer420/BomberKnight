@@ -79,7 +79,7 @@ public static class BombManager
     /// <summary>
     /// Gets or sets the current level of the bomb bag. For each level the max amount is increased by 10.
     /// </summary>
-    public static int BombBagLevel { get; set; } = 1;
+    public static int BombBagLevel { get; set; }
 
     /// <summary>
     /// Gets or sets if colorless hints should be added.
@@ -225,7 +225,7 @@ public static class BombManager
 
             foreach (BombType type in Enum.GetValues(typeof(BombType)))
                 if (!AvailableBombs.ContainsKey(type))
-                    AvailableBombs.Add(type, true);
+                    AvailableBombs.Add(type, false);
         }
         catch (Exception exception)
         {

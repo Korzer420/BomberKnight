@@ -9,6 +9,7 @@ using BomberKnight.ItemData.Locations;
 using BomberKnight.SaveManagement;
 using System.Linq;
 using BomberKnight.ItemData;
+using BomberKnight.ModInterop;
 
 namespace BomberKnight;
 
@@ -68,6 +69,13 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
         GameObject.DontDestroyOnLoad(EdgeBombBagLocation.Shockwave);
         BounceBombLocation.Sentry = preloadedObjects["Ruins1_05c"]["Ruins Sentry Fat"];
         DeepnestBombBagLocation.Spider = preloadedObjects["Deepnest_39"]["Spider Flyer (1)"];
+        if (ModHooks.GetMod("DebugMod") is Mod)
+            HookDebug();
+    }
+
+    private void HookDebug()
+    {
+        DebugInterop.Initialize();
     }
 
     public void OnLoadGlobal(GlobalSaveData saveData)

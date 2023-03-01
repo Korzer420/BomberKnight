@@ -1,0 +1,189 @@
+[
+    {
+        "$type": "BomberKnight.ItemData.Locations.ShellSalvagerLocation, BomberKnight",
+        "name": "Shell_Salvager_Charm-Puzzle",
+        "sceneName": "GG_Waterways",
+        "flingType": 0,
+        "tags": [
+            {
+                "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+                "Properties": {
+                    "ModSource": "BomberKnight",
+                    "SceneNames": "GG_Waterways"
+                },
+                "Message": "RandoSupplementalMetadata",
+                "Loaded": true
+            }
+        ]
+    },
+    {
+        "$type": "BomberKnight.ItemData.Locations.PyromaniacCharmLocation, BomberKnight",
+        "name": "Pyromaniac_Charm-Puzzle",
+        "sceneName": "Fungus3_28",
+        "flingType": 0,
+        "tags": [
+            {
+                "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+                "Properties": {
+                    "ModSource": "BomberKnight",
+                    "SceneNames": "Fungus3_28"
+                },
+                "Message": "RandoSupplementalMetadata",
+                "Loaded": true
+            }
+        ]
+    },
+    {
+        "$type": "BomberKnight.ItemData.Locations.ExplosionMasterCharmLocation, BomberKnight",
+        "name": "Bomb_Master_Charm-Puzzle",
+        "sceneName": "Mines_20",
+        "flingType": 0,
+        "tags": [
+            {
+                "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+                "Properties": {
+                    "ModSource": "BomberKnight",
+                    "SceneNames": "Mines_20"
+                },
+                "Message": "RandoSupplementalMetadata",
+                "Loaded": true
+            }
+        ]
+    },
+    {
+        "$type": "BomberKnight.ItemData.Locations.GreenpathBombBagLocation, BomberKnight",
+        "name": "Greenpath_Bomb_Bag-Challenge",
+        "sceneName": "Mines_20",
+        "flingType": 0,
+        "tags": [
+            {
+                "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+                "Properties": {
+                    "ModSource": "BomberKnight",
+                    "SceneNames": "Mines_20"
+                },
+                "Message": "RandoSupplementalMetadata",
+                "Loaded": true
+            }
+        ]
+    },
+    {
+        "$type": "BomberKnight.ItemData.Locations.DeepnestBombBagLocation, BomberKnight",
+        "name": "Deepnest_Bomb_Bag-Challenge",
+        "sceneName": "Deepnest_10",
+        "flingType": 0,
+        "tags": [
+            {
+                "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+                "Properties": {
+                    "ModSource": "BomberKnight",
+                    "SceneNames": "Deepnest_10"
+                },
+                "Message": "RandoSupplementalMetadata",
+                "Loaded": true
+            }
+        ]
+    },
+    {
+        "$type": "BomberKnight.ItemData.Locations.EdgeBombBagLocation, BomberKnight",
+        "name": "Edge_Bomb_Bag-Challenge",
+        "sceneName": "Deepnest_East_16",
+        "flingType": 0,
+        "tags": [
+            {
+                "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+                "Properties": {
+                    "ModSource": "BomberKnight",
+                    "SceneNames": "Deepnest_East_16"
+                },
+                "Message": "RandoSupplementalMetadata",
+                "Loaded": true
+            }
+        ]
+    },
+    {
+        "$type": "BomberKnight.ItemData.Locations.EchoBombLocation, BomberKnight",
+        "name": "Echo_Bomb-Puzzle",
+        "sceneName": "RestingGrounds_05",
+        "flingType": 0,
+        "tags": [
+            {
+                "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+                "Properties": {
+                    "ModSource": "BomberKnight",
+                    "SceneNames": "RestingGrounds_05"
+                },
+                "Message": "RandoSupplementalMetadata",
+                "Loaded": true
+            }
+        ]
+    },
+    {
+        "$type": "BomberKnight.ItemData.Locations.GoldFountainLocation, BomberKnight",
+        "name": "Gold_Bomb-Puzzle",
+        "sceneName": "Ruins2_04",
+        "flingType": 0,
+        "tags": [
+            {
+                "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+                "Properties": {
+                    "ModSource": "BomberKnight",
+                    "SceneNames": "Ruins2_04"
+                },
+                "Message": "RandoSupplementalMetadata",
+                "Loaded": true
+            }
+        ]
+    },
+    {
+        "$type": "BomberKnight.ItemData.Locations.SporeBombLocation, BomberKnight",
+        "name": "Spore_Bomb-Puzzle",
+        "sceneName": "Fungus2_30",
+        "flingType": 0,
+        "tags": [
+            {
+                "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+                "Properties": {
+                    "ModSource": "BomberKnight",
+                    "SceneNames": "Fungus2_30"
+                },
+                "Message": "RandoSupplementalMetadata",
+                "Loaded": true
+            }
+        ]
+    },
+    {
+        "$type": "BomberKnight.ItemData.Locations.BounceBombLocation, BomberKnight",
+        "name": "Bounce_Bomb-Puzzle",
+        "sceneName": "Ruins1_06",
+        "flingType": 0,
+        "tags": [
+            {
+                "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+                "Properties": {
+                    "ModSource": "BomberKnight",
+                    "SceneNames": "Ruins1_06"
+                },
+                "Message": "RandoSupplementalMetadata",
+                "Loaded": true
+            }
+        ]
+    },
+    {
+        "$type": "BomberKnight.ItemData.Locations.PowerBombLocation, BomberKnight",
+        "name": "Power_Bomb-Puzzle",
+        "sceneName": "Abyss_08",
+        "flingType": 0,
+        "tags": [
+            {
+                "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+                "Properties": {
+                    "ModSource": "BomberKnight",
+                    "SceneNames": "Abyss_08"
+                },
+                "Message": "RandoSupplementalMetadata",
+                "Loaded": true
+            }
+        ]
+    }
+]

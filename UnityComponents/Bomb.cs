@@ -1,4 +1,5 @@
 using BomberKnight.Enums;
+using ItemChanger.Extensions;
 using ItemChanger.FsmStateActions;
 using KorzUtils.Enums;
 using KorzUtils.Helper;
@@ -282,9 +283,8 @@ public class Bomb : MonoBehaviour
 
         explosion.SetActive(true);
         BombExploded?.Invoke(new(Type, transform.localPosition));
-
         if (Type == BombType.PowerBomb)
-            PlayMakerFSM.BroadcastEvent("POWERBOMBED");
+            PowerExplosion();
         else
             PlayMakerFSM.BroadcastEvent("BOMBED");
     }
@@ -333,6 +333,81 @@ public class Bomb : MonoBehaviour
             yield return new WaitUntil(() => !GameManager.instance.IsGamePaused());
         }
         _canDealContactDamage = true;
+    }
+
+    /// <summary>
+    /// "Tries" to break all breakable walls and floors.
+    /// </summary>
+    private void PowerExplosion()
+    {
+        string scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        PlayMakerFSM.BroadcastEvent("POWERBOMBED");
+        foreach (Breakable breakable in GameObject.FindObjectsOfType<Breakable>())
+            breakable.Break(70f, 110f, 3f);
+        if (scene == "Tutorial_01")
+        {
+            // Big door.
+            GameObject current = GameObject.Find("_Props/Hallownest_Main_Gate/Door");
+            if (current != null)
+            {
+                current.LocateMyFSM("Great Door").GetState("Idle").AdjustTransition("HIT", "Break");
+                current.LocateMyFSM("Great Door").SendEvent("HIT");
+            }
+            // Big breakable floor
+            current = GameObject.Find("_Props/Collapser Tute 01");
+            if (current != null)
+                current.LocateMyFSM("collapse tute").SendEvent("BREAK");
+        }
+        // Room next to crossroads stag.
+        else if (scene == "Crossroads_03")
+        {
+            // Grub wall.
+            GameObject current = GameObject.Find("_Scenery/Break Wall 2");
+            if (current != null)
+                current.LocateMyFSM("FSM").SendEvent("SPELL");
+            
+        }
+        // Aspid arena
+        else if (scene == "Crossroads_08")
+        {
+            GameObject current = GameObject.Find("infected_door");
+            if (current != null)
+                GameObject.Destroy(current);
+        }
+        // Hive room with breakable wall.
+        else if (scene == "Hive_03_c")
+        {
+            GameObject current = GameObject.Find("Break Floor 1");
+            if (current != null)
+            {
+                current.LocateMyFSM("break_floor").GetState("Idle").AdjustTransition("NAIL HIT", "Break");
+                current.LocateMyFSM("break_floor").SendEvent("NAIL HIT");
+            }
+        }
+        else if (scene == "Hive_04")
+        {
+            GameObject current = GameObject.Find("Hive Break Wall");
+            if (current != null)
+                current.LocateMyFSM("Smash").SendEvent("HIT");
+        }
+        else if (scene == "Fungus3_02")
+        {
+            GameObject current = GameObject.Find("One Way Wall Exit");
+            if (current != null)
+                GameObject.Destroy(current);
+        }
+        else if (scene == "Ruins2_10b")
+        {
+            GameObject current = GameObject.Find("elev_break wall");
+            if (current != null)
+                GameObject.Destroy(current);
+        }
+        else if (scene == "Abyss_01")
+        {
+            GameObject current = GameObject.Find("dung_defender_wall");
+            if (current != null)
+                GameObject.Destroy(current);
+        }
     }
 
     /// <summary>

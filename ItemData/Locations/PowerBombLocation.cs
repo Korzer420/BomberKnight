@@ -3,12 +3,9 @@ using BomberKnight.UnityComponents;
 using ItemChanger;
 using ItemChanger.Locations;
 using KorzUtils.Helper;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -41,6 +38,7 @@ internal class PowerBombLocation : AutoLocation
     protected override void OnUnload()
     {
         Bomb.BombExploded -= Bomb_BombExploded;
+        Events.RemoveSceneChangeEdit("Abyss_08", Spawn);
     }
 
     private void Spawn(Scene scene)

@@ -14,7 +14,7 @@ using UnityEngine;
 namespace BomberKnight;
 
 /// <summary>
-/// Controls everything around the UI of the bombs. Includes the counter and inventory
+/// Controls everything around the UI of the bombs. Includes the counter and inventory.
 /// </summary>
 public static class BombUI
 {
@@ -30,6 +30,9 @@ public static class BombUI
 
     #region Properties
 
+    /// <summary>
+    /// Gets the tracker that displays the current bomb amount.
+    /// </summary>
     public static GameObject Tracker
     {
         get
@@ -168,6 +171,8 @@ public static class BombUI
 
     #endregion
 
+    #region Methods
+
     private static GameObject CreateImageObject(Transform parent, string name, Vector3 position, Vector3 scale, bool selectable = true)
     {
         GameObject gameObject = new(name);
@@ -303,8 +308,8 @@ public static class BombUI
                 fsm.SendEvent("OUT");
                 return;
             }
-            indexVariable.Value = indexVariable.Value == -2 
-            ? 0 
+            indexVariable.Value = indexVariable.Value == -2
+            ? 0
             : indexVariable.Value + 1;
             fsm.SendEvent("FINISHED");
         }));
@@ -335,54 +340,79 @@ public static class BombUI
         }));
     }
 
+    /// <summary>
+    /// Updates the inventory page to show the correct amount of bombs, available bomb etc.
+    /// </summary>
     public static void UpdateBombPage()
     {
-        for (int i = 0; i < _controlElements["Available"].Length; i++)
+        try
         {
-            GameObject currentBomb = _controlElements["Available"][i];
-            if (BombManager.AvailableBombs[(BombType)i])
+            for (int i = 0; i < _controlElements["Available"].Length; i++)
             {
-                currentBomb.GetComponentInChildren<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
-                currentBomb.GetComponentInChildren<SpriteRenderer>().color = BombManager.GetBombColor((BombType)i);
+                GameObject currentBomb = _controlElements["Available"][i];
+                if (BombManager.AvailableBombs[(BombType)i])
+                {
+                    currentBomb.GetComponentInChildren<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+                    currentBomb.GetComponentInChildren<SpriteRenderer>().color = BombManager.GetBombColor((BombType)i);
+                }
+                else
+                {
+                    currentBomb.GetComponentInChildren<SpriteRenderer>().sprite = _emptySprite;
+                    currentBomb.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+                }
             }
-            else
+
+            // Display bomb bag content
+            for (int i = 0; i < _controlElements["Content"].Length; i++)
             {
-                currentBomb.GetComponentInChildren<SpriteRenderer>().sprite = _emptySprite;
-                currentBomb.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+                // Empty sprites need to be moved +0.1x and -0.2y to align with the sprites.
+                GameObject currentBomb = _controlElements["Content"][i];
+                if (i >= BombManager.BombBagLevel * 10)
+                {
+                    currentBomb.SetActive(false);
+                    continue;
+                }
+                currentBomb.SetActive(true);
+                if (BombManager.BombQueue.Count < i + 1)
+                {
+                    currentBomb.GetComponentInChildren<SpriteRenderer>().sprite = _emptySprite;
+                    currentBomb.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+
+                }
+                else
+                {
+                    currentBomb.GetComponentInChildren<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+                    currentBomb.GetComponentInChildren<SpriteRenderer>().color = BombManager.GetBombColor(BombManager.BombQueue[i]);
+                }
             }
         }
-
-        // Display bomb bag content
-        for (int i = 0; i < _controlElements["Content"].Length; i++)
+        catch (System.Exception exception)
         {
-            // Empty sprites need to be moved +0.1x and -0.2y to align with the sprites.
-            GameObject currentBomb = _controlElements["Content"][i];
-            if (i >= BombManager.BombBagLevel * 10)
-            {
-                currentBomb.SetActive(false);
-                continue;
-            }
-            currentBomb.SetActive(true);
-            if (BombManager.BombQueue.Count < i + 1)
-            {
-                currentBomb.GetComponentInChildren<SpriteRenderer>().sprite = _emptySprite;
-                currentBomb.GetComponentInChildren<SpriteRenderer>().color = Color.white;
-                
-            }
-            else
-            {
-                currentBomb.GetComponentInChildren<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
-                currentBomb.GetComponentInChildren<SpriteRenderer>().color = BombManager.GetBombColor(BombManager.BombQueue[i]);
-            }
+            LogHelper.Write<BomberKnight>("An error occurred while trying to update the inventory page: " + exception, KorzUtils.Enums.LogType.Error);
         }
     }
 
+    /// <summary>
+    /// Updates the tracker that shows the bomb amount and the next bomb.
+    /// </summary>
     public static void UpdateTracker()
     {
-        if (BombManager.BombQueue.Count > 0)
-            Tracker.GetComponent<SpriteRenderer>().color = BombManager.GetBombColor(BombManager.BombQueue[0]);
-        else
-            Tracker.GetComponent<SpriteRenderer>().color = Color.white;
-        Tracker.GetComponent<DisplayItemAmount>().textObject.text = BombManager.BombQueue.Count.ToString();
-    }
+        try
+        {
+            if (BombManager.BombQueue.Count > 0)
+                Tracker.GetComponent<SpriteRenderer>().color = BombManager.GetBombColor(BombManager.BombQueue[0]);
+            else
+                Tracker.GetComponent<SpriteRenderer>().color = Color.white;
+            Tracker.GetComponent<DisplayItemAmount>().textObject.text = BombManager.BombQueue.Count.ToString();
+            Tracker.SetActive(true);
+            Tracker.transform.localPosition = new(-2.1455f, -2.4491f, 0f);
+            Tracker.transform.localScale = new(1.3824f, 1.3824f, 1.3824f);
+        }
+        catch (System.Exception exception)
+        {
+            LogHelper.Write<BomberKnight>("Failed to update bomb tracker: " + exception, KorzUtils.Enums.LogType.Error);
+        }
+    } 
+
+    #endregion
 }

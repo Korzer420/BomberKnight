@@ -13,7 +13,7 @@ internal class KnightChest : MonoBehaviour
 {
     #region Properties
 
-    public static BombScraperCharmLocation Location { get; set; }
+    public static ShellSalvagerLocation Location { get; set; }
 
     #endregion
 

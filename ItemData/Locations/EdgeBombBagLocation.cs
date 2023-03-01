@@ -6,13 +6,8 @@ using ItemChanger.Extensions;
 using ItemChanger.FsmStateActions;
 using ItemChanger.Locations;
 using KorzUtils.Helper;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace BomberKnight.ItemData.Locations;
@@ -37,6 +32,8 @@ internal class EdgeBombBagLocation : AutoLocation
     protected override void OnUnload()
     {
         Events.RemoveFsmEdit(new("Giant Hopper", "Hopper"), CreateHopperFight);
+        On.HealthManager.Die -= HealthManager_Die;
+
     }
 
     private void CreateHopperFight(PlayMakerFSM fsm)

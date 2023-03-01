@@ -1,0 +1,310 @@
+[
+	{
+		"$type": "ItemChanger.Items.BoolItem, ItemChanger",
+		"fieldName": "gotCharm_x",
+		"setValue": true,
+		"name": "Shell_Salvager_Charm",
+		"UIDef": {
+		  "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+		  "name": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Shell Salvager"
+		  },
+		  "shopDesc": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "A medal awarded to bugs which helped rebuilding the city."
+		  },
+		  "sprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "ShellSalvager"
+		  }
+		},
+		"tags": null,
+		"obtainState": 0
+	},
+	{
+		"$type": "ItemChanger.Items.BoolItem, ItemChanger",
+		"fieldName": "gotCharm_x",
+		"setValue": true,
+		"name": "Pyromaniac_Charm",
+		"UIDef": {
+		  "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+		  "name": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Pyromaniac"
+		  },
+		  "shopDesc": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "For some people, this charm has seen better days. For others, the ash covering it, is an upgrade."
+		  },
+		  "sprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "Pyromaniac"
+		  }
+		},
+		"tags": null,
+		"obtainState": 0
+	},
+	{
+		"$type": "ItemChanger.Items.BoolItem, ItemChanger",
+		"fieldName": "gotCharm_x",
+		"setValue": true,
+		"name": "Bomb_Master_Charm",
+		"UIDef": {
+		  "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+		  "name": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Bomb Master"
+		  },
+		  "shopDesc": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "For some people, this charm has seen better days. For others, the ash covering it, is an upgrade."
+		  },
+		  "sprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombMaster"
+		  }
+		},
+		"tags": null,
+		"obtainState": 0
+	},
+	{
+		"$type": "BomberKnight.ItemData.BombBagItem, BomberKnight",
+		"name": "Bomb_Bag",
+		"UIDef": {
+		  "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
+		  "bigSprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombBag"
+		  },
+		  "take": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "You got a:"
+		  },
+		  "press": null,
+		  "buttonSkin": null,
+		  "descOne": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "You can now place bombs, to blow up your foes. Holds space for 10 bombs."
+		  },
+		  "descTwo": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Press cast without left and right to place a bomb. You can change that to quickcast in the mod menu."
+		  },
+		  "name": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Bomb Bag"
+		  },
+		  "shopDesc": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "*Slaps top of bag* This thing can fit so many bombs in it."
+		  },
+		  "sprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombBag"
+		  }
+		},
+		"tags": null,
+		"obtainState": 0
+	},
+	{
+		"$type": "BomberKnight.ItemData.BombItem, BomberKnight",
+		"name": "Echo_Bomb",
+		"UIDef": {
+		  "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
+		  "bigSprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombSprite"
+		  },
+		  "take": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "You got:"
+		  },
+		  "press": null,
+		  "buttonSkin": null,
+		  "descOne": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "You can now use/find echo bombs."
+		  },
+		  "descTwo": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "These bombs unleash angry spirits which cause the bomb to explode multiple times with less damage each time. Can also invoke the memories of stronger beings."
+		  },
+		  "name": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Echo Bombs"
+		  },
+		  "shopDesc": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Maybe the voices will stop one day..."
+		  },
+		  "sprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombSprite"
+		  }
+		},
+		"tags": null,
+		"obtainState": 0,
+		"Type": 3
+	},
+	{
+		"$type": "BomberKnight.ItemData.BombItem, BomberKnight",
+		"name": "Bounce_Bomb",
+		"UIDef": {
+		  "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
+		  "bigSprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombSprite"
+		  },
+		  "take": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "You got:"
+		  },
+		  "press": null,
+		  "buttonSkin": null,
+		  "descOne": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "You can now use/find bounce bombs."
+		  },
+		  "descTwo": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "They don't deal much damage but allow you to launch yourself through the sky without hurting you at all."
+		  },
+		  "name": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Bounce Bombs"
+		  },
+		  "shopDesc": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Time to yeet you through the sky!"
+		  },
+		  "sprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombSprite"
+		  }
+		},
+		"tags": null,
+		"obtainState": 0,
+		"Type": 4
+	},
+	{
+		"$type": "BomberKnight.ItemData.BombItem, BomberKnight",
+		"name": "Gold_Bomb",
+		"UIDef": {
+		  "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
+		  "bigSprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombSprite"
+		  },
+		  "take": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "You got:"
+		  },
+		  "press": null,
+		  "buttonSkin": null,
+		  "descOne": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "You can now use/find gold bombs."
+		  },
+		  "descTwo": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "The liquid in these bombs will fill the air with gold, before the shockwave shatters them to geo pieces. Wealth... but at what cost?"
+		  },
+		  "name": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Gold Bombs"
+		  },
+		  "shopDesc": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Don't think about why I would give this to you even though it generates geo... just take it."
+		  },
+		  "sprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombSprite"
+		  }
+		},
+		"tags": null,
+		"obtainState": 0,
+		"Type": 2
+	},
+	{
+		"$type": "BomberKnight.ItemData.BombItem, BomberKnight",
+		"name": "Spore_Bomb",
+		"UIDef": {
+		  "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
+		  "bigSprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombSprite"
+		  },
+		  "take": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "You got:"
+		  },
+		  "press": null,
+		  "buttonSkin": null,
+		  "descOne": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "You can now use/find spore bombs."
+		  },
+		  "descTwo": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Upon detonation unleashes all stored spores inside."
+		  },
+		  "name": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Spore Bombs"
+		  },
+		  "shopDesc": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Don't think about why I would give this to you even though it generates geo... just take it."
+		  },
+		  "sprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombSprite"
+		  }
+		},
+		"tags": null,
+		"obtainState": 0,
+		"Type": 1
+	},
+	{
+		"$type": "BomberKnight.ItemData.BombItem, BomberKnight",
+		"name": "Power_Bomb",
+		"UIDef": {
+		  "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
+		  "bigSprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombSprite"
+		  },
+		  "take": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "You got:"
+		  },
+		  "press": null,
+		  "buttonSkin": null,
+		  "descOne": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "You can now create power bombs."
+		  },
+		  "descTwo": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Binding 3 bombs with one lifeblood will create a bomb with power beyond comprehension. Strong enough to shatter most damaged terrains."
+		  },
+		  "name": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Power Bombs"
+		  },
+		  "shopDesc": {
+			"$type": "ItemChanger.BoxedString, ItemChanger",
+			"Value": "Be... extremely... careful... with... this. CAREFUL!"
+		  },
+		  "sprite": {
+			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+			"Key": "BombSprite"
+		  }
+		},
+		"tags": null,
+		"obtainState": 0,
+		"Type": 5
+	},
+]

@@ -48,10 +48,9 @@ internal class GreenpathBombBagLocation : AutoLocation
     private IEnumerator SpawnBombs(GameObject mossKnight)
     {
         HealthManager healthManager = mossKnight.GetComponent<HealthManager>();
-
-        while(mossKnight != null && healthManager.hp > 0)
+        yield return new WaitForSeconds(3f);
+        while (mossKnight != null && healthManager.hp > 0)
         {
-            yield return new WaitForSeconds(3f);
             GameObject leftBomb = GameObject.Instantiate(BombManager.Bomb);
             leftBomb.transform.localPosition = mossKnight.transform.localPosition - new Vector3(2.5f, 0f);
             leftBomb.transform.localScale = new(2f, 2f, 1f);
@@ -83,6 +82,7 @@ internal class GreenpathBombBagLocation : AutoLocation
                 SpeedMin = 4f,
                 Object = rightBomb
             }, mossKnight.transform, new(-3f, 3f));
+            yield return new WaitForSeconds(3f);
         }
     }
 

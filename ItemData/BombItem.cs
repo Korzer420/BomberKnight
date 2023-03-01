@@ -11,6 +11,7 @@ internal class BombItem : AbstractItem
     public override void GiveImmediate(GiveInfo info)
     {
         BombManager.AvailableBombs[Type] = true;
-        BombManager.GiveBombs(new List<BombType>() { Type, Type, Type });
+        if (Type != BombType.PowerBomb)
+            BombManager.GiveBombs(new List<BombType>() { Type, Type, Type });
     }
 }

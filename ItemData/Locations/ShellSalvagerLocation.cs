@@ -16,7 +16,7 @@ namespace BomberKnight.ItemData.Locations;
 // GG_Waterways Chest (3)
 // position: 35.33f, 16.38f
 // scale: 1.2f, 1.2f
-internal class BombScraperCharmLocation : AutoLocation
+internal class ShellSalvagerLocation : AutoLocation
 {
     #region Members
 
@@ -55,7 +55,7 @@ internal class BombScraperCharmLocation : AutoLocation
 
     #region Properties
 
-    public List<string> ChestOrder { get; set; } = new();
+    public static List<string> ChestOrder { get; set; } = new();
 
     #endregion
 
@@ -75,13 +75,16 @@ internal class BombScraperCharmLocation : AutoLocation
         ModHooks.LanguageGetHook += ModHooks_LanguageGetHook;
     }
 
-    internal void RollOrder()
+    internal static void RollOrder(int seed)
     {
+        System.Random random = seed != -1 
+            ? new System.Random(seed) 
+            : new();
         ChestOrder.Clear();
         List<string> knights = new() { "Dryya", "Isma", "Ogrim", "Ze'mer", "Hegemol" };
         for (int i = 0; i < 5; i++)
         {
-            ChestOrder.Add(knights[UnityEngine.Random.Range(0, knights.Count)]);
+            ChestOrder.Add(knights[random.Next(0, knights.Count)]);
             knights.Remove(ChestOrder.Last());
             LogHelper.Write<BomberKnight>("Next knight is: " + ChestOrder[i]);
         }

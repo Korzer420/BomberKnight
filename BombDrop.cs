@@ -175,7 +175,7 @@ public static class BombDrop
             amount = 4;
 
         // Charm doubles the dropped amount.
-        if (CharmHelper.EquippedCharm("BombScraper"))
+        if (CharmHelper.EquippedCharm("ShellSalvager"))
             amount *= 2;
 
         for (int i = 0; i < amount; i++)

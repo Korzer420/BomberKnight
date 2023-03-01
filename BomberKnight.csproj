@@ -26,6 +26,8 @@
 
     <ItemGroup>
       <None Remove="Resources\Door.png" />
+      <None Remove="Resources\Items.json" />
+      <None Remove="Resources\Locations.json" />
       <None Remove="Resources\PyroCorpse.png" />
     </ItemGroup>
 

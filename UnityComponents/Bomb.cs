@@ -363,16 +363,21 @@ public class Bomb : MonoBehaviour
         {
             // Grub wall.
             GameObject current = GameObject.Find("_Scenery/Break Wall 2");
-            if (current != null)
-                current.LocateMyFSM("FSM").SendEvent("SPELL");
+            current?.LocateMyFSM("FSM").SendEvent("SPELL");
             
         }
-        // Aspid arena
-        else if (scene == "Crossroads_08")
+        // Aspid arena (Glowing Womb)
+        else if (scene == "Crossroads_22")
         {
             GameObject current = GameObject.Find("infected_door");
             if (current != null)
                 GameObject.Destroy(current);
+        }
+        // Aspid arena
+        else if (scene == "Crossroads_08")
+        {
+            GameObject current = GameObject.Find("Break Wall 2");
+            current?.LocateMyFSM("FSM").SendEvent("SPELL");
         }
         // Hive room with breakable wall.
         else if (scene == "Hive_03_c")
@@ -384,27 +389,36 @@ public class Bomb : MonoBehaviour
                 current.LocateMyFSM("break_floor").SendEvent("NAIL HIT");
             }
         }
+        // Mask Shard wall room.
         else if (scene == "Hive_04")
         {
             GameObject current = GameObject.Find("Hive Break Wall");
-            if (current != null)
-                current.LocateMyFSM("Smash").SendEvent("HIT");
+            current?.LocateMyFSM("Smash").SendEvent("HIT");
         }
+        // Room left to archive.
         else if (scene == "Fungus3_02")
         {
             GameObject current = GameObject.Find("One Way Wall Exit");
             if (current != null)
                 GameObject.Destroy(current);
         }
+        // Right elevator
         else if (scene == "Ruins2_10b")
         {
             GameObject current = GameObject.Find("elev_break wall");
             if (current != null)
                 GameObject.Destroy(current);
         }
+        // Dung Defender exit.
         else if (scene == "Abyss_01")
         {
             GameObject current = GameObject.Find("dung_defender_wall");
+            if (current != null)
+                GameObject.Destroy(current);
+        }
+        else if (scene == "Crossroads_33")
+        {
+            GameObject current = GameObject.Find("_Props/full_wall_left");
             if (current != null)
                 GameObject.Destroy(current);
         }

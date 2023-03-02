@@ -299,11 +299,11 @@ public class Bomb : MonoBehaviour
         {
             BombType.GrassBomb => 20,
             BombType.GoldBomb => Mathf.Min(CharmHelper.EquippedCharm(CharmRef.UnbreakableGreed)
-            ? 150 : (CharmHelper.EquippedCharm(CharmRef.FragileGreed) ? 100 : 50),
+            ? 120 : (CharmHelper.EquippedCharm(CharmRef.FragileGreed) ? 80 : 40),
             PlayerData.instance.GetInt("geo") / 100 + 5),
             BombType.BounceBomb => 1,
-            BombType.PowerBomb => 40,
-            BombType.EchoBomb => 10 * (1 - _echoStack * .2f),
+            BombType.PowerBomb => 50,
+            BombType.EchoBomb => 25 * (1 - _echoStack * .2f),
             BombType.MiningBomb => 30,
             _ => 10
         };

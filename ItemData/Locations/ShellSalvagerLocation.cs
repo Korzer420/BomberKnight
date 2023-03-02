@@ -95,7 +95,14 @@ internal class ShellSalvagerLocation : AutoLocation
         if (_hintText.ContainsKey(key))
         {
             string knightName = new(key.TakeWhile(x => x != '_').ToArray());
-            return string.Format(_hintText[key], _orderTerms[ChestOrder.IndexOf(knightName)]);
+            string hint = string.Format(_hintText[key], _orderTerms[ChestOrder.IndexOf(knightName)]);
+            if (BombManager.ColorlessHelp)
+                hint = hint.Replace("white", "middle one")
+                    .Replace("blue", "leftmost")
+                    .Replace("red", "rightmost")
+                    .Replace("green", "second from right")
+                    .Replace("brown", "second from left");
+            return hint;
         }
         return orig;
     }

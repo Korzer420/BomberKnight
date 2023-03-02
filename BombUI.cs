@@ -22,6 +22,8 @@ public static class BombUI
 
     private static GameObject _tracker;
 
+    private static GameObject _colorless;
+
     private static Dictionary<string, GameObject[]> _controlElements = new();
 
     private static Sprite _emptySprite = GameObject.Find("_GameCameras").transform.Find("HudCamera/Inventory/Charms/Backboards/BB 3").GetComponent<SpriteRenderer>().sprite;
@@ -49,6 +51,10 @@ public static class BombUI
                     _tracker.transform.localScale = new(1.3824f, 1.3824f, 1.3824f);
                     _tracker.GetComponent<DisplayItemAmount>().playerDataInt = "BombAmount";
                     _tracker.GetComponent<DisplayItemAmount>().textObject.text = "";
+                    _colorless = GameObject.Instantiate(_tracker.GetComponent<DisplayItemAmount>().textObject.gameObject, _tracker.transform);
+                    _colorless.transform.localPosition = new(0.2f, -1f);
+                    _colorless.GetComponent<TextMeshPro>().fontSize = 2;
+                    _colorless.SetActive(BombManager.ColorlessHelp);
                     _tracker.GetComponent<DisplayItemAmount>().textObject.fontSize = 5;
                     _tracker.GetComponent<DisplayItemAmount>().textObject.gameObject.name = "Counter";
                     _tracker.GetComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
@@ -93,7 +99,7 @@ public static class BombUI
 
         GameObject bombTitle = GameObject.Instantiate(GameObject.Find("_GameCameras").transform.Find("HudCamera/Inventory/Charms/Text Name").gameObject);
         bombTitle.transform.SetParent(inventoryObject.transform);
-        bombTitle.transform.localPosition = new(13.9f, - 7.5f, -2f);
+        bombTitle.transform.localPosition = new(13.9f, -7.5f, -2f);
         bombTitle.GetComponent<TextMeshPro>().text = "";
         bombTitle.GetComponent<TextContainer>().size = new(6f, 10.258f);
         _controlElements.Add("Title", new GameObject[1] { bombTitle });
@@ -135,7 +141,7 @@ public static class BombUI
         glow.transform.localPosition = new(0f, -2.1f);
         glow.transform.localScale = new(0.8f, 0.8f, 1f);
 
-        GameObject bombBag =  CreateImageObject(inventoryObject.transform, "Bomb Bag", new(4f, -12f, -3f), new(2f, 2f, 1.5f), true);
+        GameObject bombBag = CreateImageObject(inventoryObject.transform, "Bomb Bag", new(4f, -12f, -3f), new(2f, 2f, 1.5f), true);
         bombBag.GetComponentInChildren<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombBag");
         _controlElements.Add("BombBag", new GameObject[1] { bombBag });
 
@@ -256,6 +262,16 @@ public static class BombUI
                         : (BombManager.AvailableBombs[(BombType)indexVariable.Value]
                             ? InventoryText.ResourceManager.GetString($"{(BombType)(indexVariable.Value)}_Desc")
                             : "???");
+                        if (indexVariable.Value == 6 && BombManager.ColorlessHelp)
+                        {
+                            string bombAmount = "";
+                            for (int i = 0; i < 5; i++)
+                            {
+                                string bombType =((BombType)i).ToString().Substring(0, ((BombType)i).ToString().Length - 4);
+                                bombAmount += $"{bombType}: {BombManager.BombQueue.Count(x => (int)x == i)}, ";
+                            }
+                            _controlElements["Desc"][0].GetComponent<TextMeshPro>().text += "\n"+ bombAmount.Trim(new char[]{' ', ','});
+                        }
                     })
             }
         });
@@ -405,6 +421,22 @@ public static class BombUI
                 Tracker.GetComponent<SpriteRenderer>().color = Color.white;
             Tracker.GetComponent<DisplayItemAmount>().textObject.text = BombManager.BombQueue.Count.ToString();
             Tracker.SetActive(true);
+            if (BombManager.ColorlessHelp)
+            {
+                if (_colorless == null)
+                {
+                    _colorless = GameObject.Instantiate(_tracker.GetComponent<DisplayItemAmount>().textObject.gameObject, _tracker.transform);
+                    _colorless.transform.localPosition = new(0.2f, -1f);
+                    _colorless.GetComponent<TextMeshPro>().fontSize = 2;
+                }
+                _colorless.SetActive(true);
+                if (BombManager.BombQueue.Count > 0)
+                    _colorless.GetComponent<TextMeshPro>().text = BombManager.BombQueue[0].ToString().Substring(0, BombManager.BombQueue[0].ToString().Length - 4);
+                else
+                    _colorless.GetComponent<TextMeshPro>().text = "";
+            }
+            else if (_colorless != null && _colorless.activeSelf)
+                _colorless.SetActive(false);
             Tracker.transform.localPosition = new(-2.1455f, -2.4491f, 0f);
             Tracker.transform.localScale = new(1.3824f, 1.3824f, 1.3824f);
         }
@@ -412,7 +444,7 @@ public static class BombUI
         {
             LogHelper.Write<BomberKnight>("Failed to update bomb tracker: " + exception, KorzUtils.Enums.LogType.Error);
         }
-    } 
+    }
 
     #endregion
 }

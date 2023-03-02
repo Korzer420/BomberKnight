@@ -116,7 +116,12 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
         return new()
         {
             new("Drop Button", new string[]{"Cast", "Quickcast"}, "Determines which button should be used to drop bombs.", x => BombSpell.UseCast = x == 0, () => BombSpell.UseCast ? 0 : 1),
-            new("Colorless Indicator", new string[]{"Off", "On"}, "If on, additional info is displayed for accessability", x => BombManager.ColorlessHelp = x == 1, () => BombManager.ColorlessHelp ? 1 : 0)
+            new("Colorless Indicator", new string[]{"Off", "On"}, "If on, additional info is displayed for accessability", x => 
+            {
+                BombManager.ColorlessHelp = x == 1;
+                if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Main_Menu")
+                    BombUI.UpdateTracker();
+            }, () => BombManager.ColorlessHelp ? 1 : 0)
         };
     }
 

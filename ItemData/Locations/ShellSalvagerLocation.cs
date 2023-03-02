@@ -205,8 +205,6 @@ internal class ShellSalvagerLocation : AutoLocation
 
         if (_hitChests.Count == 5)
         {
-            LogHelper.Write<BomberKnight>("Compare solution");
-            
             for (int i = 0; i < 5; i++)
             {
                 if (ChestOrder[i] != _hitChests[i])

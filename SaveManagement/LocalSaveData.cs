@@ -1,4 +1,5 @@
 using BomberKnight.Enums;
+using BomberKnight.ItemData;
 using System.Collections.Generic;
 
 namespace BomberKnight.SaveManagement;
@@ -14,6 +15,11 @@ public class LocalSaveData
     /// Gets or sets the states of each available bomb types.
     /// </summary>
     public Dictionary<BombType, bool> AvailableBombTypes { get; set; }
+
+    /// <summary>
+    /// Gets or sets the states of the custom charms.
+    /// </summary>
+    public List<CharmData> CharmData { get; set; }
 
     /// <summary>
     /// Gets or sets the current level of the bomb bag.

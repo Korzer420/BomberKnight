@@ -67,7 +67,6 @@ internal class EdgeBombBagLocation : AutoLocation
             {
                 fsm.GetState("Land Anim").AddLastAction(new Lambda(() =>
                 {
-                    LogHelper.Write<BomberKnight>("Spawn shockwave");
                     GameObject shockwaveLeft = GameObject.Instantiate(Shockwave);
                     shockwaveLeft.transform.localScale = new(1.25f, 1.25f);
                     shockwaveLeft.transform.position = new Vector3(fsm.transform.position.x, 4.2962f - 1.28f);

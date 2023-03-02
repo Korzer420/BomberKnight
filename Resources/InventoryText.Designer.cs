@@ -139,7 +139,7 @@ namespace BomberKnight.Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Glowing ash is stuck to this charm. Whatever had posession of this before, surely liked the burning pain of explosions.
         ///
-        ///Protects the bearer from their own explosions. Sometimes the fire may cauterize wounds on your shell as well. ähnelt.
+        ///Protects the bearer from their own explosions. Sometimes the fire may cauterize wounds on their shell as well. ähnelt.
         /// </summary>
         internal static string Charm_Pyromaniac_Desc {
             get {

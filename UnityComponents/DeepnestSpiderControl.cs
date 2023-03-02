@@ -35,9 +35,9 @@ internal class DeepnestSpiderControl : MonoBehaviour
 
     private void HealthManager_Die(On.HealthManager.orig_Die orig, HealthManager self, float? attackDirection, AttackTypes attackType, bool ignoreEvasion)
     {
-        orig(self, attackDirection, attackType, ignoreEvasion);
         if (self.gameObject == gameObject)
             GetComponent<ItemDropper>().PrepareDrop();
+        orig(self, attackDirection, attackType, ignoreEvasion);
     }
 
     private void HealthManager_TakeDamage(On.HealthManager.orig_TakeDamage orig, HealthManager self, HitInstance hitInstance)
@@ -71,6 +71,9 @@ internal class DeepnestSpiderControl : MonoBehaviour
     {
         On.HealthManager.TakeDamage -= HealthManager_TakeDamage;
         On.HealthManager.Die -= HealthManager_Die;
+        foreach (GameObject bomb in _bombs.ToArray())
+            GameObject.Destroy(bomb);
+        GameObject.Destroy(_spinner);
     }
 
     void FixedUpdate()

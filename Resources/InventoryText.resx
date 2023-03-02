@@ -148,7 +148,7 @@ Bombs connected to this piece may not explode on their own in most circumstances
   <data name="Charm_Pyromaniac_Desc" xml:space="preserve">
     <value>Glowing ash is stuck to this charm. Whatever had posession of this before, surely liked the burning pain of explosions.
 
-Protects the bearer from their own explosions. Sometimes the fire may cauterize wounds on your shell as well.</value>
+Protects the bearer from their own explosions. Sometimes the fire may cauterize wounds on their shell as well.</value>
   </data>
   <data name="Charm_Pyromaniac_Title" xml:space="preserve">
     <value>Pyromaniac</value>

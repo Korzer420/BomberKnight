@@ -17,7 +17,6 @@ internal class BombWall : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        LogHelper.Write<BomberKnight>("Collided with: " + coll.gameObject.name);
         if (coll.gameObject.name.Contains("Explosion"))
         {
             bool? shouldDestroy = Bombed?.Invoke(coll.gameObject.name);
@@ -28,8 +27,6 @@ internal class BombWall : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        LogHelper.Write<BomberKnight>("Collided with: " + collision.gameObject.name);
-
         if (collision.gameObject.name.Contains("Explosion"))
         {
             bool? shouldDestroy = Bombed?.Invoke(collision.gameObject.name);

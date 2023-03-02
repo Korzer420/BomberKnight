@@ -144,7 +144,7 @@ internal class BounceBombLocation : AutoLocation
         }
         catch (Exception exception)
         {
-            LogHelper.Write<BomberKnight>("Couldn't modify guard: " + exception.ToString());
+            LogHelper.Write<BomberKnight>("Couldn't modify guard: " + exception.ToString(), KorzUtils.Enums.LogType.Error);
         }
     }
 }

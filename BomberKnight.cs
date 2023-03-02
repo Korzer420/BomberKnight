@@ -97,6 +97,21 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
     {
         if (saveData.AvailableBombTypes != null)
             BombManager.AvailableBombs = saveData.AvailableBombTypes;
+        if (saveData.CharmData != null)
+        {
+            foreach (CharmData key in saveData.CharmData)
+            {
+                CharmData charmData = BombCharms.CustomCharms.FirstOrDefault(x => x.Name == key.Name);
+                if (charmData == null)
+                    BombCharms.CustomCharms.Add(charmData);
+                else
+                {
+                    charmData.Equipped = key.Equipped;
+                    charmData.Acquired = key.Acquired;
+                    charmData.Cost = key.Cost;
+                }
+            }
+        }
         if (saveData.Inventory != null)
             BombManager.SetBombsSilent(saveData.Inventory);
         BombManager.BombBagLevel = saveData.BombBagLevel;
@@ -109,7 +124,8 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
         AvailableBombTypes = BombManager.AvailableBombs,
         BombBagLevel = BombManager.BombBagLevel,
         Inventory = BombManager.BombQueue.ToList(),
-        KnightOrder = ShellSalvagerLocation.ChestOrder
+        KnightOrder = ShellSalvagerLocation.ChestOrder,
+        CharmData = BombCharms.CustomCharms
     };
 
     public List<IMenuMod.MenuEntry> GetMenuData(IMenuMod.MenuEntry? toggleButtonEntry)

@@ -5,6 +5,7 @@ using KorzUtils.Enums;
 using KorzUtils.Helper;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Color = UnityEngine.Color;
@@ -64,12 +65,15 @@ public class Bomb : MonoBehaviour
     /// </summary>
     public bool CanExplode { get; set; }
 
-    public bool EnemyBomb { get; set; }
-
     /// <summary>
     /// Gets the cloud object
     /// </summary>
     public static GameObject Cloud => _cloud == null ? _cloud = GameObject.Find("_GameManager").transform.Find("GlobalPool/Knight Spore Cloud(Clone)").gameObject : _cloud;
+
+    /// <summary>
+    /// Gets or sets all active bombs.
+    /// </summary>
+    public static List<Bomb> ActiveBombs { get; set; } = new();
 
     #endregion
 
@@ -77,6 +81,8 @@ public class Bomb : MonoBehaviour
 
     void Start() => StartCoroutine(Ticking());
 
+    void OnDestroy() => ActiveBombs.Remove(this);
+    
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Ignore hero.
@@ -119,6 +125,7 @@ public class Bomb : MonoBehaviour
     private IEnumerator Ticking()
     {
         BombSpawned?.Invoke(new(Type, transform.localPosition));
+        ActiveBombs.Add(this);
         float passedTime = 0f;
         float passedMilestone = 0f; // Used to blink faster over time.
         Color bombColor = BombManager.GetBombColor(Type);
@@ -127,22 +134,24 @@ public class Bomb : MonoBehaviour
         spriteRenderer.color = currentColor;
 
         (GameObject, float) homingData = CheckForHoming();
-        _canDealContactDamage = CharmHelper.EquippedCharm(CharmRef.ThornsOfAgony) && !EnemyBomb;
-        FuseTime = CharmHelper.EquippedCharm(CharmRef.DeepFocus) && EnemyBomb ? 6f : 3f;
+        _canDealContactDamage = CharmHelper.EquippedCharm(CharmRef.ThornsOfAgony);
+        FuseTime = CharmHelper.EquippedCharm(CharmRef.DeepFocus) ? 6f : 3f;
 
         while (passedTime < FuseTime && !CanExplode)
         {
-            if ((passedMilestone >= 0.5f && passedTime < 1f)
-                || (passedMilestone >= .25f && passedTime >= 1f && passedTime <= 2f)
-                || (passedMilestone >= .125f && passedTime > 2f))
+            if (!CharmHelper.EquippedCharm(BomberKnight.BombMasterCharm))
             {
-                passedMilestone = 0f;
-                currentColor = currentColor == bombColor ? Color.red : bombColor;
-                spriteRenderer.color = currentColor;
+                if ((passedMilestone >= 0.5f && passedTime < 1f)
+                    || (passedMilestone >= .25f && passedTime >= 1f && passedTime <= 2f)
+                    || (passedMilestone >= .125f && passedTime > 2f))
+                {
+                    passedMilestone = 0f;
+                    currentColor = currentColor == bombColor ? Color.red : bombColor;
+                    spriteRenderer.color = currentColor;
+                }
+                passedMilestone += Time.deltaTime;
+                passedTime += Time.deltaTime;
             }
-            passedMilestone += Time.deltaTime;
-            passedTime += Time.deltaTime;
-
             Homing(homingData);
             yield return null;
         }
@@ -189,14 +198,9 @@ public class Bomb : MonoBehaviour
     {
         GameObject enemyToChase = null;
         float homingSpeed = 10f;
-        if (CharmHelper.EquippedCharm(CharmRef.Dashmaster))
-            homingSpeed += 5f;
         if (CharmHelper.EquippedCharm(CharmRef.Sprintmaster))
-            homingSpeed += 5f;
-        // If both are equipped it is increased even further.
-        if (homingSpeed == 20f)
-            homingSpeed += 22.5f;
-        if (!EnemyBomb && CharmHelper.EquippedCharm(CharmRef.GatheringSwarm))
+            homingSpeed += 10f;
+        if (CharmHelper.EquippedCharm(CharmRef.GatheringSwarm))
         {
             _rigidBody = GetComponent<Rigidbody2D>();
 
@@ -267,7 +271,7 @@ public class Bomb : MonoBehaviour
             _ => new(1.2f, 1.2f, explosion.transform.localScale.z)
         };
 
-        if (!EnemyBomb && CharmHelper.EquippedCharm(CharmRef.DeepFocus))
+        if (CharmHelper.EquippedCharm(CharmRef.DeepFocus))
             explosion.transform.localScale *= 1.5f;
 
         explosion.GetComponent<CircleCollider2D>().isTrigger = true;

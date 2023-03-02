@@ -58,6 +58,10 @@ internal static class BombSpell
             && _cooldown <= 0f && BombManager.BombQueue.Any() && !InputHandler.Instance.inputActions.left.IsPressed
             && !InputHandler.Instance.inputActions.right.IsPressed)
         {
+
+            if (InputHandler.Instance.inputActions.down.IsPressed && CharmHelper.EquippedCharm(BomberKnight.BombMasterCharm))
+                Bomb.ActiveBombs.ForEach(x => x.CanExplode = true);
+
             if (BombManager.AvailableBombs[BombType.PowerBomb] && InputHandler.Instance.inputActions.down.IsPressed
                 && BombManager.BombQueue.Count >= 3 && PlayerData.instance.GetInt("healthBlue") > 0)
                 self.Fsm.FsmComponent.SendEvent("POWERBOMB");
@@ -69,7 +73,7 @@ internal static class BombSpell
 
     private static void IntCompare_OnEnter(On.HutongGames.PlayMaker.Actions.IntCompare.orig_OnEnter orig, IntCompare self)
     {
-        if ((((self.IsCorrectContext("Spell Control", "Knight", "Can Cast? QC"))
+        if (HeroController.instance.CanCast() && (((self.IsCorrectContext("Spell Control", "Knight", "Can Cast? QC"))
             || self.IsCorrectContext("Spell Control", "Knight", "Can Cast?"))
             && _cooldown <= 0f && BombManager.BombQueue.Any() && !InputHandler.Instance.inputActions.left.IsPressed
             && !InputHandler.Instance.inputActions.right.IsPressed)
@@ -122,7 +126,7 @@ internal static class BombSpell
         {
             if (HeroController.instance == null)
                 return;
-            LogHelper.Write<BomberKnight>("Modify spell control");
+            LogHelper.Write<BomberKnight>("Modify spell control", KU.LogType.Debug);
             PlayMakerFSM fsm = HeroController.instance.spellControl;
             if (fsm.GetState("Normal bomb") is not null)
                 return;

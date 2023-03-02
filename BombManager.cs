@@ -314,13 +314,13 @@ public static class BombManager
                 self.GetState("Check Quake").AddTransition("POWERBOMBED", "Quake Hit");
             }
             else if (string.Equals(self.FsmName, "break_floor"))
-                self.GetState("Idle")?.AddTransition("POWERBOMBED", "PlayerData");
+                self.GetState("Idle")?.AddTransition("POWERBOMBED", self.GetState("PlayerData") != null ? "PlayerData" : "Break");
             else if (string.Equals(self.FsmName, "breakable_wall_v2"))
                 self.GetState("Idle")?.AddTransition("POWERBOMBED", "PD Bool?");
         }
         catch (System.Exception exception)
         {
-            LogHelper.Write<BomberKnight>($"Failed to modify ground {self.gameObject.name}: " + exception.ToString());
+            LogHelper.Write<BomberKnight>($"Failed to modify ground {self.gameObject.name}: " + exception.ToString(), KorzUtils.Enums.LogType.Error);
         }
         orig(self);
     }
@@ -334,7 +334,7 @@ public static class BombManager
         try
         {
             int maxAmount = BombBagLevel * 10;
-            if (BombQueue.Count >= maxAmount)
+            if (BombQueue.Count >= maxAmount && !bombs.Any(x => x == BombType.MiningBomb))
                 return;
 
             if (bombs.Any(x => x == BombType.MiningBomb))
@@ -420,7 +420,8 @@ public static class BombManager
         GameManager.instance.StartCoroutine((IEnumerator)HeroController.instance.GetType()
             .GetMethod("Invulnerable", BindingFlags.NonPublic | BindingFlags.Instance)
             .Invoke(HeroController.instance, new object[] { CharmHelper.EquippedCharm(CharmRef.StalwartShell) ? 4f : 2f }));
-        while (passedTime < 0.5f)
+        float yeetTime = CharmHelper.EquippedCharm(BomberKnight.BombMasterCharm) ? 0.4f : 0.2f;
+        while (passedTime < yeetTime)
         {
             hero.velocity = new(hero.velocity.x, HeroController.instance.JUMP_SPEED * knockback);
             yield return null;

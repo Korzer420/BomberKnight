@@ -1,6 +1,6 @@
 namespace BomberKnight.ItemData;
 
-internal class CharmData
+public class CharmData
 {
     #region Properties
 

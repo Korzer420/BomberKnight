@@ -115,7 +115,7 @@ internal class DeepnestBombBagLocation : AutoLocation
                 ItemDropper itemDropper = fsm.gameObject.AddComponent<ItemDropper>();
                 itemDropper.Placement = Placement;
                 itemDropper.Firework = false;
-                itemDropper.DropPosition = new(124.78f, 5.42f);
+                itemDropper.DropPosition = new(31f, 6f);
                 fsm.GetComponent<HealthManager>().hp = 400;
                 spiderBoss.SetActive(true);
                 fsm.GetComponent<tk2dSprite>().color = new(1f, 0f, 1f);

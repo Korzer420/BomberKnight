@@ -1,3 +1,4 @@
+using BomberKnight.Enums;
 using BomberKnight.ItemData;
 using BomberKnight.Resources;
 using KorzUtils.Helper;
@@ -57,11 +58,10 @@ internal static class BombCharms
 
     private static string ModHooks_LanguageGetHook(string key, string sheetTitle, string orig)
     {
-        
         if (key.StartsWith(CharmNamePrefix))
         {
             if (CheckCustomCharm(key, CharmNamePrefix) is CharmData charmData)
-                orig = InventoryText.ResourceManager.GetString($"Charm_{charmData.Name}_Name");
+                orig = InventoryText.ResourceManager.GetString($"Charm_{charmData.Name}_Title");
         }
         else if (key.StartsWith(CharmDescPrefix))
         {
@@ -143,14 +143,11 @@ internal static class BombCharms
             if (!int.TryParse(key.Substring(prefix.Length), out int charmId))
                 // Unbreakable charms end with _G
                 charmId = Convert.ToInt32(key.Substring(prefix.Length, 2));
-            foreach (CharmData charmData in CustomCharms)
-                LogHelper.Write<BomberKnight>("Custom charm has id: " + charmData.Id);
-            LogHelper.Write<BomberKnight>("Requested charm with id: " + charmId);
             return CustomCharms.FirstOrDefault(x => x.Id == charmId);
         }
         catch (Exception)
         {
-            LogHelper.Write<BomberKnight>("Tried requesting stuff for unknown key: " + key + " with prefix " + prefix);
+            LogHelper.Write<BomberKnight>("Tried requesting stuff for unknown key: " + key + " with prefix " + prefix, KorzUtils.Enums.LogType.Warning);
             return null;
         }
     }

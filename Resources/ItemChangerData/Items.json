@@ -114,7 +114,7 @@
 		  "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
 		  "bigSprite": {
 			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
-			"Key": "BombSprite"
+			"Key": "EchoBomb"
 		  },
 		  "take": {
 			"$type": "ItemChanger.BoxedString, ItemChanger",
@@ -194,7 +194,7 @@
 		  "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
 		  "bigSprite": {
 			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
-			"Key": "BombSprite"
+			"Key": "GoldBomb"
 		  },
 		  "take": {
 			"$type": "ItemChanger.BoxedString, ItemChanger",
@@ -234,7 +234,7 @@
 		  "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
 		  "bigSprite": {
 			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
-			"Key": "BombSprite"
+			"Key": "SporeBomb"
 		  },
 		  "take": {
 			"$type": "ItemChanger.BoxedString, ItemChanger",
@@ -274,7 +274,7 @@
 		  "$type": "ItemChanger.UIDefs.BigUIDef, ItemChanger",
 		  "bigSprite": {
 			"$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
-			"Key": "BombSprite"
+			"Key": "PowerBomb"
 		  },
 		  "take": {
 			"$type": "ItemChanger.BoxedString, ItemChanger",

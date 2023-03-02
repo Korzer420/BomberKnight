@@ -68,7 +68,7 @@ internal class BounceBombLocation : AutoLocation
             fsm.GetState("Attack CD").AdjustTransition("FINISHED", "Run Stop");
 
             HealthManager enemy = sentry.GetComponent<HealthManager>();
-            enemy.hp = 500;
+            enemy.hp = 5000;
 
             fsm.GetState("Single Swipe").AddLastAction(new Lambda(() =>
             {

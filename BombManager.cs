@@ -357,9 +357,6 @@ public static class BombManager
                     _bombQueue.AddRange(bombs);
             }
 
-            BombUI.Tracker.GetComponent<SpriteRenderer>().color = GetBombColor(BombQueue[0]);
-            BombUI.Tracker.GetComponent<DisplayItemAmount>().textObject.text = _bombQueue.Count.ToString();
-
             if (_bombQueue.Count > 0
                 && _bombQueue[0] == BombType.GrassBomb && CharmHelper.EquippedCharm(CharmRef.ShapeOfUnn)
                 && UnityEngine.Random.Range(0, 2) == 0)
@@ -368,6 +365,7 @@ public static class BombManager
                 GameManager.instance.StopCoroutine(_shapeshiftRoutine);
 
             BombUI.UpdateBombPage();
+            BombUI.UpdateTracker();
         }
         catch (Exception exception)
         {

@@ -1,5 +1,6 @@
 using BomberKnight.ItemData.Locations;
 using ItemChanger;
+using ItemChanger.Items;
 using KorzUtils.Helper;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ public static class ItemManager
 
     internal static void Initialize()
     {
-        using Stream locationStream = ResourceHelper.LoadResource<BomberKnight>("Locations.json");
+        using Stream locationStream = ResourceHelper.LoadResource<BomberKnight>("ItemChangerData.Locations.json");
         using StreamReader reader = new(locationStream);
         JsonSerializer jsonSerializer = new()
         {
@@ -68,15 +69,24 @@ public static class ItemManager
         foreach (AbstractLocation location in jsonSerializer.Deserialize<List<AbstractLocation>>(new JsonTextReader(reader)))
             Finder.DefineCustomLocation(location);
 
-        using Stream itemStream = ResourceHelper.LoadResource<BomberKnight>("Items.json");
+        using Stream itemStream = ResourceHelper.LoadResource<BomberKnight>("ItemChangerData.Items.json");
         using StreamReader reader2 = new(itemStream);
 
         foreach (AbstractItem item in jsonSerializer.Deserialize<List<AbstractItem>>(new JsonTextReader(reader2)))
+        {
+            if (item.name == ShellSalvagerCharm)
+                (item as BoolItem).fieldName += CharmHelper.GetCustomCharmId(BomberKnight.PyromaniacCharm);
+            else if (item.name == PyromaniacCharm)
+                (item as BoolItem).fieldName += CharmHelper.GetCustomCharmId(BomberKnight.PyromaniacCharm);
+            else if (item.name == BombMasterCharm)
+                (item as BoolItem).fieldName += CharmHelper.GetCustomCharmId(BomberKnight.BombMasterCharm);
             Finder.DefineCustomItem(item);
+        }
     }
 
     internal static void GeneratePlacements()
     {
+        ItemChangerMod.CreateSettingsProfile(false);
         List<AbstractPlacement> placements = new()
         {
             // Bomb bags
@@ -94,6 +104,7 @@ public static class ItemManager
             CreatePlacement(BombMasterCharm, BombMasterCharmPuzzle),
             CreatePlacement(ShellSalvagerCharm, ShellSalvagerCharmPuzzle)
         };
+        
         ItemChangerMod.AddPlacements(placements);
     }
 

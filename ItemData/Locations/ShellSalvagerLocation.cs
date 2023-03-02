@@ -1,5 +1,6 @@
 using BomberKnight.UnityComponents;
 using HutongGames.PlayMaker;
+using InControl;
 using ItemChanger;
 using ItemChanger.Extensions;
 using ItemChanger.Locations;
@@ -31,11 +32,11 @@ internal class ShellSalvagerLocation : AutoLocation
 
     private Dictionary<string, string> _hintText = new()
     {
-        {"Dryya_Hint_1", "The white chest should be hit {0}." },
-        {"Isma_Hint_1", "My precious green chest should be the {0}." },
-        {"Ogrim_Hint_1", "For our treasure my brown chest should be struck {0}." },
-        {"Ze'mer_Hint_1", "To be the {0} one is the key of my blue chest." },
-        {"Hegemol_Hint_1", "Remember, red has to be {0}." }
+        {"Dryya", "The white chest should be hit {0}." },
+        {"Isma", "My precious green chest should be the {0}." },
+        {"Ogrim", "For our treasure my brown chest should be struck {0}." },
+        {"Ze'mer", "To be the {0} one is the key of my blue chest." },
+        {"Hegemol", "Remember, red has to be {0}." }
     };
 
     private readonly string[] _orderTerms = new string[]
@@ -72,7 +73,6 @@ internal class ShellSalvagerLocation : AutoLocation
         Events.AddSceneChangeEdit("Waterways_15", SpawnHintbox);
         Events.AddSceneChangeEdit("Room_Mansion", SpawnHintbox);
         Events.AddSceneChangeEdit("GG_Waterways", WaitForSpawn);
-        ModHooks.LanguageGetHook += ModHooks_LanguageGetHook;
     }
 
     internal static void RollOrder(int seed)
@@ -86,25 +86,7 @@ internal class ShellSalvagerLocation : AutoLocation
         {
             ChestOrder.Add(knights[random.Next(0, knights.Count)]);
             knights.Remove(ChestOrder.Last());
-            LogHelper.Write<BomberKnight>("Next knight is: " + ChestOrder[i]);
         }
-    }
-
-    private string ModHooks_LanguageGetHook(string key, string sheetTitle, string orig)
-    {
-        if (_hintText.ContainsKey(key))
-        {
-            string knightName = new(key.TakeWhile(x => x != '_').ToArray());
-            string hint = string.Format(_hintText[key], _orderTerms[ChestOrder.IndexOf(knightName)]);
-            if (BombManager.ColorlessHelp)
-                hint = hint.Replace("white", "middle one")
-                    .Replace("blue", "leftmost")
-                    .Replace("red", "rightmost")
-                    .Replace("green", "second from right")
-                    .Replace("brown", "second from left");
-            return hint;
-        }
-        return orig;
     }
 
     protected override void OnUnload()
@@ -114,7 +96,6 @@ internal class ShellSalvagerLocation : AutoLocation
         Events.RemoveSceneChangeEdit("Waterways_13", SpawnHintbox);
         Events.RemoveSceneChangeEdit("Waterways_15", SpawnHintbox);
         Events.RemoveSceneChangeEdit("Room_Mansion", SpawnHintbox);
-        ModHooks.LanguageGetHook -= ModHooks_LanguageGetHook;
     }
 
     private void SpawnHintbox(Scene scene)
@@ -127,17 +108,22 @@ internal class ShellSalvagerLocation : AutoLocation
         {
             if (x.StartsWith("Echo"))
             {
-                PlayMakerFSM playMakerFSM = PlayMakerFSM.FindFsmOnGameObject(FsmVariables.GlobalVariables.GetFsmGameObject("Enemy Dream Msg").Value, "Display");
-                playMakerFSM.FsmVariables.GetFsmInt("Convo Amount").Value = 1;
-                playMakerFSM.FsmVariables.GetFsmString("Convo Title").Value = scene.name switch
+                string knightName = scene.name switch
                 {
-                    "Crossroads_10" => "Hegemol_Hint",
-                    "Fungus3_48" => "Dryya_Hint",
-                    "Waterways_13" => "Isma_Hint",
-                    "Waterways_15" => "Ogrim_Hint",
-                    _ => "Ze'mer_Hint"
+                    "Crossroads_10" => "Hegemol",
+                    "Fungus3_48" => "Dryya",
+                    "Waterways_13" => "Isma",
+                    "Waterways_15" => "Ogrim",
+                    _ => "Ze'mer"
                 };
-                playMakerFSM.SendEvent("DISPLAY ENEMY DREAM");
+                string message = string.Format(_hintText[knightName], _orderTerms[ChestOrder.IndexOf(knightName)]);
+                if (BombManager.ColorlessHelp)
+                    message = message.Replace("white", "middle one")
+                        .Replace("blue", "leftmost")
+                        .Replace("red", "rightmost")
+                        .Replace("green", "second from right")
+                        .Replace("brown", "second from left");
+                GameHelper.DisplayMessage(message);
             }
             return false;
         };
@@ -187,9 +173,10 @@ internal class ShellSalvagerLocation : AutoLocation
                 _chest.transform.position = new(34.23f, 15.4091f, 0f);
                 _chest.transform.localScale = new(2f, 2f);
                 _chest.layer = 8;
-                _chest.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Chest");
+                _chest.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.Chest");
                 _chest.AddComponent<BoxCollider2D>();
                 _chest.AddComponent<TinkEffect>().blockEffect = blockEffect;
+                _chest.AddComponent<ShellSalvagerChestHint>();
                 _chest.SetActive(true);
             }
         }
@@ -228,7 +215,7 @@ internal class ShellSalvagerLocation : AutoLocation
                     return;
                 }
             }
-            _chest.GetComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Chest_Open");
+            _chest.GetComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.Chest_Open");
             Component.Destroy(_chest.GetComponent<BoxCollider2D>());
             ItemHelper.FlingShiny(_chest, Placement);
         }

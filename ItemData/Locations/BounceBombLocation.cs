@@ -35,7 +35,7 @@ internal class BounceBombLocation : AutoLocation
         else if (Placement.Items.Any(x => !x.IsObtained()))
         {
             GameObject statue = new("Statue");
-            statue.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sentry_Stone");
+            statue.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.Sentry_Stone");
             statue.AddComponent<BombWall>().Bombed += (x) =>
             {
                 StartFight();
@@ -75,7 +75,7 @@ internal class BounceBombLocation : AutoLocation
                 if (BridgeGuardControl.ReadyToJump)
                     return;
                 GameObject bomb = new("Sentry projectile");
-                bomb.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+                bomb.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombSprite");
                 bomb.AddComponent<CircleCollider2D>().isTrigger = true;
                 bomb.GetComponent<CircleCollider2D>().radius = 0.28f;
                 bomb.transform.localScale = new(2.5f, 2.5f, 1f);

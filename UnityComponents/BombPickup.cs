@@ -23,7 +23,7 @@ internal class BombPickup : MonoBehaviour
         if (Bombs.Count > 1)
         {
             Second = new("Second bomb");
-            Second.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+            Second.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombSprite");
             Second.GetComponent<SpriteRenderer>().color = Bombs[1] switch
             {
                 BombType.GrassBomb => Color.green,
@@ -42,7 +42,7 @@ internal class BombPickup : MonoBehaviour
             if (Bombs.Count > 2)
             {
                 Third = new("Third bomb");
-                Third.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+                Third.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombSprite");
                 Third.GetComponent<SpriteRenderer>().color = Bombs[2] switch
                 {
                     BombType.GrassBomb => Color.green,
@@ -84,6 +84,11 @@ internal class BombPickup : MonoBehaviour
         {
             BombManager.GiveBombs(Bombs);
             GameObject.Destroy(gameObject);
+        }
+        else if (collision.collider.gameObject.layer == 22 || collision.collider.gameObject.layer == 11)
+        {
+            Physics2D.IgnoreCollision(collision.collider, GetComponent<CircleCollider2D>());
+            Physics2D.IgnoreCollision(collision.collider, GetComponent<BoxCollider2D>());
         }
     }
 }

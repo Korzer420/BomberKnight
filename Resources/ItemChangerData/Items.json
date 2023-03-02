@@ -1,7 +1,7 @@
 [
 	{
 		"$type": "ItemChanger.Items.BoolItem, ItemChanger",
-		"fieldName": "gotCharm_x",
+		"fieldName": "gotCharm_",
 		"setValue": true,
 		"name": "Shell_Salvager_Charm",
 		"UIDef": {
@@ -24,7 +24,7 @@
 	},
 	{
 		"$type": "ItemChanger.Items.BoolItem, ItemChanger",
-		"fieldName": "gotCharm_x",
+		"fieldName": "gotCharm_",
 		"setValue": true,
 		"name": "Pyromaniac_Charm",
 		"UIDef": {
@@ -47,7 +47,7 @@
 	},
 	{
 		"$type": "ItemChanger.Items.BoolItem, ItemChanger",
-		"fieldName": "gotCharm_x",
+		"fieldName": "gotCharm_",
 		"setValue": true,
 		"name": "Bomb_Master_Charm",
 		"UIDef": {
@@ -128,7 +128,7 @@
 		  },
 		  "descTwo": {
 			"$type": "ItemChanger.BoxedString, ItemChanger",
-			"Value": "These bombs unleash angry spirits which cause the bomb to explode multiple times with less damage each time. Can also invoke the memories of stronger beings."
+			"Value": "These bombs unleash angry spirits which cause the bomb to explode multiple times with less damage each time.\n Can also invoke the memories of stronger spirits."
 		  },
 		  "name": {
 			"$type": "ItemChanger.BoxedString, ItemChanger",
@@ -288,7 +288,7 @@
 		  },
 		  "descTwo": {
 			"$type": "ItemChanger.BoxedString, ItemChanger",
-			"Value": "Binding 3 bombs with one lifeblood will create a bomb with power beyond comprehension. Strong enough to shatter most damaged terrains."
+			"Value": "Binding 3 bombs with one lifeblood will create a bomb with power beyond comprehension.\n Strong enough to shatter most damaged terrains."
 		  },
 		  "name": {
 			"$type": "ItemChanger.BoxedString, ItemChanger",
@@ -306,5 +306,5 @@
 		"tags": null,
 		"obtainState": 0,
 		"Type": 5
-	},
+	}
 ]

@@ -63,7 +63,7 @@ internal class PowerBombLocation : AutoLocation
                     GameObject flyingBomb = new("Indicator " + i);
                     flyingBomb.transform.position = positions[i];
                     Color bombColor = BombManager.GetBombColor((BombType)i);
-                    flyingBomb.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+                    flyingBomb.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombSprite");
                     flyingBomb.GetComponent<SpriteRenderer>().color = new(bombColor.r, bombColor.g, bombColor.b, 0.2f);
                     flyingBomb.transform.localScale = new(2f, 2f, 1f);
                     flyingBomb.SetActive(true);
@@ -81,11 +81,11 @@ internal class PowerBombLocation : AutoLocation
         center.SetActive(true);
         Vector3[] movementSteps = new Vector3[]
         {
-            new Vector3(-1f,-1f),
-            new Vector3(-2f, 0.5f),
-            new Vector3(0f, 2f),
-            new Vector3(2f, 0.5f),
-            new Vector3(1f, -1f)
+            new Vector3(0.618f, 1.9f),
+            new Vector3(-1.618f, 1.175f),
+            new Vector3(-1.618f, -1.175f),
+            new Vector3(0.618f, -1.9f),
+            new Vector3(2, 0)
         };
 
         for (int i = 0; i < 5; i++)

@@ -45,7 +45,7 @@ internal class EnemyBomb : MonoBehaviour
             return;
         _initialized = true;
         _spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
-        _spriteRenderer.sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+        _spriteRenderer.sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombSprite");
         _spriteRenderer.color = ExplosionColor;
         // Let the bombs render before anything (besides the menu) to increase invisibity (This is the sorting layer of the full soul sprite)
         _spriteRenderer.sortingLayerID = -349214895;

@@ -29,7 +29,7 @@ public class WrappedSprite : ISprite
     public string Key { get; set; }
 
     [Newtonsoft.Json.JsonIgnore]
-    public Sprite Value => SpriteHelper.CreateSprite<BomberKnight>(Key); 
+    public Sprite Value => SpriteHelper.CreateSprite<BomberKnight>("Sprites."+Key); 
 
     #endregion
 

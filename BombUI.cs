@@ -57,7 +57,7 @@ public static class BombUI
                     _colorless.SetActive(BombManager.ColorlessHelp);
                     _tracker.GetComponent<DisplayItemAmount>().textObject.fontSize = 5;
                     _tracker.GetComponent<DisplayItemAmount>().textObject.gameObject.name = "Counter";
-                    _tracker.GetComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+                    _tracker.GetComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombSprite");
                     _tracker.GetComponent<BoxCollider2D>().size = new Vector2(1.5f, 1f);
                     _tracker.GetComponent<BoxCollider2D>().offset = new Vector2(0.5f, 0f);
                     _tracker.SetActive(BombManager.BombBagLevel > 0);
@@ -142,7 +142,7 @@ public static class BombUI
         glow.transform.localScale = new(0.8f, 0.8f, 1f);
 
         GameObject bombBag = CreateImageObject(inventoryObject.transform, "Bomb Bag", new(4f, -12f, -3f), new(2f, 2f, 1.5f), true);
-        bombBag.GetComponentInChildren<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombBag");
+        bombBag.GetComponentInChildren<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombBag");
         _controlElements.Add("BombBag", new GameObject[1] { bombBag });
 
         // Create objects for all available bomb types.
@@ -368,7 +368,7 @@ public static class BombUI
                 GameObject currentBomb = _controlElements["Available"][i];
                 if (BombManager.AvailableBombs[(BombType)i])
                 {
-                    currentBomb.GetComponentInChildren<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+                    currentBomb.GetComponentInChildren<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombSprite");
                     currentBomb.GetComponentInChildren<SpriteRenderer>().color = BombManager.GetBombColor((BombType)i);
                 }
                 else
@@ -397,7 +397,7 @@ public static class BombUI
                 }
                 else
                 {
-                    currentBomb.GetComponentInChildren<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+                    currentBomb.GetComponentInChildren<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombSprite");
                     currentBomb.GetComponentInChildren<SpriteRenderer>().color = BombManager.GetBombColor(BombManager.BombQueue[i]);
                 }
             }
@@ -420,7 +420,7 @@ public static class BombUI
             else
                 Tracker.GetComponent<SpriteRenderer>().color = Color.white;
             Tracker.GetComponent<DisplayItemAmount>().textObject.text = BombManager.BombQueue.Count.ToString();
-            Tracker.SetActive(true);
+            Tracker.SetActive(BombManager.BombBagLevel > 0);
             if (BombManager.ColorlessHelp)
             {
                 if (_colorless == null)

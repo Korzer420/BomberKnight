@@ -19,14 +19,14 @@ internal class BridgeGuardControl : MonoBehaviour
         GameObject door = GameObject.Find("left1");
         _doors[0] = new("Left Door");
         _doors[0].layer = 7;
-        _doors[0].AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Door");
+        _doors[0].AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.Door");
         _doors[0].AddComponent<BoxCollider2D>().size = door.GetComponent<BoxCollider2D>().size;
         _doors[0].transform.position = new(1.4364f, 18.7f, 0f);
         _doors[0].transform.localScale = new(1f, 1f);
 
         _doors[1] = new("Right Door");
         _doors[1].layer = 7;
-        _doors[1].AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Door");
+        _doors[1].AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.Door");
         _doors[1].AddComponent<BoxCollider2D>().size = door.GetComponent<BoxCollider2D>().size;
         _doors[1].transform.position = new(98.3f, 18.7f, 0f);
         _doors[1].transform.localScale = new(-1f, 1f);

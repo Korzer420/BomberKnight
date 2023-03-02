@@ -32,6 +32,22 @@
     </ItemGroup>
 
     <ItemGroup>
+      <EmbeddedResource Include="Resources\ItemChangerData\Items.json" />
+      <EmbeddedResource Include="Resources\ItemChangerData\Locations.json" />
+      <EmbeddedResource Include="Resources\Sprites\BombBag.png" />
+      <EmbeddedResource Include="Resources\Sprites\BombMaster.png" />
+      <EmbeddedResource Include="Resources\Sprites\BombSprite.png" />
+      <EmbeddedResource Include="Resources\Sprites\Chest.png" />
+      <EmbeddedResource Include="Resources\Sprites\Chest_Open.png" />
+      <EmbeddedResource Include="Resources\Sprites\Door.png" />
+      <EmbeddedResource Include="Resources\Sprites\Frozen_Explosion_Master.png" />
+      <EmbeddedResource Include="Resources\Sprites\PyroCorpse.png" />
+      <EmbeddedResource Include="Resources\Sprites\Pyromaniac.png" />
+      <EmbeddedResource Include="Resources\Sprites\Sentry_Stone.png" />
+      <EmbeddedResource Include="Resources\Sprites\ShellSalvager.png" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Reference Include="Assembly-CSharp">
             <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Assembly-CSharp.dll</HintPath>
         </Reference>

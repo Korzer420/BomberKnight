@@ -2,6 +2,7 @@ using BomberKnight.UnityComponents;
 using ItemChanger;
 using ItemChanger.FsmStateActions;
 using ItemChanger.Locations;
+using KorzUtils.Helper;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,17 +16,31 @@ internal class GoldFountainLocation : AutoLocation
     protected override void OnLoad()
     {
         Events.AddSceneChangeEdit("Ruins2_04", CreateFountain);
+        On.HealthManager.Die += HealthManager_Die;
+    }
+
+    private void HealthManager_Die(On.HealthManager.orig_Die orig, HealthManager self, float? attackDirection, AttackTypes attackType, bool ignoreEvasion)
+    {
+        orig(self, attackDirection, attackType, ignoreEvasion);
+        if (self.gameObject.name == "Gorgeous Husk")
+            GameHelper.DisplayMessage("The golden liquid is leaking through the floor...");
     }
 
     protected override void OnUnload()
     {
         Events.RemoveSceneChangeEdit("Ruins2_04", CreateFountain);
+        On.HealthManager.Die -= HealthManager_Die;
     }
 
     private void CreateFountain(Scene scene)
     {
-        if (Placement.Items.Any(x => !x.IsObtained()))
-            GameManager.instance.StartCoroutine(WaitForEntry());   
+        if ((SceneData.instance.FindMyState(new PersistentBoolData()
+        {
+            sceneName = "Ruins_House_02",
+            id = "Gorgeous Husk",
+            semiPersistent = false
+        })?.activated ?? false) && Placement.Items.Any(x => !x.IsObtained()))
+            GameManager.instance.StartCoroutine(WaitForEntry());
     }
 
     private IEnumerator WaitForEntry()

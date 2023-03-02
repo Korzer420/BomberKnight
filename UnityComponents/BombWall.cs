@@ -1,3 +1,4 @@
+using KorzUtils.Helper;
 using UnityEngine;
 
 namespace BomberKnight.UnityComponents;
@@ -16,9 +17,22 @@ internal class BombWall : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
+        LogHelper.Write<BomberKnight>("Collided with: " + coll.gameObject.name);
         if (coll.gameObject.name.Contains("Explosion"))
         {
             bool? shouldDestroy = Bombed?.Invoke(coll.gameObject.name);
+            if (shouldDestroy == true)
+                Destroy(gameObject);
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        LogHelper.Write<BomberKnight>("Collided with: " + collision.gameObject.name);
+
+        if (collision.gameObject.name.Contains("Explosion"))
+        {
+            bool? shouldDestroy = Bombed?.Invoke(collision.gameObject.name);
             if (shouldDestroy == true)
                 Destroy(gameObject);
         }

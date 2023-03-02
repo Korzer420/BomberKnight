@@ -1,13 +1,10 @@
 using BomberKnight.Enums;
 using BomberKnight.ItemData;
 using BomberKnight.ItemData.Locations;
-using BomberKnight.Resources;
 using BomberKnight.UnityComponents;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
-using ItemChanger;
 using ItemChanger.Extensions;
-using ItemChanger.UIDefs;
 using KorzUtils.Enums;
 using KorzUtils.Helper;
 using Modding;
@@ -54,7 +51,7 @@ public static class BombManager
                 _bomb = new("Bomb");
                 _bomb.layer = 12;
                 _bomb.SetActive(false);
-                _bomb.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+                _bomb.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombSprite");
                 Rigidbody2D rigidbody = _bomb.AddComponent<Rigidbody2D>();
                 rigidbody.gravityScale = 1f;
                 rigidbody.mass = 100f;
@@ -137,14 +134,11 @@ public static class BombManager
         orig(self, permaDeath, bossRush);
         try
         {
-            ItemChangerMod.CreateSettingsProfile(false);
             ItemManager.GeneratePlacements();
             if (ItemChanger.Internal.Ref.Settings.Placements.ContainsKey(ItemManager.ShellSalvagerCharmPuzzle))
                 ShellSalvagerLocation.RollOrder(ItemManager.Seed);
             // Reset seed for shell salvager location. 
             ItemManager.Seed = -1;
-            BombBagLevel = 3;
-            GiveBombs(Enumerable.Range(0, 30).Select(x => BombType.GrassBomb));
         }
         catch (Exception exception)
         {
@@ -251,6 +245,7 @@ public static class BombManager
             BombDrop.StartListening();
             BombUI.StartListening();
             BombUI.UpdateBombPage();
+            BombUI.UpdateTracker();
         }
         catch (Exception exception)
         {
@@ -319,12 +314,13 @@ public static class BombManager
                 self.GetState("Check Quake").AddTransition("POWERBOMBED", "Quake Hit");
             }
             else if (string.Equals(self.FsmName, "break_floor"))
-                self.GetState("Idle").AddTransition("POWERBOMBED", "PlayerData");
+                self.GetState("Idle")?.AddTransition("POWERBOMBED", "PlayerData");
             else if (string.Equals(self.FsmName, "breakable_wall_v2"))
-                self.GetState("Idle").AddTransition("POWERBOMBED", "PD Bool?");
+                self.GetState("Idle")?.AddTransition("POWERBOMBED", "PD Bool?");
         }
-        catch (System.Exception)
+        catch (System.Exception exception)
         {
+            LogHelper.Write<BomberKnight>($"Failed to modify ground {self.gameObject.name}: " + exception.ToString());
         }
         orig(self);
     }

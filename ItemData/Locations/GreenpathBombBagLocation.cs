@@ -20,14 +20,12 @@ internal class GreenpathBombBagLocation : AutoLocation
     {
         On.HutongGames.PlayMaker.Actions.SetVelocity2d.OnEnter += SetVelocity2d_OnEnter;
         On.HealthManager.Die += HealthManager_Die;
-        Events.AddFsmEdit(new FsmID("Moss Knight B", "Moss Knight Control"), ModifyMossKnight);
         Events.AddFsmEdit(new FsmID("Moss Knight C", "Moss Knight Control"), ModifyMossKnight);
     }
 
     protected override void OnUnload()
     {
         On.HealthManager.Die -= HealthManager_Die;
-        Events.RemoveFsmEdit(new FsmID("Moss Knight B", "Moss Knight Control"), ModifyMossKnight);
         Events.RemoveFsmEdit(new FsmID("Moss Knight C", "Moss Knight Control"), ModifyMossKnight);
         On.HutongGames.PlayMaker.Actions.SetVelocity2d.OnEnter -= SetVelocity2d_OnEnter;
     } 
@@ -124,7 +122,7 @@ internal class GreenpathBombBagLocation : AutoLocation
 
             leftBomb.GetComponent<Rigidbody2D>().AddForce(new(Random.Range(-20f, 5f), Random.Range(1f, 20f)), ForceMode2D.Impulse);
             rightBomb.GetComponent<Rigidbody2D>().AddForce(new(Random.Range(20f, 5f), Random.Range(1f, 20f)), ForceMode2D.Impulse);
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(5f);
         }
     }
 }

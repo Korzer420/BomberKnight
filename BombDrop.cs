@@ -1,5 +1,6 @@
 using BomberKnight.Enums;
 using BomberKnight.EventArgs;
+using BomberKnight.ItemData;
 using BomberKnight.UnityComponents;
 using KorzUtils.Enums;
 using KorzUtils.Helper;
@@ -70,7 +71,7 @@ public static class BombDrop
 
     private static void HealthManager_Die(On.HealthManager.orig_Die orig, HealthManager self, float? attackDirection, AttackTypes attackType, bool ignoreEvasion)
     {
-        if (attackType != AttackTypes.RuinsWater && !self.gameObject.name.Equals("Hollow Knight Boss"))
+        if (BombManager.BombBagLevel > 0 && attackType != AttackTypes.RuinsWater && !self.gameObject.name.Equals("Hollow Knight Boss"))
         {
             _bombCounter++;
             if (_bombCounter >= 3 && self.GetComponent<NoBomb>() == null && (Convert.ToInt32(_geoInfo[0].GetValue(self)) > 0 ||
@@ -298,7 +299,7 @@ public static class BombDrop
         dropObject.AddComponent<Rigidbody2D>().mass = 10f;
         dropObject.AddComponent<CircleCollider2D>();
         dropObject.AddComponent<BombPickup>().Bombs = dropData.Drops;
-        dropObject.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+        dropObject.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombSprite");
         dropObject.SetActive(true);
         dropObject.transform.localScale = new(1.2f, 1.2f);
         dropObject.transform.position = source.transform.position;

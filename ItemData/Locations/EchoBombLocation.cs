@@ -103,7 +103,7 @@ internal class EchoBombLocation : AutoLocation
             bombSprite.transform.localPosition = new(22.61f, 75.44f);
             bombSprite.transform.localScale = new(2f, 2f, 2f);
             spriteRenderer = bombSprite.AddComponent<SpriteRenderer>();
-            spriteRenderer.sprite = SpriteHelper.CreateSprite<BomberKnight>("BombSprite");
+            spriteRenderer.sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombSprite");
             spriteRenderer.color = new(1f, 0f, 1f, 1f);
             bombSprite.SetActive(false);
         }
@@ -138,6 +138,5 @@ internal class EchoBombLocation : AutoLocation
                 bombSprite.transform.localPosition = new(22.61f, 75.44f);
             }
         }
-
     }
 }

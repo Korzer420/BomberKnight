@@ -1,5 +1,6 @@
 using BomberKnight.UnityComponents;
 using HutongGames.PlayMaker;
+using HutongGames.PlayMaker.Actions;
 using ItemChanger;
 using ItemChanger.Locations;
 using KorzUtils.Helper;
@@ -24,28 +25,11 @@ internal class PyromaniacCharmLocation : AutoLocation
     protected override void OnLoad()
     {
         Events.AddSceneChangeEdit("Fungus3_28", SequenceWrapper);
-        ModHooks.LanguageGetHook += ModHooks_LanguageGetHook;
-    }
-
-    private string ModHooks_LanguageGetHook(string key, string sheetTitle, string orig)
-    {
-        if (key == "BomberKnight_Pyromaniac_Hint_40_1")
-            orig = "More...";
-        else if (key == "BomberKnight_Pyromaniac_Hint_30_1")
-            orig = "The heat burning their skin off... what lucky bugs they are.";
-        else if (key == "BomberKnight_Pyromaniac_Hint_20_1")
-            orig = "The sound of destruction and fear are so precious.";
-        else if (key == "BomberKnight_Pyromaniac_Hint_10_1")
-            orig = "Only a few more... let all bugs shiver in their cold shell.";
-        else if (key == "BomberKnight_Pyromaniac_Final_Hint_1")
-            orig = "At last, let my corpse combust in the glorious light.";
-        return orig;
     }
 
     protected override void OnUnload()
     {
         Events.RemoveSceneChangeEdit("Fungus3_28", SequenceWrapper);
-        ModHooks.LanguageGetHook -= ModHooks_LanguageGetHook;
     }
 
     private void SequenceWrapper(Scene scene) => GameManager.instance.StartCoroutine(CreateSequence());
@@ -61,11 +45,11 @@ internal class PyromaniacCharmLocation : AutoLocation
             else
             {
                 GameObject corpse = new("Pyromaniac");
-                corpse.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("PyroCorpse");
+                corpse.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.PyroCorpse");
                 corpse.SetActive(true);
                 corpse.transform.position = new(71.97f, 30.91f, 0f);
                 corpse.transform.localScale = new(-1.5f, 1.5f);
-                corpse.layer = 13;
+                corpse.layer = 17;
                 _corpse = corpse;
                 foreach (JellyEgg egg in GameObject.FindObjectsOfType<JellyEgg>())
                 {
@@ -93,18 +77,19 @@ internal class PyromaniacCharmLocation : AutoLocation
 
         if (!_explosionObjects.Any())
         {
-            PlayMakerFSM playMakerFSM = PlayMakerFSM.FindFsmOnGameObject(FsmVariables.GlobalVariables.GetFsmGameObject("Enemy Dream Msg").Value, "Display");
-            playMakerFSM.FsmVariables.GetFsmInt("Convo Amount").Value = 1;
-            playMakerFSM.FsmVariables.GetFsmString("Convo Title").Value = "BomberKnight_Pyromaniac_Final_Hint";
-            playMakerFSM.SendEvent("DISPLAY ENEMY DREAM");
+            GameHelper.DisplayMessage("At last, let my corpse combust in the glorious light.");
             _corpse.AddComponent<BombWall>().Bombed += SpawnReward;
         }
         else if (_explosionObjects.Count % 10 == 0)
         {
-            PlayMakerFSM playMakerFSM = PlayMakerFSM.FindFsmOnGameObject(FsmVariables.GlobalVariables.GetFsmGameObject("Enemy Dream Msg").Value, "Display");
-            playMakerFSM.FsmVariables.GetFsmInt("Convo Amount").Value = 1;
-            playMakerFSM.FsmVariables.GetFsmString("Convo Title").Value = "BomberKnight_Pyromaniac_Hint_"+_explosionObjects.Count;
-            playMakerFSM.SendEvent("DISPLAY ENEMY DREAM");
+            string message = _explosionObjects.Count switch
+            {
+                40 => "More...",
+                30 => "The heat burning their skin off... what lucky bugs they are.",
+                20 => "The sound of destruction and fear are so precious.",
+                _ => "Only a few more... let all bugs shiver in their cold shell."
+            };
+            GameHelper.DisplayMessage(message);
         }
     }
 

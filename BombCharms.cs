@@ -57,15 +57,16 @@ internal static class BombCharms
 
     private static string ModHooks_LanguageGetHook(string key, string sheetTitle, string orig)
     {
+        
         if (key.StartsWith(CharmNamePrefix))
         {
             if (CheckCustomCharm(key, CharmNamePrefix) is CharmData charmData)
-                orig = InventoryText.ResourceManager.GetString($"CHARM_{charmData.Name}_NAME");
+                orig = InventoryText.ResourceManager.GetString($"Charm_{charmData.Name}_Name");
         }
         else if (key.StartsWith(CharmDescPrefix))
         {
             if (CheckCustomCharm(key, CharmDescPrefix) is CharmData charmData)
-                orig = InventoryText.ResourceManager.GetString($"CHARM_{charmData.Name}_DESC");
+                orig = InventoryText.ResourceManager.GetString($"Charm_{charmData.Name}_Desc");
         }
         return orig;
     }
@@ -101,10 +102,10 @@ internal static class BombCharms
 
     internal static void Initialize()
     {
-        CharmHelper.AddCustomCharm(BomberKnight.PyromaniacCharm, SF.CharmHelper.AddSprites(SpriteHelper.CreateSprite<BomberKnight>(BomberKnight.PyromaniacCharm))[0]);
-        CharmHelper.AddCustomCharm(BomberKnight.ShellSalvagerCharm, SF.CharmHelper.AddSprites(SpriteHelper.CreateSprite<BomberKnight>(BomberKnight.ShellSalvagerCharm))[0]);
-        CharmHelper.AddCustomCharm(BomberKnight.BombMasterCharm, SF.CharmHelper.AddSprites(SpriteHelper.CreateSprite<BomberKnight>(BomberKnight.BombMasterCharm))[0]);
-
+        CharmHelper.AddCustomCharm(BomberKnight.PyromaniacCharm, SF.CharmHelper.AddSprites(SpriteHelper.CreateSprite<BomberKnight>("Sprites."+BomberKnight.PyromaniacCharm))[0]);
+        CharmHelper.AddCustomCharm(BomberKnight.ShellSalvagerCharm, SF.CharmHelper.AddSprites(SpriteHelper.CreateSprite<BomberKnight>("Sprites." + BomberKnight.ShellSalvagerCharm))[0]);
+        CharmHelper.AddCustomCharm(BomberKnight.BombMasterCharm, SF.CharmHelper.AddSprites(SpriteHelper.CreateSprite<BomberKnight>("Sprites." + BomberKnight.BombMasterCharm))[0]);
+        
         CustomCharms.Add(new()
         { 
             Id = CharmHelper.GetCustomCharmId(BomberKnight.PyromaniacCharm),
@@ -142,6 +143,9 @@ internal static class BombCharms
             if (!int.TryParse(key.Substring(prefix.Length), out int charmId))
                 // Unbreakable charms end with _G
                 charmId = Convert.ToInt32(key.Substring(prefix.Length, 2));
+            foreach (CharmData charmData in CustomCharms)
+                LogHelper.Write<BomberKnight>("Custom charm has id: " + charmData.Id);
+            LogHelper.Write<BomberKnight>("Requested charm with id: " + charmId);
             return CustomCharms.FirstOrDefault(x => x.Id == charmId);
         }
         catch (Exception)

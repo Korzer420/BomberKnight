@@ -10,6 +10,7 @@ using BomberKnight.SaveManagement;
 using System.Linq;
 using BomberKnight.ItemData;
 using BomberKnight.ModInterop;
+using ItemChanger;
 
 namespace BomberKnight;
 

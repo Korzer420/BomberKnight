@@ -9,6 +9,8 @@ namespace BomberKnight.UnityComponents;
 
 internal class DeepnestSpiderControl : MonoBehaviour
 {
+    #region Members
+
     private GameObject _spinner;
     private float _passedDirectionalTime = 0.1f;
     private bool _moveOut = true;
@@ -25,12 +27,39 @@ internal class DeepnestSpiderControl : MonoBehaviour
         new(-2f, 0f),
         new(-1.41f, 1.41f)
     };
-
     private List<GameObject> _bombs = new();
+
+    #endregion
+
+    #region Event handler
+
+    private void HealthManager_Die(On.HealthManager.orig_Die orig, HealthManager self, float? attackDirection, AttackTypes attackType, bool ignoreEvasion)
+    {
+        orig(self, attackDirection, attackType, ignoreEvasion);
+        if (self.gameObject == gameObject)
+            GetComponent<ItemDropper>().PrepareDrop();
+    }
+
+    private void HealthManager_TakeDamage(On.HealthManager.orig_TakeDamage orig, HealthManager self, HitInstance hitInstance)
+    {
+        if (self.gameObject == gameObject)
+        {
+            // Remove knockback to prevent being pushed into the spikes.
+            hitInstance.MagnitudeMultiplier = 0f;
+            if (hitInstance.AttackType == AttackTypes.Spell)
+                hitInstance.Multiplier = 0.8f;
+        }
+        orig(self, hitInstance);
+    }
+
+    #endregion
+
+    #region Unity Methods
 
     void Start()
     {
         On.HealthManager.TakeDamage += HealthManager_TakeDamage;
+        On.HealthManager.Die += HealthManager_Die;
         _spinner = new("Spinner");
         _spinner.transform.localPosition = transform.position;
         _spinner.transform.localScale = new(1f, 1f);
@@ -41,24 +70,28 @@ internal class DeepnestSpiderControl : MonoBehaviour
     void OnDestroy()
     {
         On.HealthManager.TakeDamage -= HealthManager_TakeDamage;
+        On.HealthManager.Die -= HealthManager_Die;
     }
 
     void FixedUpdate()
     {
-        // Rotate
+        // Prevent the spider from drowning
+        if (transform.localPosition.y < 6f)
+            transform.localPosition = new(transform.localPosition.x, 6f);
         if (_current != SpiderBossState.Attacking)
         {
+            // Rotate
             if (_passedDirectionalTime > 0f)
             {
                 _passedDirectionalTime += Time.deltaTime;
-                _spinner.transform.eulerAngles += new Vector3(0f, 0f, Time.deltaTime * 50f);
+                _spinner.transform.eulerAngles += new Vector3(0f, 0f, Time.deltaTime * 35f);
                 if (_passedDirectionalTime > 4f && UnityEngine.Random.Range(0, 50) == 0)
                     _passedDirectionalTime = -0.1f;
             }
             else
             {
                 _passedDirectionalTime -= Time.deltaTime;
-                _spinner.transform.eulerAngles -= new Vector3(0f, 0f, Time.deltaTime * 50f);
+                _spinner.transform.eulerAngles -= new Vector3(0f, 0f, Time.deltaTime * 35f);
                 if (_passedDirectionalTime < -4f && UnityEngine.Random.Range(0, 50) == 0)
                     _passedDirectionalTime = 0.1f;
             }
@@ -86,7 +119,7 @@ internal class DeepnestSpiderControl : MonoBehaviour
                     _bombs[i].transform.localPosition -= move;
             }
 
-            if (_bombs[0].transform.localPosition.y > 15f && _moveOut)
+            if (_bombs[0].transform.localPosition.y > 20f && _moveOut)
                 _moveOut = false;
             else if (_bombs[0].transform.localPosition.y < 2f && !_moveOut)
                 _moveOut = true;
@@ -99,17 +132,7 @@ internal class DeepnestSpiderControl : MonoBehaviour
         }
     }
 
-    private void HealthManager_TakeDamage(On.HealthManager.orig_TakeDamage orig, HealthManager self, HitInstance hitInstance)
-    {
-        if (self.gameObject == gameObject)
-        {
-            // Remove knockback to prevent being pushed into the spikes.
-            hitInstance.MagnitudeMultiplier = 0f;
-            if (hitInstance.AttackType == AttackTypes.Spell)
-                hitInstance.Multiplier = 0.8f;
-        }
-        orig(self, hitInstance);
-    }
+    #endregion
 
     private IEnumerator Attack()
     {

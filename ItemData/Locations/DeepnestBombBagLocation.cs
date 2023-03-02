@@ -109,14 +109,14 @@ internal class DeepnestBombBagLocation : AutoLocation
                 fsm.transform.position += new Vector3(-4f, 4f);
                 fsm.GetState("Idle").AddFirstAction(new Lambda(() =>
                 {
-                    fsm.gameObject.AddComponent<DeepnestSpiderControl>();
+                    if (fsm.GetComponent<DeepnestSpiderControl>() is null)
+                        fsm.gameObject.AddComponent<DeepnestSpiderControl>();
                 }));
                 ItemDropper itemDropper = fsm.gameObject.AddComponent<ItemDropper>();
                 itemDropper.Placement = Placement;
                 itemDropper.Firework = false;
                 itemDropper.DropPosition = new(124.78f, 5.42f);
                 fsm.GetComponent<HealthManager>().hp = 400;
-                fsm.GetState("Idle").RemoveFirstActionOfType<FaceDirection>();
                 spiderBoss.SetActive(true);
                 fsm.GetComponent<tk2dSprite>().color = new(1f, 0f, 1f);
             }

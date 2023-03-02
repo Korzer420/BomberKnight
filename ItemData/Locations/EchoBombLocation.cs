@@ -91,6 +91,7 @@ internal class EchoBombLocation : AutoLocation
             bombWall.AddComponent<BoxCollider2D>().size = gate.GetComponent<BoxCollider2D>().size;
             bombWall.AddComponent<BombWall>().Bombed += (x) =>
             {
+                SoundEffectManager.Manager.PlayClipAtPoint("Secret", HeroController.instance.transform.position);
                 gate.SetActive(true);
                 return true;
             };

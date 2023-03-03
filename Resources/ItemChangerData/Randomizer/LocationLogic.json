@@ -1,0 +1,46 @@
+[
+    {
+        "name": "Shell_Salvager_Charm-Puzzle",
+        "logic": "GG_Waterways + ECHOBOMB + BOMBBAG + Crossroads_10[right1] + Defeated_False_Knight + Fungus3_48[right1] + ((Waterways_13[left1] + (FULLCLAW | (ANYCLAW + (WINGS | ENEMYPOGOS)) | (LEFTCLAW + (RIGHTDASH | RIGHTSUPERDASH)))) | (Waterways_13[left2] + ((ACID + (RIGHTCLAW | WINGS | ENEMYPOGOS)) | (ACIDSKIPS + LEFTCLAW + RIGHTSUPERDASH + (WINGS | RIGHTCLAW))))) + Defeated_Dung_Defender + Waterways_15[top1] + Room_Mansion[left1]"
+    },
+    {
+        "name": "Pyromaniac_Charm-Puzzle",
+        "logic": "Fungus3_28[right1] + (ACID | (ACIDSKIPS + WINGS + LEFTDASH + (LEFTCLAW | RIGHTCLAW))) + BOMBBAG"
+    },
+    {
+        "name": "Bomb_Master_Charm-Puzzle",
+        "logic": "BOMBBAG + Fungus1_24[left1] + (WINGS | (RIGHTDASH + (LEFTCLAW | RIGHTCLAW))) + (Mines_20[left1] | Mines_20[right1])"
+    },
+    {
+        "name": "Greenpath_Bomb_Bag-Challenge",
+        "logic": "(Fungus1_32[bot1] | Fungus1_32[top1] | Fungus1_32[left1]) + SPELLS>1 + LEFTDASH + RIGHTDASH"
+    },
+    {
+        "name": "Deepnest_Bomb_Bag-Challenge",
+        "logic": "Deepnest_10[right3] + SPELLS>1 + LEFTDASH + RIGHTDASH + RIGHTCLAW + LEFTCLAW + WINGS"
+    },
+    {
+        "name": "Edge_Bomb_Bag-Challenge",
+        "logic": "(Deepnest_East_16[left1] | Deepnest_East_16[bot1]) + SPELLS>1 + LEFTDASH + RIGHTDASH + RIGHTCLAW + LEFTCLAW + WINGS"
+    },
+    {
+        "name": "Echo_Bomb-Puzzle",
+        "logic": "RestingGrounds_05 + BOMBBAG"
+    },
+    {
+        "name": "Gold_Bomb-Puzzle",
+        "logic": "Ruins2_04 + BOMBBAG + Ruins_House_02[left1]"
+    },
+    {
+        "name": "Spore_Bomb-Puzzle",
+        "logic": "Fungus2_30[top1] + RIGHTDASH + Spore_Shroom + WINGS + (LEFTCLAW | RIGHTCLAW) + BOMBBAG"
+    },
+    {
+        "name": "Bounce_Bomb-Puzzle",
+        "logic": "(Ruins1_06[left1] | Ruins1_06[right1]) + BOMBBAG + LEFTDASH + RIGHTDASH"
+    },
+    {
+        "name": "Power_Bomb-Puzzle",
+        "logic": "Abyss_08[right1] + (PRECISEMOVEMENT | (FULLDASH + WINGS)) + ECHOBOMB + BOUNCEBOMB + SPOREBOMB + BOMBBAG + GOLDBOMB"
+    }
+]

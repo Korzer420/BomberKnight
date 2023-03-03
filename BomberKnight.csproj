@@ -25,6 +25,19 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Resources\ItemChangerData\Randomizer\LocationLogic.json" />
+      <None Remove="Resources\ItemChangerData\Randomizer\Terms.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Resources\ItemChangerData\Randomizer\Terms.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Resources\ItemChangerData\Randomizer\LocationLogic.json" />
+    </ItemGroup>
+
+    <ItemGroup>
       <EmbeddedResource Include="Resources\ItemChangerData\Items.json" />
       <EmbeddedResource Include="Resources\ItemChangerData\Locations.json" />
       <EmbeddedResource Include="Resources\Sounds\Secret.wav" />
@@ -59,6 +72,9 @@
         <Reference Include="KorzUtils">
           <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\KorzUtils\KorzUtils.dll</HintPath>
         </Reference>
+        <Reference Include="MenuChanger">
+          <HintPath>..\MenuChanger\MenuChanger.dll</HintPath>
+        </Reference>
         <Reference Include="MMHOOK_Assembly-CSharp">
             <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\MMHOOK_Assembly-CSharp.dll</HintPath>
         </Reference>
@@ -82,6 +98,15 @@
         </Reference>
         <Reference Include="PlayMaker">
             <HintPath>..\..\Program Files\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\PlayMaker.dll</HintPath>
+        </Reference>
+        <Reference Include="RandomizerCore">
+          <HintPath>..\RandoCore\RandomizerCore.dll</HintPath>
+        </Reference>
+        <Reference Include="RandomizerMod">
+          <HintPath>..\Randomizer\RandomizerMod.dll</HintPath>
+        </Reference>
+        <Reference Include="RandoSettingsManager">
+          <HintPath>..\RandoSettingsManager\RandoSettingsManager.dll</HintPath>
         </Reference>
         <Reference Include="SFCore">
           <HintPath>..\SFCore\SFCore.dll</HintPath>

@@ -1,3 +1,5 @@
+using BomberKnight.ModInterop.Randomizer;
+
 namespace BomberKnight.SaveManagement;
 
 /// <summary>
@@ -16,6 +18,11 @@ public class GlobalSaveData
     /// Gets or sets the flag that indicates if bombs should be cast with the cast button. Otherwise the quick cast button is used.
     /// </summary>
     public bool BombFromCast { get; set; }
+
+    /// <summary>
+    /// Gets or sets settings for rando.
+    /// </summary>
+    public RandoSettings RandoSettings { get; set; } = new();
 
     #endregion
 }

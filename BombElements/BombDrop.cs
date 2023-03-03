@@ -75,7 +75,7 @@ public static class BombDrop
         if (BombManager.BombBagLevel > 0 && attackType != AttackTypes.RuinsWater && !self.gameObject.name.Equals("Hollow Knight Boss"))
         {
             _bombCounter++;
-            if (_bombCounter >= 3 && self.GetComponent<NoBomb>() == null && (Convert.ToInt32(_geoInfo[0].GetValue(self)) > 0 ||
+            if ((_bombCounter >= 10 || UnityEngine.Random.Range(0, 100) == 0) && self.GetComponent<NoBomb>() == null && (Convert.ToInt32(_geoInfo[0].GetValue(self)) > 0 ||
                 Convert.ToInt32(_geoInfo[1].GetValue(self)) > 0 || Convert.ToInt32(_geoInfo[2].GetValue(self)) > 0))
             {
                 _bombCounter = 0;

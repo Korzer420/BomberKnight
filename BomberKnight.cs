@@ -1,17 +1,17 @@
+using BomberKnight.BombElements;
+using BomberKnight.ItemData;
+using BomberKnight.ItemData.Locations;
+using BomberKnight.ModInterop;
+using BomberKnight.ModInterop.Randomizer;
+using BomberKnight.SaveManagement;
+using BomberKnight.UnityComponents;
 using HutongGames.PlayMaker.Actions;
 using ItemChanger.Extensions;
-using BomberKnight.UnityComponents;
 using Modding;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using BomberKnight.ItemData.Locations;
-using BomberKnight.SaveManagement;
-using System.Linq;
-using BomberKnight.ItemData;
-using BomberKnight.ModInterop;
-using ItemChanger;
-using BomberKnight.BombElements;
 
 namespace BomberKnight;
 
@@ -73,11 +73,18 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
         DeepnestBombBagLocation.Spider = preloadedObjects["Deepnest_39"]["Spider Flyer (1)"];
         if (ModHooks.GetMod("DebugMod") is Mod)
             HookDebug();
+        if (ModHooks.GetMod("Randomizer 4") is Mod)
+            HookRando();
     }
 
     private void HookDebug()
     {
         DebugInterop.Initialize();
+    }
+
+    private void HookRando()
+    {
+        RandomizerInterop.Initialize();
     }
 
     public void OnLoadGlobal(GlobalSaveData saveData)
@@ -86,12 +93,14 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
             return;
         BombManager.ColorlessHelp = saveData.ColorlessHelp;
         BombSpell.UseCast = saveData.BombFromCast;
+        RandomizerInterop.Settings = saveData.RandoSettings ?? new();
     }
 
     public GlobalSaveData OnSaveGlobal() => new()
     {
         BombFromCast = BombSpell.UseCast,
         ColorlessHelp = BombManager.ColorlessHelp,
+        RandoSettings = RandomizerInterop.Settings
     };
 
     public void OnLoadLocal(LocalSaveData saveData)
@@ -118,6 +127,7 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
         BombManager.BombBagLevel = saveData.BombBagLevel;
         if (saveData.KnightOrder != null)
             ShellSalvagerLocation.ChestOrder = saveData.KnightOrder;
+        BombManager.Active = saveData.Active;
     }
 
     public LocalSaveData OnSaveLocal() => new()
@@ -126,14 +136,15 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
         BombBagLevel = BombManager.BombBagLevel,
         Inventory = BombManager.BombQueue.ToList(),
         KnightOrder = ShellSalvagerLocation.ChestOrder,
-        CharmData = BombCharms.CustomCharms
+        CharmData = BombCharms.CustomCharms,
+        Active = BombManager.Active,
     };
 
     public List<IMenuMod.MenuEntry> GetMenuData(IMenuMod.MenuEntry? toggleButtonEntry)
     {
         return new()
         {
-            new("Drop Button", new string[]{"Cast", "Quickcast"}, "Determines which button should be used to drop bombs.", x => BombSpell.UseCast = x == 0, () => BombSpell.UseCast ? 0 : 1),
+            new("Drop Button", new string[]{"Focus", "Quickcast"}, "Determines which button should be used to drop bombs.", x => BombSpell.UseCast = x == 0, () => BombSpell.UseCast ? 0 : 1),
             new("Colorless Indicator", new string[]{"Off", "On"}, "If on, additional info is displayed for accessability", x => 
             {
                 BombManager.ColorlessHelp = x == 1;

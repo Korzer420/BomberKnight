@@ -9,7 +9,21 @@
                 "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
                 "Properties": {
                     "ModSource": "BomberKnight",
-                    "SceneNames": "GG_Waterways"
+                    "SceneNames": "GG_Waterways",
+                    "PinSprite": {
+                        "$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+                        "Key": "ShellSalvager"
+                    },
+                    "MapLocations": {
+                        "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
+                        "$values": [
+                            {
+                                "Item1": "GG_Waterways",
+                                "Item2": -0.1,
+                                "Item3": -0.1
+                            }
+                        ]
+                    }
                 },
                 "Message": "RandoSupplementalMetadata",
                 "Loaded": true
@@ -26,7 +40,21 @@
                 "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
                 "Properties": {
                     "ModSource": "BomberKnight",
-                    "SceneNames": "Fungus3_28"
+                    "SceneNames": "Fungus3_28",
+                    "PinSprite": {
+                        "$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+                        "Key": "Pyromaniac"
+                    },
+                    "MapLocations": {
+                        "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
+                        "$values": [
+                            {
+                                "Item1": "Fungus3_28",
+                                "Item2": 0.35,
+                                "Item3": 0.15
+                            }
+                        ]
+                    }
                 },
                 "Message": "RandoSupplementalMetadata",
                 "Loaded": true
@@ -43,7 +71,21 @@
                 "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
                 "Properties": {
                     "ModSource": "BomberKnight",
-                    "SceneNames": "Mines_20"
+                    "SceneNames": "Mines_20",
+                    "PinSprite": {
+                        "$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+                        "Key": "BombMaster"
+                    },
+                    "MapLocations": {
+                        "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
+                        "$values": [
+                            {
+                                "Item1": "Mines_20",
+                                "Item2": 0.25,
+                                "Item3": 0.5
+                            }
+                        ]
+                    }
                 },
                 "Message": "RandoSupplementalMetadata",
                 "Loaded": true
@@ -53,14 +95,28 @@
     {
         "$type": "BomberKnight.ItemData.Locations.GreenpathBombBagLocation, BomberKnight",
         "name": "Greenpath_Bomb_Bag-Challenge",
-        "sceneName": "Mines_20",
+        "sceneName": "Fungus1_32",
         "flingType": 0,
         "tags": [
             {
                 "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
                 "Properties": {
                     "ModSource": "BomberKnight",
-                    "SceneNames": "Mines_20"
+                    "SceneNames": "Fungus1_32",
+                    "PinSprite": {
+                        "$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+                        "Key": "BombBag"
+                    },
+                    "MapLocations": {
+                        "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
+                        "$values": [
+                            {
+                                "Item1": "Fungus1_32",
+                                "Item2": 0,
+                                "Item3": -0.2
+                            }
+                        ]
+                    }
                 },
                 "Message": "RandoSupplementalMetadata",
                 "Loaded": true
@@ -77,7 +133,21 @@
                 "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
                 "Properties": {
                     "ModSource": "BomberKnight",
-                    "SceneNames": "Deepnest_10"
+                    "SceneNames": "Deepnest_10",
+                    "PinSprite": {
+                        "$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+                        "Key": "BombBag"
+                    },
+                    "MapLocations": {
+                        "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
+                        "$values": [
+                            {
+                                "Item1": "Deepnest_10",
+                                "Item2": -0.1,
+                                "Item3": -1.4
+                            }
+                        ]
+                    }
                 },
                 "Message": "RandoSupplementalMetadata",
                 "Loaded": true
@@ -94,7 +164,21 @@
                 "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
                 "Properties": {
                     "ModSource": "BomberKnight",
-                    "SceneNames": "Deepnest_East_16"
+                    "SceneNames": "Deepnest_East_16",
+                    "PinSprite": {
+                        "$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+                        "Key": "BombBag"
+                    },
+                    "MapLocations": {
+                        "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
+                        "$values": [
+                            {
+                                "Item1": "Deepnest_East_16",
+                                "Item2": 0.1,
+                                "Item3": 0
+                            }
+                        ]
+                    }
                 },
                 "Message": "RandoSupplementalMetadata",
                 "Loaded": true
@@ -111,7 +195,21 @@
                 "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
                 "Properties": {
                     "ModSource": "BomberKnight",
-                    "SceneNames": "RestingGrounds_05"
+                    "SceneNames": "RestingGrounds_05",
+                    "PinSprite": {
+                        "$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+                        "Key": "EchoBomb"
+                    },
+                    "MapLocations": {
+                        "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
+                        "$values": [
+                            {
+                                "Item1": "RestingGrounds_05",
+                                "Item2": -0.6,
+                                "Item3": 0.05
+                            }
+                        ]
+                    }
                 },
                 "Message": "RandoSupplementalMetadata",
                 "Loaded": true
@@ -128,7 +226,21 @@
                 "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
                 "Properties": {
                     "ModSource": "BomberKnight",
-                    "SceneNames": "Ruins2_04"
+                    "SceneNames": "Ruins2_04",
+                    "PinSprite": {
+                        "$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+                        "Key": "GoldBomb"
+                    },
+                    "MapLocations": {
+                        "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
+                        "$values": [
+                            {
+                                "Item1": "Ruins2_04",
+                                "Item2": 0.5,
+                                "Item3": -0.6
+                            }
+                        ]
+                    }
                 },
                 "Message": "RandoSupplementalMetadata",
                 "Loaded": true
@@ -145,7 +257,21 @@
                 "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
                 "Properties": {
                     "ModSource": "BomberKnight",
-                    "SceneNames": "Fungus2_30"
+                    "SceneNames": "Fungus2_30",
+                    "PinSprite": {
+                        "$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+                        "Key": "SporeBomb"
+                    },
+                    "MapLocations": {
+                        "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
+                        "$values": [
+                            {
+                                "Item1": "Fungus2_30",
+                                "Item2": 0.3,
+                                "Item3": -0.6
+                            }
+                        ]
+                    }
                 },
                 "Message": "RandoSupplementalMetadata",
                 "Loaded": true
@@ -162,7 +288,21 @@
                 "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
                 "Properties": {
                     "ModSource": "BomberKnight",
-                    "SceneNames": "Ruins1_06"
+                    "SceneNames": "Ruins1_06",
+                    "PinSprite": {
+                        "$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+                        "Key": "BombSprite"
+                    },
+                    "MapLocations": {
+                        "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
+                        "$values": [
+                            {
+                                "Item1": "Ruins1_06",
+                                "Item2": 0.1,
+                                "Item3": 0
+                            }
+                        ]
+                    }
                 },
                 "Message": "RandoSupplementalMetadata",
                 "Loaded": true
@@ -179,7 +319,21 @@
                 "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
                 "Properties": {
                     "ModSource": "BomberKnight",
-                    "SceneNames": "Abyss_08"
+                    "SceneNames": "Abyss_08",
+                    "PinSprite": {
+                        "$type": "BomberKnight.ItemData.WrappedSprite, BomberKnight",
+                        "Key": "PowerBomb"
+                    },
+                    "MapLocations": {
+                        "$type": "System.ValueTuple`3[[System.String, mscorlib],[System.Single, mscorlib],[System.Single, mscorlib]][], mscorlib",
+                        "$values": [
+                            {
+                                "Item1": "Abyss_08",
+                                "Item2": 0.3,
+                                "Item3": -0.2
+                            }
+                        ]
+                    }
                 },
                 "Message": "RandoSupplementalMetadata",
                 "Loaded": true

@@ -12,6 +12,11 @@ public class LocalSaveData
     #region Properties
 
     /// <summary>
+    /// Gets the flag that indicates if the mod is used (only used in rando cases).
+    /// </summary>
+    public bool Active { get; set; }
+
+    /// <summary>
     /// Gets or sets the states of each available bomb types.
     /// </summary>
     public Dictionary<BombType, bool> AvailableBombTypes { get; set; }

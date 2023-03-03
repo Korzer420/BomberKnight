@@ -1,6 +1,7 @@
 using BomberKnight.Enums;
 using BomberKnight.ItemData;
 using BomberKnight.ItemData.Locations;
+using BomberKnight.ModInterop;
 using BomberKnight.UnityComponents;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
@@ -83,6 +84,11 @@ public static class BombManager
     /// </summary>
     public static bool ColorlessHelp { get; set; }
 
+    /// <summary>
+    /// Gets or sets if colorless hints should be added.
+    /// </summary>
+    public static bool Active { get; set; } = true;
+
     #endregion
 
     #region Event handler
@@ -99,23 +105,26 @@ public static class BombManager
     {
         try
         {
-            _bombQueue.RemoveAll(x => x == BombType.MiningBomb);
-            if (_tracker != null)
-                UnityEngine.Object.Destroy(_tracker);
-            if (_miningCounter != null)
-                GameManager.instance.StopCoroutine(_miningCounter);
-            On.HeroController.Start -= HeroController_Start;
-            On.HeroController.TakeDamage -= HeroController_TakeDamage;
-            ModHooks.GetPlayerBoolHook -= ModHooks_GetPlayerBoolHook;
-            ModHooks.LanguageGetHook -= ModHooks_LanguageGetHook;
-            On.HutongGames.PlayMaker.Actions.IntCompare.OnEnter -= IntCompare_OnEnter;
-            On.KnightHatchling.Explode -= KnightHatchling_Explode;
-            On.PlayMakerFSM.OnEnable -= PlayMakerFSM_OnEnable;
-            BombSpell.StopListening();
-            BombDrop.StopListening();
-            BombUI.StopListening();
-            if (_shapeshiftRoutine != null)
-                GameManager.instance.StopCoroutine(_shapeshiftRoutine);
+            if (!RandomizerInterop.PlayingRandomizer || RandomizerInterop.Settings.Enabled)
+            {
+                _bombQueue.RemoveAll(x => x == BombType.MiningBomb);
+                if (_tracker != null)
+                    UnityEngine.Object.Destroy(_tracker);
+                if (_miningCounter != null)
+                    GameManager.instance.StopCoroutine(_miningCounter);
+                On.HeroController.Start -= HeroController_Start;
+                On.HeroController.TakeDamage -= HeroController_TakeDamage;
+                ModHooks.GetPlayerBoolHook -= ModHooks_GetPlayerBoolHook;
+                ModHooks.LanguageGetHook -= ModHooks_LanguageGetHook;
+                On.HutongGames.PlayMaker.Actions.IntCompare.OnEnter -= IntCompare_OnEnter;
+                On.KnightHatchling.Explode -= KnightHatchling_Explode;
+                On.PlayMakerFSM.OnEnable -= PlayMakerFSM_OnEnable;
+                BombSpell.StopListening();
+                BombDrop.StopListening();
+                BombUI.StopListening();
+                if (_shapeshiftRoutine != null)
+                    GameManager.instance.StopCoroutine(_shapeshiftRoutine);
+            }
         }
         catch (Exception exception)
         {
@@ -126,23 +135,32 @@ public static class BombManager
 
     private static void UIManager_ContinueGame(On.UIManager.orig_ContinueGame orig, UIManager self)
     {
-        StartListening();
+        if (!RandomizerInterop.PlayingRandomizer || Active)
+            StartListening();
         orig(self);
-        BombUI.UpdateTracker();
-        BombUI.UpdateBombPage();
+        if (!RandomizerInterop.PlayingRandomizer || Active)
+        {
+            BombUI.UpdateTracker();
+            BombUI.UpdateBombPage();
+        }
     }
 
     private static void UIManager_StartNewGame(On.UIManager.orig_StartNewGame orig, UIManager self, bool permaDeath, bool bossRush)
     {
-        StartListening();
+        if (!RandomizerInterop.PlayingRandomizer || Active)
+            StartListening();
         orig(self, permaDeath, bossRush);
         try
         {
-            ItemManager.GeneratePlacements();
-            if (ItemChanger.Internal.Ref.Settings.Placements.ContainsKey(ItemManager.ShellSalvagerCharmPuzzle))
-                ShellSalvagerLocation.RollOrder(ItemManager.Seed);
-            // Reset seed for shell salvager location. 
-            ItemManager.Seed = -1;
+            if (!RandomizerInterop.PlayingRandomizer || Active)
+            {
+                if (RandomizerInterop.Settings.Place == RandoType.Vanilla)
+                    ItemManager.GeneratePlacements();
+                if (ItemChanger.Internal.Ref.Settings.Placements.ContainsKey(ItemManager.ShellSalvagerCharmPuzzle))
+                    ShellSalvagerLocation.RollOrder(ItemManager.Seed);
+                // Reset seed for shell salvager location. 
+                ItemManager.Seed = -1;
+            }
         }
         catch (Exception exception)
         {

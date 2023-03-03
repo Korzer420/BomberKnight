@@ -101,7 +101,7 @@ internal class PowerBombLocation : AutoLocation
         }
 
         float passedTime = 0f;
-        while(_indicators[2].transform.localPosition.y > 0f)
+        while(passedTime < 10f)
         {
             passedTime += Time.deltaTime;
             center.transform.eulerAngles += new Vector3(0f, 0f, passedTime);

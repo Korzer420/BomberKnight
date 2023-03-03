@@ -70,6 +70,11 @@ public static class BombManager
     public static IReadOnlyList<BombType> BombQueue => _bombQueue.AsReadOnly();
 
     /// <summary>
+    /// Gets all bombs which are on the shade.
+    /// </summary>
+    internal static List<BombType> ShadeBombs { get; set; } = new();
+
+    /// <summary>
     /// Gets or sets the bombs that the player can cast.
     /// </summary>
     public static Dictionary<BombType, bool> AvailableBombs { get; set; } = new();
@@ -119,6 +124,7 @@ public static class BombManager
                 On.HutongGames.PlayMaker.Actions.IntCompare.OnEnter -= IntCompare_OnEnter;
                 On.KnightHatchling.Explode -= KnightHatchling_Explode;
                 On.PlayMakerFSM.OnEnable -= PlayMakerFSM_OnEnable;
+                On.HutongGames.PlayMaker.Actions.GetPlayerDataInt.OnEnter -= GetPlayerDataInt_OnEnter;
                 BombSpell.StopListening();
                 BombDrop.StopListening();
                 BombUI.StopListening();
@@ -154,7 +160,7 @@ public static class BombManager
         {
             if (!RandomizerInterop.PlayingRandomizer || Active)
             {
-                if (RandomizerInterop.Settings.Place == RandoType.Vanilla)
+                if (RandomizerInterop.Settings.Place == RandoType.Vanilla || !RandomizerInterop.PlayingRandomizer)
                     ItemManager.GeneratePlacements();
                 if (ItemChanger.Internal.Ref.Settings.Placements.ContainsKey(ItemManager.ShellSalvagerCharmPuzzle))
                     ShellSalvagerLocation.RollOrder(ItemManager.Seed);
@@ -333,6 +339,7 @@ public static class BombManager
             On.HutongGames.PlayMaker.Actions.IntCompare.OnEnter += IntCompare_OnEnter;
             On.KnightHatchling.Explode += KnightHatchling_Explode;
             On.PlayMakerFSM.OnEnable += PlayMakerFSM_OnEnable;
+            On.HutongGames.PlayMaker.Actions.GetPlayerDataInt.OnEnter += GetPlayerDataInt_OnEnter;
             ModHooks.GetPlayerBoolHook += ModHooks_GetPlayerBoolHook;
             ModHooks.LanguageGetHook += ModHooks_LanguageGetHook;
             BombSpell.StartListening();
@@ -345,6 +352,22 @@ public static class BombManager
         {
             LogHelper.Write<BomberKnight>("Error in setup: " + exception, KorzUtils.Enums.LogType.Error, false);
         }
+    }
+
+    private static void GetPlayerDataInt_OnEnter(On.HutongGames.PlayMaker.Actions.GetPlayerDataInt.orig_OnEnter orig, GetPlayerDataInt self)
+    {
+        if (BombBagLevel > 0 && self.IsCorrectContext("Hero Death Anim", "Hero Death", "Remove Geo"))
+        {
+            ShadeBombs.Clear();
+            ShadeBombs.AddRange(BombQueue.Where(x => x != BombType.MiningBomb));
+            TakeBombs(BombQueue.Count, true);
+        }
+        else if (self.IsCorrectContext("Shade Control", null, "Death Start") && ShadeBombs.Any())
+        {
+            GiveBombs(ShadeBombs);
+            ShadeBombs.Clear();
+        }
+        orig(self);
     }
 
     /// <summary>
@@ -397,7 +420,7 @@ public static class BombManager
     /// Removes bombs out of the queue.
     /// </summary>
     /// <param name="amount">The amount that should be taken.</param>
-    public static void TakeBombs(int amount = 1)
+    public static void TakeBombs(int amount = 1, bool ignoreTwister = false)
     {
         try
         {
@@ -409,7 +432,7 @@ public static class BombManager
                 amount = 1;
             }
             // Spell Twister grants a 25% chance that bombs are not taken.
-            else if (CharmHelper.EquippedCharm(CharmRef.SpellTwister))
+            else if (!ignoreTwister && CharmHelper.EquippedCharm(CharmRef.SpellTwister))
                 for (int i = amount; i > 0; i--)
                     if (UnityEngine.Random.Range(0, 4) == 0)
                         amount--;

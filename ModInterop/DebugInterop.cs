@@ -148,7 +148,7 @@ public static class DebugInterop
             Console.AddLine("Bomb bag is already full");
             return;
         }
-        List<BombType> bombTypes = Enumerable.Range(0, BombManager.BombBagLevel * 10 - BombManager.BombQueue.Count).Select(x => BombType.GrassBomb).ToList();
+        List<BombType> bombTypes = Enumerable.Range(0, BombManager.BombBagLevel * 10 - BombManager.BombQueue.Count).Select(x => bombType).ToList();
         BombManager.GiveBombs(bombTypes);
         Console.AddLine($"Filled bomb bag with {bombType.ToString().Substring(0, bombType.ToString().Length - 4)} bombs");
     }

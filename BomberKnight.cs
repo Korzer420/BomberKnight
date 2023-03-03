@@ -124,6 +124,8 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
         }
         if (saveData.Inventory != null)
             BombManager.SetBombsSilent(saveData.Inventory);
+        if (saveData.ShadeInventory != null)
+            BombManager.ShadeBombs = saveData.ShadeInventory;
         BombManager.BombBagLevel = saveData.BombBagLevel;
         if (saveData.KnightOrder != null)
             ShellSalvagerLocation.ChestOrder = saveData.KnightOrder;
@@ -138,6 +140,7 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
         KnightOrder = ShellSalvagerLocation.ChestOrder,
         CharmData = BombCharms.CustomCharms,
         Active = BombManager.Active,
+        ShadeInventory = BombManager.ShadeBombs
     };
 
     public List<IMenuMod.MenuEntry> GetMenuData(IMenuMod.MenuEntry? toggleButtonEntry)

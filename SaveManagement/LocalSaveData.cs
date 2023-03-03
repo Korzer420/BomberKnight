@@ -41,5 +41,10 @@ public class LocalSaveData
     /// </summary>
     public List<BombType> Inventory { get; set; }
 
+    /// <summary>
+    /// Gets or sets the current inventory of the shade.
+    /// </summary>
+    public List<BombType> ShadeInventory { get; set; }
+
     #endregion
 }

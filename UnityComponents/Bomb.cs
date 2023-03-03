@@ -90,8 +90,6 @@ public class Bomb : MonoBehaviour
             Physics2D.IgnoreCollision(collision.collider, GetComponent<CircleCollider2D>());
         else if ((_canDealContactDamage || CharmHelper.EquippedCharm(CharmRef.Grubsong)) && collision.gameObject.GetComponent<HealthManager>() is HealthManager enemy)
         {
-            if (CharmHelper.EquippedCharm(CharmRef.Grubsong))
-                HeroController.instance.AddMPCharge(2);
             if (_canDealContactDamage)
             {
                 int damage = PlayerData.instance.GetInt(nameof(PlayerData.instance.nailDamage));
@@ -106,6 +104,9 @@ public class Bomb : MonoBehaviour
                     MagnitudeMultiplier = 0f
                 });
 
+                if (CharmHelper.EquippedCharm(CharmRef.Grubsong))
+                    HeroController.instance.AddMPCharge(2);
+
                 // 5% chance to explode immediatly.
                 if (UnityEngine.Random.Range(0, 20) == 0)
                     CanExplode = true;
@@ -114,6 +115,12 @@ public class Bomb : MonoBehaviour
                     _canDealContactDamage = false;
                     StartCoroutine(DamageCooldown());
                 }
+            }
+            else if (CharmHelper.EquippedCharm(CharmRef.Grubsong))
+            { 
+                HeroController.instance.AddMPCharge(4);
+                _canDealContactDamage = false;
+                StartCoroutine(DamageCooldown());
             }
         }
     }

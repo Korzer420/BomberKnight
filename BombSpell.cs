@@ -37,48 +37,14 @@ internal static class BombSpell
 
     #region Event handler
 
-    private static void ListenForUp_OnEnter(On.HutongGames.PlayMaker.Actions.ListenForUp.orig_OnEnter orig, ListenForUp self)
-    {
-        if (self.IsCorrectContext("Spell Control", "Knight", "QC") && string.Equals(self.isPressed.Name, "SCREAM")
-            && _cooldown == 0f && BombManager.BombQueue.Any() && !InputHandler.Instance.inputActions.left.IsPressed
-            && !InputHandler.Instance.inputActions.right.IsPressed)
-        {
-            if (BombManager.AvailableBombs[BombType.PowerBomb] && InputHandler.Instance.inputActions.down.IsPressed
-                && BombManager.BombQueue.Count >= 3 && PlayerData.instance.GetInt("healthBlue") > 0)
-                self.Fsm.FsmComponent.SendEvent("POWERBOMB");
-            else if (!UseCast)
-                self.Fsm.FsmComponent.SendEvent("BOMB");
-        }
-        orig(self);
-    }
-
-    private static void BoolTest_OnEnter(On.HutongGames.PlayMaker.Actions.BoolTest.orig_OnEnter orig, BoolTest self)
-    {
-        if (self.IsCorrectContext("Spell Control", "Knight", "Spell Choice") && string.Equals(self.isTrue.Name, "SCREAM")
-            && _cooldown <= 0f && BombManager.BombQueue.Any() && !InputHandler.Instance.inputActions.left.IsPressed
-            && !InputHandler.Instance.inputActions.right.IsPressed)
-        {
-
-            if (InputHandler.Instance.inputActions.down.IsPressed && CharmHelper.EquippedCharm(BomberKnight.BombMasterCharm))
-                Bomb.ActiveBombs.ForEach(x => x.CanExplode = true);
-
-            if (BombManager.AvailableBombs[BombType.PowerBomb] && InputHandler.Instance.inputActions.down.IsPressed
-                && BombManager.BombQueue.Count >= 3 && PlayerData.instance.GetInt("healthBlue") > 0)
-                self.Fsm.FsmComponent.SendEvent("POWERBOMB");
-            else if (UseCast)
-                self.Fsm.FsmComponent.SendEvent("BOMB");
-        }
-        orig(self);
-    }
-
     private static void IntCompare_OnEnter(On.HutongGames.PlayMaker.Actions.IntCompare.orig_OnEnter orig, IntCompare self)
     {
-        if (HeroController.instance.CanCast() && (((self.IsCorrectContext("Spell Control", "Knight", "Can Cast? QC"))
+        if (HeroController.instance.CanCast() && ((self.IsCorrectContext("Spell Control", "Knight", "Can Cast? QC"))
             || self.IsCorrectContext("Spell Control", "Knight", "Can Cast?"))
             && _cooldown <= 0f && BombManager.BombQueue.Any() && !InputHandler.Instance.inputActions.left.IsPressed
-            && !InputHandler.Instance.inputActions.right.IsPressed)
-            && (self.State.Name == "Can Cast?" && UseCast) || (self.State.Name == "Can Cast? QC" && !UseCast))
-            self.Fsm.FsmComponent.SendEvent("FINISHED");
+            && !InputHandler.Instance.inputActions.right.IsPressed && !InputHandler.Instance.inputActions.up.IsPressed
+            && ((self.State.Name == "Can Cast?" && UseCast) || (self.State.Name == "Can Cast? QC" && !UseCast)))
+            self.Fsm.FsmComponent.SendEvent("BOMB");
         orig(self);
     }
 
@@ -98,8 +64,6 @@ internal static class BombSpell
             _listening = true;
             AddBombSpell();
             On.HutongGames.PlayMaker.Actions.IntCompare.OnEnter += IntCompare_OnEnter;
-            On.HutongGames.PlayMaker.Actions.BoolTest.OnEnter += BoolTest_OnEnter;
-            On.HutongGames.PlayMaker.Actions.ListenForUp.OnEnter += ListenForUp_OnEnter;
         }
         catch (System.Exception exception)
         {
@@ -113,8 +77,6 @@ internal static class BombSpell
             return;
         _listening = false;
         On.HutongGames.PlayMaker.Actions.IntCompare.OnEnter -= IntCompare_OnEnter;
-        On.HutongGames.PlayMaker.Actions.BoolTest.OnEnter -= BoolTest_OnEnter;
-        On.HutongGames.PlayMaker.Actions.ListenForUp.OnEnter -= ListenForUp_OnEnter;
     }
 
     /// <summary>
@@ -130,6 +92,29 @@ internal static class BombSpell
             PlayMakerFSM fsm = HeroController.instance.spellControl;
             if (fsm.GetState("Normal bomb") is not null)
                 return;
+            FsmState placeBomb = new(fsm.Fsm)
+            {
+                Name = "Place bomb",
+                Actions = new FsmStateAction[]
+                {
+                    new Lambda(() =>
+                    {
+                        // Fail save
+                        if (!BombManager.BombQueue.Any())
+                            fsm.SendEvent("CANCEL");
+
+                        if (InputHandler.Instance.inputActions.down.IsPressed && CharmHelper.EquippedCharm(BomberKnight.BombMasterCharm))
+                            Bomb.ActiveBombs.ForEach(x => x.CanExplode = true);
+
+                        if (BombManager.AvailableBombs[BombType.PowerBomb] && InputHandler.Instance.inputActions.down.IsPressed
+                            && BombManager.BombQueue.Count >= 3 && PlayerData.instance.GetInt("healthBlue") > 0)
+                            fsm.SendEvent("POWERBOMB");
+                        else
+                            fsm.SendEvent("BOMB");
+                    })
+                }
+            };
+
             FsmState normalBomb = new(fsm.Fsm)
             {
                 Name = "Normal bomb",
@@ -147,19 +132,22 @@ internal static class BombSpell
                 {
                 new Lambda(() =>
                 {
-                    //HeroController.instance.TakeHealth(1);
-                    //BombManager.TakeBombs(3);
+                    HeroController.instance.TakeHealth(1);
+                    BombManager.TakeBombs(3);
                     SpawnBomb(true, false, BombType.PowerBomb);
                 })
                 }
             };
             powerBomb.AddTransition("FINISHED", "Spell End");
 
-            // Add the transitions from the control. The actual call is done in the action hook.
-            fsm.GetState("Spell Choice").AddTransition("BOMB", normalBomb);
-            fsm.GetState("Spell Choice").AddTransition("POWERBOMB", powerBomb);
-            fsm.GetState("QC").AddTransition("BOMB", normalBomb);
-            fsm.GetState("QC").AddTransition("POWERBOMB", powerBomb);
+            placeBomb.AddTransition("BOMB", normalBomb);
+            placeBomb.AddTransition("POWERBOMB", powerBomb);
+
+            fsm.GetState("Can Cast? QC").AddTransition("CANCEL", "Inactive");
+            fsm.GetState("Can Cast? QC").AddTransition("BOMB", placeBomb);
+
+            fsm.GetState("Can Cast?").AddTransition("CANCEL", "Inactive");
+            fsm.GetState("Can Cast?").AddTransition("BOMB", placeBomb);
         }
         catch (System.Exception exception)
         {

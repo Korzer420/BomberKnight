@@ -1,7 +1,7 @@
 using BomberKnight.Enums;
 using UnityEngine;
 
-namespace BomberKnight;
+namespace BomberKnight.Data;
 
 /// <summary>
 /// Contains event data for a bomb event.

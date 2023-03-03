@@ -1,6 +1,6 @@
 using BomberKnight.UnityComponents;
 
-namespace BomberKnight;
+namespace BomberKnight.Data;
 
 /// <summary>
 /// Contains information how a <see cref="EnemyBombDetector"/> should process collisions.

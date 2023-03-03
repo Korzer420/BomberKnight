@@ -11,7 +11,7 @@ using System.Linq;
 using UnityEngine;
 using KU = KorzUtils.Enums;
 
-namespace BomberKnight;
+namespace BomberKnight.BombElements;
 
 /// <summary>
 /// The modifications to allow the user to use bombs as their fourth "spell".
@@ -39,11 +39,11 @@ internal static class BombSpell
 
     private static void IntCompare_OnEnter(On.HutongGames.PlayMaker.Actions.IntCompare.orig_OnEnter orig, IntCompare self)
     {
-        if (HeroController.instance.CanCast() && ((self.IsCorrectContext("Spell Control", "Knight", "Can Cast? QC"))
+        if (HeroController.instance.CanCast() && (self.IsCorrectContext("Spell Control", "Knight", "Can Cast? QC")
             || self.IsCorrectContext("Spell Control", "Knight", "Can Cast?"))
             && _cooldown <= 0f && BombManager.BombQueue.Any() && !InputHandler.Instance.inputActions.left.IsPressed
             && !InputHandler.Instance.inputActions.right.IsPressed && !InputHandler.Instance.inputActions.up.IsPressed
-            && ((self.State.Name == "Can Cast?" && UseCast) || (self.State.Name == "Can Cast? QC" && !UseCast)))
+            && (self.State.Name == "Can Cast?" && UseCast || self.State.Name == "Can Cast? QC" && !UseCast))
             self.Fsm.FsmComponent.SendEvent("BOMB");
         orig(self);
     }
@@ -159,7 +159,7 @@ internal static class BombSpell
     {
         try
         {
-            GameObject spawnedBomb = GameObject.Instantiate(BombManager.Bomb);
+            GameObject spawnedBomb = Object.Instantiate(BombManager.Bomb);
             spawnedBomb.transform.localPosition = HeroController.instance.transform.localPosition;
             spawnedBomb.transform.localScale = new(2f, 2f, 1f);
             spawnedBomb.name = "Bomb";

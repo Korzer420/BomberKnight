@@ -11,6 +11,7 @@ using System.Linq;
 using BomberKnight.ItemData;
 using BomberKnight.ModInterop;
 using ItemChanger;
+using BomberKnight.BombElements;
 
 namespace BomberKnight;
 
@@ -35,7 +36,7 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
 
     public static BomberKnight Instance { get; set; }
 
-    public bool ToggleButtonInsideMenu => throw new System.NotImplementedException();
+    public bool ToggleButtonInsideMenu => false;
 
     #endregion
 

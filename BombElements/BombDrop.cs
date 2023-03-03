@@ -1,3 +1,4 @@
+using BomberKnight.Data;
 using BomberKnight.Enums;
 using BomberKnight.EventArgs;
 using BomberKnight.ItemData;
@@ -10,7 +11,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace BomberKnight;
+namespace BomberKnight.BombElements;
 
 /// <summary>
 /// Provides function to evaluate everything about bomb drops. (The consumable, which can increase the bomb amount, not the drop of the bomb itself)
@@ -141,7 +142,7 @@ public static class BombDrop
     private static void HealthManager_OnEnable(On.HealthManager.orig_OnEnable orig, HealthManager self)
     {
         orig(self);
-        if (self.gameObject.name == "Giant Fly" || self.gameObject.name == "Giant Buzzer" 
+        if (self.gameObject.name == "Giant Fly" || self.gameObject.name == "Giant Buzzer"
             || self.gameObject.name == "Mega Moss Charger" || self.hp >= 200)
             self.gameObject.AddComponent<NoBomb>();
     }

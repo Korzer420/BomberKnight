@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SF = SFCore;
 
-namespace BomberKnight;
+namespace BomberKnight.BombElements;
 
 /// <summary>
 /// Handles everything around the new charms.
@@ -73,7 +73,7 @@ internal static class BombCharms
 
     private static int ModHooks_GetPlayerIntHook(string name, int orig)
     {
-        if (name.StartsWith(CharmCostPrefix)) 
+        if (name.StartsWith(CharmCostPrefix))
         {
             if (CheckCustomCharm(name, CharmCostPrefix) is CharmData charmData)
                 orig = charmData.Cost;
@@ -102,12 +102,12 @@ internal static class BombCharms
 
     internal static void Initialize()
     {
-        CharmHelper.AddCustomCharm(BomberKnight.PyromaniacCharm, SF.CharmHelper.AddSprites(SpriteHelper.CreateSprite<BomberKnight>("Sprites."+BomberKnight.PyromaniacCharm))[0]);
+        CharmHelper.AddCustomCharm(BomberKnight.PyromaniacCharm, SF.CharmHelper.AddSprites(SpriteHelper.CreateSprite<BomberKnight>("Sprites." + BomberKnight.PyromaniacCharm))[0]);
         CharmHelper.AddCustomCharm(BomberKnight.ShellSalvagerCharm, SF.CharmHelper.AddSprites(SpriteHelper.CreateSprite<BomberKnight>("Sprites." + BomberKnight.ShellSalvagerCharm))[0]);
         CharmHelper.AddCustomCharm(BomberKnight.BombMasterCharm, SF.CharmHelper.AddSprites(SpriteHelper.CreateSprite<BomberKnight>("Sprites." + BomberKnight.BombMasterCharm))[0]);
-        
+
         CustomCharms.Add(new()
-        { 
+        {
             Id = CharmHelper.GetCustomCharmId(BomberKnight.PyromaniacCharm),
             Name = BomberKnight.PyromaniacCharm,
             Cost = 4

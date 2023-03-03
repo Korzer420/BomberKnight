@@ -16,7 +16,7 @@ using System.Reflection;
 using TMPro;
 using UnityEngine;
 
-namespace BomberKnight;
+namespace BomberKnight.BombElements;
 
 /// <summary>
 /// Controls all generic settings and actions regarding bombs.
@@ -57,7 +57,7 @@ public static class BombManager
                 rigidbody.mass = 100f;
                 _bomb.AddComponent<CircleCollider2D>();
                 _bomb.AddComponent<Bomb>().Type = BombType.GrassBomb;
-                GameObject.DontDestroyOnLoad(_bomb);
+                UnityEngine.Object.DontDestroyOnLoad(_bomb);
             }
             return _bomb;
         }
@@ -91,6 +91,8 @@ public static class BombManager
     {
         orig(self);
         BombSpell.AddBombSpell();
+        BombUI.UpdateBombPage();
+        BombUI.UpdateTracker();
     }
 
     private static IEnumerator UIManager_ReturnToMainMenu(On.UIManager.orig_ReturnToMainMenu orig, UIManager self)
@@ -99,7 +101,7 @@ public static class BombManager
         {
             _bombQueue.RemoveAll(x => x == BombType.MiningBomb);
             if (_tracker != null)
-                GameObject.Destroy(_tracker);
+                UnityEngine.Object.Destroy(_tracker);
             if (_miningCounter != null)
                 GameManager.instance.StopCoroutine(_miningCounter);
             On.HeroController.Start -= HeroController_Start;
@@ -126,6 +128,8 @@ public static class BombManager
     {
         StartListening();
         orig(self);
+        BombUI.UpdateTracker();
+        BombUI.UpdateBombPage();
     }
 
     private static void UIManager_StartNewGame(On.UIManager.orig_StartNewGame orig, UIManager self, bool permaDeath, bool bossRush)
@@ -181,7 +185,7 @@ public static class BombManager
         return orig;
     }
 
-    private static void IntCompare_OnEnter(On.HutongGames.PlayMaker.Actions.IntCompare.orig_OnEnter orig, HutongGames.PlayMaker.Actions.IntCompare self)
+    private static void IntCompare_OnEnter(On.HutongGames.PlayMaker.Actions.IntCompare.orig_OnEnter orig, IntCompare self)
     {
         if (self.IsCorrectContext("Control", "Blocker Shield", "Blocker Hit") && BombBagLevel > 0
             && BombQueue.Count > 0 && UnityEngine.Random.Range(0, 5) == 0)
@@ -200,57 +204,6 @@ public static class BombManager
         if (BombBagLevel > 0 && UnityEngine.Random.Range(0, 100) <= 1)
             BombDrop.DropBombs(self.gameObject);
         yield return orig(self);
-    }
-
-    #endregion
-
-    #region Methods
-
-    /// <summary>
-    /// Initializes the manager.
-    /// </summary>
-    internal static void Initialize()
-    {
-        try
-        {
-            On.UIManager.StartNewGame += UIManager_StartNewGame;
-            On.UIManager.ContinueGame += UIManager_ContinueGame;
-            On.UIManager.ReturnToMainMenu += UIManager_ReturnToMainMenu;
-
-            foreach (BombType type in Enum.GetValues(typeof(BombType)))
-                if (!AvailableBombs.ContainsKey(type))
-                    AvailableBombs.Add(type, false);
-        }
-        catch (Exception exception)
-        {
-            LogHelper.Write<BomberKnight>("Failed to initialize BombManager: " + exception, KorzUtils.Enums.LogType.Error, false, false);
-        }
-    }
-
-    /// <summary>
-    /// Set up all hooks for ingame modifications.
-    /// </summary>
-    private static void StartListening()
-    {
-        try
-        {
-            On.HeroController.Start += HeroController_Start;
-            On.HeroController.TakeDamage += HeroController_TakeDamage;
-            On.HutongGames.PlayMaker.Actions.IntCompare.OnEnter += IntCompare_OnEnter;
-            On.KnightHatchling.Explode += KnightHatchling_Explode;
-            On.PlayMakerFSM.OnEnable += PlayMakerFSM_OnEnable;
-            ModHooks.GetPlayerBoolHook += ModHooks_GetPlayerBoolHook;
-            ModHooks.LanguageGetHook += ModHooks_LanguageGetHook;
-            BombSpell.StartListening();
-            BombDrop.StartListening();
-            BombUI.StartListening();
-            BombUI.UpdateBombPage();
-            BombUI.UpdateTracker();
-        }
-        catch (Exception exception)
-        {
-            LogHelper.Write<BomberKnight>("Error in setup: " + exception, KorzUtils.Enums.LogType.Error, false, false);
-        }
     }
 
     private static void PlayMakerFSM_OnEnable(On.PlayMakerFSM.orig_OnEnable orig, PlayMakerFSM self)
@@ -318,11 +271,62 @@ public static class BombManager
             else if (string.Equals(self.FsmName, "breakable_wall_v2"))
                 self.GetState("Idle")?.AddTransition("POWERBOMBED", "PD Bool?");
         }
-        catch (System.Exception exception)
+        catch (Exception exception)
         {
             LogHelper.Write<BomberKnight>($"Failed to modify ground {self.gameObject.name}: " + exception.ToString(), KorzUtils.Enums.LogType.Error);
         }
         orig(self);
+    }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Initializes the manager.
+    /// </summary>
+    internal static void Initialize()
+    {
+        try
+        {
+            On.UIManager.StartNewGame += UIManager_StartNewGame;
+            On.UIManager.ContinueGame += UIManager_ContinueGame;
+            On.UIManager.ReturnToMainMenu += UIManager_ReturnToMainMenu;
+
+            foreach (BombType type in Enum.GetValues(typeof(BombType)))
+                if (!AvailableBombs.ContainsKey(type))
+                    AvailableBombs.Add(type, false);
+        }
+        catch (Exception exception)
+        {
+            LogHelper.Write<BomberKnight>("Failed to initialize BombManager: " + exception, KorzUtils.Enums.LogType.Error, false, false);
+        }
+    }
+
+    /// <summary>
+    /// Set up all hooks for ingame modifications.
+    /// </summary>
+    private static void StartListening()
+    {
+        try
+        {
+            On.HeroController.Start += HeroController_Start;
+            On.HeroController.TakeDamage += HeroController_TakeDamage;
+            On.HutongGames.PlayMaker.Actions.IntCompare.OnEnter += IntCompare_OnEnter;
+            On.KnightHatchling.Explode += KnightHatchling_Explode;
+            On.PlayMakerFSM.OnEnable += PlayMakerFSM_OnEnable;
+            ModHooks.GetPlayerBoolHook += ModHooks_GetPlayerBoolHook;
+            ModHooks.LanguageGetHook += ModHooks_LanguageGetHook;
+            BombSpell.StartListening();
+            BombDrop.StartListening();
+            BombUI.StartListening();
+            BombUI.UpdateBombPage();
+            BombUI.UpdateTracker();
+        }
+        catch (Exception exception)
+        {
+            LogHelper.Write<BomberKnight>("Error in setup: " + exception, KorzUtils.Enums.LogType.Error, false, false);
+        }
     }
 
     /// <summary>
@@ -383,7 +387,7 @@ public static class BombManager
             {
                 GameManager.instance.StopCoroutine(_miningCounter);
                 if (_tracker != null)
-                    GameObject.Destroy(_tracker);
+                    UnityEngine.Object.Destroy(_tracker);
                 amount = 1;
             }
             // Spell Twister grants a 25% chance that bombs are not taken.
@@ -438,7 +442,7 @@ public static class BombManager
     {
         float explosionDistance = Vector3.Distance(explosionPosition, maxPoint);
         float knightDistance = Math.Min(explosionDistance, Vector3.Distance(explosionPosition, HeroController.instance.transform.position));
-        return 1.5f + (1.5f * (100 / explosionDistance * knightDistance / 100));
+        return 1.5f + 1.5f * (100 / explosionDistance * knightDistance / 100);
     }
 
     /// <summary>
@@ -482,7 +486,7 @@ public static class BombManager
         {
             GameObject prefab = GameObject.Find("_GameCameras").transform.Find("HudCamera/Inventory/Inv/Inv_Items/Geo").gameObject;
             GameObject hudCanvas = GameObject.Find("_GameCameras").transform.Find("HudCamera/Hud Canvas").gameObject;
-            _tracker = GameObject.Instantiate(prefab, hudCanvas.transform, true);
+            _tracker = UnityEngine.Object.Instantiate(prefab, hudCanvas.transform, true);
             _tracker.name = "Mining timer";
             _tracker.transform.localPosition = new(7.7818f, 0.5418f, 0);
             _tracker.transform.localScale = new(1.3824f, 1.3824f, 1.3824f);
@@ -490,7 +494,7 @@ public static class BombManager
             _tracker.GetComponent<DisplayItemAmount>().textObject.text = "";
             _tracker.GetComponent<DisplayItemAmount>().textObject.fontSize = 3;
             _tracker.GetComponent<DisplayItemAmount>().textObject.gameObject.name = "Counter";
-            Component.Destroy(_tracker.GetComponent<SpriteRenderer>());
+            UnityEngine.Object.Destroy(_tracker.GetComponent<SpriteRenderer>());
         }
         _tracker.SetActive(true);
         TextMeshPro textContainer = _tracker.GetComponent<DisplayItemAmount>().textObject;
@@ -504,7 +508,7 @@ public static class BombManager
             yield return null;
         }
         _bombQueue.Remove(BombType.MiningBomb);
-        GameObject spawnedBomb = GameObject.Instantiate(Bomb);
+        GameObject spawnedBomb = UnityEngine.Object.Instantiate(Bomb);
         spawnedBomb.GetComponent<Bomb>().Type = BombType.MiningBomb;
         spawnedBomb.GetComponent<Bomb>().CanExplode = true;
         spawnedBomb.transform.localPosition = HeroController.instance.transform.localPosition;
@@ -512,7 +516,7 @@ public static class BombManager
         spawnedBomb.name = "Bomb";
         spawnedBomb.SetActive(true);
         if (_tracker != null)
-            GameObject.Destroy(_tracker);
+            UnityEngine.Object.Destroy(_tracker);
     }
 
     #endregion

@@ -5,7 +5,7 @@
         <TargetFramework>net472</TargetFramework>
         <RootNamespace>BomberKnight</RootNamespace>
         <AssemblyTitle>BomberKnight</AssemblyTitle>
-        <AssemblyVersion>0.1.0.0</AssemblyVersion>
+        <AssemblyVersion>0.1.1.0</AssemblyVersion>
         <Deterministic>true</Deterministic>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <LangVersion>latest</LangVersion>
@@ -16,25 +16,12 @@
         <ExportDir>bin\Publish</ExportDir>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <DocumentationFile></DocumentationFile>
-        <FileVersion>0.1.0.0</FileVersion>
+        <FileVersion>0.1.1.0</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
         <EmbeddedResource Include="Resources\*.png" />
         <EmbeddedResource Include="Resources\*.json" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Resources\Door.png" />
-      <None Remove="Resources\Items.json" />
-      <None Remove="Resources\Locations.json" />
-      <None Remove="Resources\PyroCorpse.png" />
-      <None Remove="Resources\Sounds\Secret.wav" />
-      <None Remove="Resources\Sprites\EchoBomb.png" />
-      <None Remove="Resources\Sprites\GoldBomb.png" />
-      <None Remove="Resources\Sprites\GrassBomb.png" />
-      <None Remove="Resources\Sprites\PowerBomb.png" />
-      <None Remove="Resources\Sprites\SporeBomb.png" />
     </ItemGroup>
 
     <ItemGroup>

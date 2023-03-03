@@ -67,7 +67,7 @@ internal static class BombSpell
         }
         catch (System.Exception exception)
         {
-            LogHelper.Write<BomberKnight>("Failed to setup bomb spell: " + exception, KU.LogType.Error, false, false);
+            LogHelper.Write<BomberKnight>("Failed to setup bomb spell: " + exception, KU.LogType.Error, false);
         }
     }
 

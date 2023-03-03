@@ -119,7 +119,7 @@ public static class BombManager
         }
         catch (Exception exception)
         {
-            LogHelper.Write<BomberKnight>("An error occured while trying the return to main menu: " + exception, KorzUtils.Enums.LogType.Error, false, false);
+            LogHelper.Write<BomberKnight>("An error occured while trying the return to main menu: " + exception, KorzUtils.Enums.LogType.Error, false);
         }
         yield return orig(self);
     }
@@ -146,7 +146,7 @@ public static class BombManager
         }
         catch (Exception exception)
         {
-            LogHelper.Write<BomberKnight>("An error occured while trying to start a new game: " + exception, KorzUtils.Enums.LogType.Error, false, false);
+            LogHelper.Write<BomberKnight>("An error occured while trying to start a new game: " + exception, KorzUtils.Enums.LogType.Error, false);
         }
     }
 
@@ -299,7 +299,7 @@ public static class BombManager
         }
         catch (Exception exception)
         {
-            LogHelper.Write<BomberKnight>("Failed to initialize BombManager: " + exception, KorzUtils.Enums.LogType.Error, false, false);
+            LogHelper.Write<BomberKnight>("Failed to initialize BombManager: " + exception, KorzUtils.Enums.LogType.Error, false);
         }
     }
 
@@ -325,7 +325,7 @@ public static class BombManager
         }
         catch (Exception exception)
         {
-            LogHelper.Write<BomberKnight>("Error in setup: " + exception, KorzUtils.Enums.LogType.Error, false, false);
+            LogHelper.Write<BomberKnight>("Error in setup: " + exception, KorzUtils.Enums.LogType.Error, false);
         }
     }
 

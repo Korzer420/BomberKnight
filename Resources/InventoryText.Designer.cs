@@ -119,7 +119,7 @@ namespace BomberKnight.Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die A leftover key used for controlled explosions to proceed in the shining caves of the Crystal Peak even further. Ironically the crystals on the other hand became more unpredictable somehow...
         ///
-        ///Bombs connected to this piece may not explode on their own in most circumstances, allowing for safer operations. ähnelt.
+        ///Bombs connected to this piece may not explode on their own in most circumstances, allowing for safer operations. Instead they blow up, after the bomb master crouch to safety. ähnelt.
         /// </summary>
         internal static string Charm_BombMaster_Desc {
             get {

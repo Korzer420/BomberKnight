@@ -1,3 +1,4 @@
+using ItemChanger;
 using KorzUtils.Helper;
 using System.Collections;
 using UnityEngine;
@@ -11,6 +12,8 @@ internal class BridgeGuardControl : MonoBehaviour
     internal static bool ReadyToJump { get; set; }
 
     internal static bool IsLeft { get; set; }
+
+    internal AbstractPlacement Placement { get; set; }
 
     void Start()
     {
@@ -35,16 +38,25 @@ internal class BridgeGuardControl : MonoBehaviour
         _doors[1].SetActive(true);
     }
 
+    void OnDestroy()
+    {
+        On.HealthManager.TakeDamage -= HealthManager_TakeDamage;
+        On.HealthManager.Die -= HealthManager_Die;
+    }
+
     private void HealthManager_Die(On.HealthManager.orig_Die orig, HealthManager self, float? attackDirection, AttackTypes attackType, bool ignoreEvasion)
     {
-        orig(self, attackDirection, attackType, ignoreEvasion);
         if (self.gameObject.name == "Fire Sentry")
-        { self.GetComponent<ItemDropper>().PrepareDrop(); }
+        {
+            ItemHelper.SpawnShiny(self.transform.position, Placement);
+            GameManager.instance.StartCoroutine(DestroyDoors());
+        }
+        orig(self, attackDirection, attackType, ignoreEvasion);
     }
 
     private IEnumerator DestroyDoors()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2.5f);
         Bomb.FakeExplosion(_doors[0].transform.localPosition, Color.white, new(1.2f, 1.2f));
         Bomb.FakeExplosion(_doors[1].transform.localPosition, Color.white, new(1.2f, 1.2f));
         Destroy(_doors[0]);

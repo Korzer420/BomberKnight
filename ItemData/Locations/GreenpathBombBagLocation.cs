@@ -28,7 +28,7 @@ internal class GreenpathBombBagLocation : AutoLocation
         On.HealthManager.Die -= HealthManager_Die;
         Events.RemoveFsmEdit(new FsmID("Moss Knight C", "Moss Knight Control"), ModifyMossKnight);
         On.HutongGames.PlayMaker.Actions.SetVelocity2d.OnEnter -= SetVelocity2d_OnEnter;
-    } 
+    }
 
     #endregion
 
@@ -56,8 +56,13 @@ internal class GreenpathBombBagLocation : AutoLocation
     private void HealthManager_Die(On.HealthManager.orig_Die orig, HealthManager self, float? attackDirection, AttackTypes attackType, bool ignoreEvasion)
     {
         orig(self, attackDirection, attackType, ignoreEvasion);
-        if (self.gameObject.name.StartsWith("Moss Knight") && self.GetComponent<ItemDropper>() is ItemDropper itemDropper)
-            itemDropper.PrepareDrop();
+        if (self.gameObject.name.StartsWith("Moss Knight"))
+        {
+            if (self.GetComponent<ItemDropper>() is ItemDropper itemDropper)
+                itemDropper.PrepareDrop();
+            else if (self.gameObject.scene.name == "Fungus1_32" && self.gameObject.name.Contains("B"))
+                GameHelper.DisplayMessage("My brother! Don't dare coming back to this place or...");
+        }
     }
 
     private void ModifyMossKnight(PlayMakerFSM fsm)

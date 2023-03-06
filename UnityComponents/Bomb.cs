@@ -41,7 +41,8 @@ public class Bomb : MonoBehaviour
     private bool _isHoming;
     private Rigidbody2D _rigidBody;
     private int _echoStack = 0;
-    private bool _canDealContactDamage = false;
+    private bool _canDealContactDamage;
+    private bool _canExplode;
 
     #endregion
 
@@ -65,7 +66,11 @@ public class Bomb : MonoBehaviour
     /// <summary>
     /// Gets or sets if the bomb can cancel the fuse time time.
     /// </summary>
-    public bool CanExplode { get; set; }
+    public bool CanExplode
+    {
+        get => _canExplode || (CharmHelper.EquippedCharm(BomberKnight.BombMasterCharm) && InputHandler.Instance.inputActions.down.IsPressed);
+        set => _canExplode = value;
+    }
 
     /// <summary>
     /// Gets the cloud object
@@ -146,7 +151,9 @@ public class Bomb : MonoBehaviour
         _canDealContactDamage = CharmHelper.EquippedCharm(CharmRef.ThornsOfAgony);
         FuseTime = CharmHelper.EquippedCharm(CharmRef.DeepFocus) ? 6f : 3f;
 
-        while (passedTime < FuseTime && !CanExplode)
+        // To ensure the player has time to get away from power bombs.
+        float explodeDelay = Type == BombType.PowerBomb ? 1f : 0f;
+        while (passedTime < FuseTime && (!CanExplode || explodeDelay > 0f))
         {
             if (!CharmHelper.EquippedCharm(BomberKnight.BombMasterCharm))
             {
@@ -162,6 +169,7 @@ public class Bomb : MonoBehaviour
                 passedTime += Time.deltaTime;
             }
             Homing(homingData);
+            explodeDelay -= Time.deltaTime;
             yield return null;
         }
 

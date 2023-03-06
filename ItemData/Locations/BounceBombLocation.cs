@@ -56,7 +56,7 @@ internal class BounceBombLocation : AutoLocation
             GameObject sentry = GameObject.Instantiate(Sentry);
             sentry.transform.position = new(57.24f, 21.3f, 0.004f);
             sentry.name = "Fire Sentry";
-            sentry.AddComponent<BridgeGuardControl>();
+            sentry.AddComponent<BridgeGuardControl>().Placement = Placement;
             Component.Destroy(sentry.GetComponent<DamageHero>());
             sentry.transform.localScale = new(-1.2f, 1.2f, 1f);
             PlayMakerFSM fsm = sentry.LocateMyFSM("Ruins Sentry Fat");
@@ -77,7 +77,7 @@ internal class BounceBombLocation : AutoLocation
                 GameObject bomb = new("Sentry projectile");
                 bomb.AddComponent<SpriteRenderer>().sprite = SpriteHelper.CreateSprite<BomberKnight>("Sprites.BombSprite");
                 bomb.AddComponent<CircleCollider2D>().isTrigger = true;
-                bomb.GetComponent<CircleCollider2D>().radius = 0.28f;
+                bomb.GetComponent<CircleCollider2D>().radius = 0.2f;
                 bomb.transform.localScale = new(2.5f, 2.5f, 1f);
                 bomb.layer = 13;
                 SentryAttack sentryAttack = bomb.AddComponent<SentryAttack>();
@@ -90,10 +90,6 @@ internal class BounceBombLocation : AutoLocation
                 bomb.SetActive(true);
             }));
             fsm.GetState("Run Stop").AddLastAction(new Wait() { time = new HutongGames.PlayMaker.FsmFloat() { Value = 0.1f } });
-            ItemDropper itemDropper = sentry.AddComponent<ItemDropper>();
-            itemDropper.Placement = Placement;
-            itemDropper.Firework = true;
-            itemDropper.DropPosition = new(10f, 19.4f);
 
             bool intialize = true;
             fsm.GetState("Swipe").AddLastAction(new Lambda(() =>

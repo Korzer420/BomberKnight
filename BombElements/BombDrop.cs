@@ -75,7 +75,7 @@ public static class BombDrop
         if (BombManager.BombBagLevel > 0 && attackType != AttackTypes.RuinsWater && !self.gameObject.name.Equals("Hollow Knight Boss"))
         {
             _bombCounter++;
-            if ((_bombCounter >= 10 || UnityEngine.Random.Range(0, 100) == 0) && self.GetComponent<NoBomb>() == null && (Convert.ToInt32(_geoInfo[0].GetValue(self)) > 0 ||
+            if ((_bombCounter >= 10 || UnityEngine.Random.Range(0, 100) <= (CharmHelper.EquippedCharm(BomberKnight.ShellSalvagerCharm) ? 12 : 4)) && self.GetComponent<NoBomb>() == null && (Convert.ToInt32(_geoInfo[0].GetValue(self)) > 0 ||
                 Convert.ToInt32(_geoInfo[1].GetValue(self)) > 0 || Convert.ToInt32(_geoInfo[2].GetValue(self)) > 0))
             {
                 _bombCounter = 0;
@@ -169,16 +169,12 @@ public static class BombDrop
         int amount = 1;
 
         int rolled = UnityEngine.Random.Range(1, 11);
-        if (rolled <= 4)
+        if (rolled <= 3)
             amount = 2;
         else if (rolled <= 7)
             amount = 3;
         else if (rolled == 10)
             amount = 4;
-
-        // Charm doubles the dropped amount.
-        if (CharmHelper.EquippedCharm("ShellSalvager"))
-            amount *= 2;
 
         for (int i = 0; i < amount; i++)
         {

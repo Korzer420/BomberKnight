@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BomberKnight.Data;
 using UnityEngine;
 
@@ -35,8 +30,10 @@ internal class EnemyBombDetector : MonoBehaviour
         if (_initialized)
             return;
         _initialized = true;
-        gameObject.AddComponent<CircleCollider2D>().isTrigger = true;
-        gameObject.AddComponent<BoxCollider2D>().size = new Vector2(GetComponent<CircleCollider2D>().radius * 1.5f, GetComponent<CircleCollider2D>().radius * 1.5f);
+        CircleCollider2D circleCollider = gameObject.AddComponent<CircleCollider2D>();
+        circleCollider.isTrigger = true;
+        circleCollider.radius /= 0.8f;
+        gameObject.AddComponent<BoxCollider2D>().size = new Vector2(circleCollider.radius * 1.5f, circleCollider.radius * 1.5f);
         // Each bomb has a child object to detect the player, which is what we check here.
         if (transform.parent != null && transform.parent.GetComponent<EnemyBombDetector>())
             gameObject.layer = 13;

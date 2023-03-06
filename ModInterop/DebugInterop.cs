@@ -1,5 +1,6 @@
 using BomberKnight.BombElements;
 using BomberKnight.Enums;
+using BomberKnight.ItemData;
 using DebugMod;
 using System.Collections.Generic;
 using System.Linq;
@@ -135,6 +136,18 @@ public static class DebugInterop
         foreach (BombType type in BombManager.AvailableBombs.Keys.ToArray())
             BombManager.AvailableBombs[type] = false;
         Console.AddLine("Locked all bomb types.");
+    }
+
+    /// <summary>
+    /// Give custom charms.
+    /// </summary>
+    [BindableMethod(name = "Give custom charms", category = "BomberKnight")]
+    public static void GiveCustomCharms()
+    {
+        foreach (CharmData item in BombCharms.CustomCharms)
+            item.Acquired = true;
+        
+        Console.AddLine("Give all bomb charms.");
     }
 
     #endregion

@@ -182,7 +182,8 @@ public static class BombManager
         {
             if (go?.name.StartsWith("Fake Explosion") == true)
                 damageAmount = 0;
-            else if (go?.name.Contains("Explosion") == true && CharmHelper.EquippedCharm("Pyromaniac"))
+            else if (go?.name.Contains("Explosion") == true && CharmHelper.EquippedCharm("Pyromaniac")
+                && go?.name == "Enemy Explosion" == false)
             {
                 damageAmount = 0;
                 if (UnityEngine.Random.Range(0, 4) == 0)
@@ -287,6 +288,8 @@ public static class BombManager
             }
             else if (string.Equals(self.FsmName, "Detect Quake"))
             {
+                // Mines_01
+                // Mines_35
                 self.GetState("Detect").AddTransition("POWERBOMBED", "Quake Hit");
                 self.GetState("Check Quake").AddTransition("POWERBOMBED", "Quake Hit");
             }
@@ -393,7 +396,7 @@ public static class BombManager
             {
                 // Discard all bombs that exceed the limit.
                 if (BombQueue.Count + bombs.Count() > maxAmount)
-                    _bombQueue.AddRange(bombs.Take(BombQueue.Count + bombs.Count() - maxAmount));
+                    _bombQueue.AddRange(bombs.Take(maxAmount - BombQueue.Count));
                 else
                     _bombQueue.AddRange(bombs);
             }

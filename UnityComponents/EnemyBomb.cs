@@ -93,6 +93,7 @@ internal class EnemyBomb : MonoBehaviour
     internal void Explode()
     {
         GameObject explosion = GameObject.Instantiate(Bomb.Explosion);
+        explosion.name = "Enemy Explosion";
         Destroy(explosion.LocateMyFSM("damages_enemy"));
         ParticleSystem.MainModule settings = explosion.GetComponentInChildren<ParticleSystem>().main;
         settings.startColor = new ParticleSystem.MinMaxGradient(ExplosionColor);

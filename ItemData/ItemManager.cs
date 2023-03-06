@@ -75,7 +75,7 @@ public static class ItemManager
         foreach (AbstractItem item in jsonSerializer.Deserialize<List<AbstractItem>>(new JsonTextReader(reader2)))
         {
             if (item.name == ShellSalvagerCharm)
-                (item as BoolItem).fieldName += CharmHelper.GetCustomCharmId(BomberKnight.PyromaniacCharm);
+                (item as BoolItem).fieldName += CharmHelper.GetCustomCharmId(BomberKnight.ShellSalvagerCharm);
             else if (item.name == PyromaniacCharm)
                 (item as BoolItem).fieldName += CharmHelper.GetCustomCharmId(BomberKnight.PyromaniacCharm);
             else if (item.name == BombMasterCharm)

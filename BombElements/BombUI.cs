@@ -337,9 +337,9 @@ public static class BombUI
         currentWorkingState.AddLastAction(new Lambda(() =>
         {
             if (indexVariable.Value < 6 && indexVariable.Value >= 0)
-                indexVariable.Value = indexVariable.Value < 3
-                ? indexVariable.Value + 3
-                : indexVariable.Value - 3;
+                indexVariable.Value = indexVariable.Value < 2
+                ? indexVariable.Value + 4
+                : indexVariable.Value - 2;
             fsm.SendEvent("FINISHED");
         }));
 
@@ -349,9 +349,9 @@ public static class BombUI
         currentWorkingState.AddLastAction(new Lambda(() =>
         {
             if (indexVariable.Value < 6 && indexVariable.Value >= 0)
-                indexVariable.Value = indexVariable.Value < 3
-                ? indexVariable.Value + 3
-                : indexVariable.Value - 3;
+                indexVariable.Value = indexVariable.Value < 4
+                ? indexVariable.Value + 2
+                : indexVariable.Value - 4;
             fsm.SendEvent("FINISHED");
         }));
     }

@@ -12,6 +12,7 @@ internal class BombItem : AbstractItem
     public override void GiveImmediate(GiveInfo info)
     {
         BombManager.AvailableBombs[Type] = true;
+        BombUI.UpdateBombPage();
         if (Type != BombType.PowerBomb)
             BombManager.GiveBombs(new List<BombType>() { Type, Type, Type });
     }

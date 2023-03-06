@@ -27,7 +27,7 @@ Bombs have a 3 second place cooldown.
   - Replace the colors in the color puzzle with positions (e.g red -> "right most").
   
 ## Drops
-Bombs have a 1% to be dropped when an enemy is killed. However "Tenth enemy has the bomb" which means that killing ten enemies in a row without getting hit will guarantee a bomb drop.
+Bombs have a 4% to be dropped when an enemy is killed. However "Tenth enemy has the bomb" which means that killing ten enemies in a row without getting hit will guarantee a bomb drop.
 Only enemies which would normally drop geo can drop bombs (excluding bosses). If an enemy where this condition isn't met is killed as the tenth enemy, the counter will grant you the bomb drop on the next enemy instead. Assuming you don't get hit in between of course...
 
 What kind of bomb is dropped is luck dependent. On top of that, a few modifications can be done though.
@@ -63,8 +63,8 @@ Currently there are 6 different bomb types which you can use.
 
 ## Charms
 This mod adds 3 new custom charm to enhance bomb mechanics:
-- Shell Salvager: Doubles the bomb drops (more on that below)..
-- Bomb Master: Bombs no longer explode after 3 second but rather when you press down while trying to place a bomb.
+- Shell Salvager: Increases the base drop chance for bombs by 200% (to 12% total).
+- Bomb Master: Bombs no longer explode after 3 second but rather when you press down.
 - Pyromaniac: Your explosions no longer deal damage to you, but still grant you i-frames. Getting "hit" by an explosion has a 25% to heal you instead.
 
 ### Charm Synergies
@@ -77,7 +77,7 @@ Bombs are further amplified by vanilla charms:
 - Dashmaster: Doubles the air time granted by bounce bombs.
 - Shaman Stone: Increases bomb damage by 30%. Bomb damage now also count as spell damage.
 - Spell Twister: Grants a 25% chance for bombs to not be removed from the inventory when used.
-- Baldur Shell: When a hit is blocked by the shell, the last bomb in your bomb bag explodes at your position. (Not implemented yet)
+- Baldur Shell: When a hit is blocked by the shell, the last bomb in your bomb bag explodes at your position.
 - Shape of Unn: If a grass bomb will be your next bomb, there is a 50% chance that it will cycle between all available bomb types each second.
 - Stalwart Shell: Increases the i-frames from bounce bombs by 100% and from the pyromaniac charm by 40%.
 - Deep Focus: Bombs now take 6 seconds to explode instead of 3. Increases explosion radius by 50%.

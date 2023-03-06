@@ -25,7 +25,8 @@ public static class DebugInterop
     {
         BombManager.BombBagLevel++;
         if (BombManager.BombBagLevel > 0)
-        { 
+        {
+            BombManager.AvailableBombs[BombType.GrassBomb] = true;
             BombUI.UpdateTracker();
             BombUI.UpdateBombPage();
         }
@@ -119,35 +120,25 @@ public static class DebugInterop
     /// <summary>
     /// Unlocks all bomb types.
     /// </summary>
-    [BindableMethod(name = "Unlock bombs", category = "BomberKnight")]
-    public static void UnlockAllBombs()
+    [BindableMethod(name = "Toggle Bombs", category = "BomberKnight")]
+    public static void ToggleAllBombs()
     {
+        bool currentState = BombManager.AvailableBombs[BombType.GrassBomb];
         foreach (BombType type in BombManager.AvailableBombs.Keys.ToArray())
-            BombManager.AvailableBombs[type] = true;
-        Console.AddLine("Unlocked all bomb types.");
-    }
-
-    /// <summary>
-    /// Locks all bomb types.
-    /// </summary>
-    [BindableMethod(name = "Lock bombs", category = "BomberKnight")]
-    public static void LockAllBombs()
-    {
-        foreach (BombType type in BombManager.AvailableBombs.Keys.ToArray())
-            BombManager.AvailableBombs[type] = false;
-        Console.AddLine("Locked all bomb types.");
+            BombManager.AvailableBombs[type] = !currentState;
+        Console.AddLine("Set all bombs to "+!currentState);
     }
 
     /// <summary>
     /// Give custom charms.
     /// </summary>
-    [BindableMethod(name = "Give custom charms", category = "BomberKnight")]
-    public static void GiveCustomCharms()
+    [BindableMethod(name = "Toggle Custom Charms", category = "BomberKnight")]
+    public static void ToggleCustomCharms()
     {
+        bool currentState = BombCharms.CustomCharms[0].Acquired;
         foreach (CharmData item in BombCharms.CustomCharms)
-            item.Acquired = true;
-        
-        Console.AddLine("Give all bomb charms.");
+            item.Acquired = !currentState;
+        Console.AddLine("Set all bomb charms to "+!currentState+".");
     }
 
     #endregion

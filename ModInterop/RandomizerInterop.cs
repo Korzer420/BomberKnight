@@ -52,6 +52,7 @@ internal class RandomizerInterop
         RandoMenu.Initialize();
         SettingsLog.AfterLogSettings += SettingsLog_AfterLogSettings;
         RequestBuilder.OnUpdate.Subscribe(60f, ApplySettings);
+        RandoController.OnCalculateHash += RandoController_OnCalculateHash;
         RCData.RuntimeLogicOverride.Subscribe(60f, ModifyLogic);
 
         if (ModHooks.GetMod("RandoSettingsManager") is Mod)
@@ -66,6 +67,13 @@ internal class RandomizerInterop
             ItemManager.GoldBomb,
             ItemManager.PowerBomb
         });
+    }
+
+    private static int RandoController_OnCalculateHash(RandoController arg1, int arg2)
+    {
+        if (!Settings.Enabled)
+            return 0;
+        return Settings.Place == Enums.RandoType.Vanilla ? 227 : 0;
     }
 
     private static void HookRandoSettingsManager()

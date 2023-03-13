@@ -25,6 +25,7 @@ Bombs have a 3 second place cooldown.
   - A label to the bomb counter, so you can see what your next bomb will be.
   - An info text about how many bombs of which type do you have in the inventory (if you select the bomb bag).
   - Replace the colors in the color puzzle with positions (e.g red -> "right most").
+- Move Counter: With the four options you can move the counter like you want.
   
 ## Drops
 Bombs have a 4% to be dropped when an enemy is killed. However "Tenth enemy has the bomb" which means that killing ten enemies in a row without getting hit will guarantee a bomb drop.
@@ -91,10 +92,4 @@ Bombs are further amplified by vanilla charms:
 - Adds a panel for various debug functions.
 
 ### Randomizer 4
-- To do
-
-### LoreMaster
-- To do
-
-### Curse Randomizer
-- To do
+- Allows the bomb items, charms and bomb bags to be placed in their "vanilla" locations or randomized with all other items.

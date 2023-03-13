@@ -92,6 +92,7 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
         if (saveData == null)
             return;
         BombManager.ColorlessHelp = saveData.ColorlessHelp;
+        BombUI.TrackerPosition = saveData.TrackerPosition;
         BombSpell.UseCast = saveData.BombFromCast;
         RandomizerInterop.Settings = saveData.RandoSettings ?? new();
     }
@@ -100,7 +101,8 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
     {
         BombFromCast = BombSpell.UseCast,
         ColorlessHelp = BombManager.ColorlessHelp,
-        RandoSettings = RandomizerInterop.Settings
+        RandoSettings = RandomizerInterop.Settings,
+        TrackerPosition = BombUI.TrackerPosition
     };
 
     public void OnLoadLocal(LocalSaveData saveData)
@@ -148,12 +150,36 @@ public class BomberKnight : Mod, IGlobalSettings<GlobalSaveData>, ILocalSettings
         return new()
         {
             new("Drop Button", new string[]{"Focus", "Quickcast"}, "Determines which button should be used to drop bombs.", x => BombSpell.UseCast = x == 0, () => BombSpell.UseCast ? 0 : 1),
-            new("Colorless Indicator", new string[]{"Off", "On"}, "If on, additional info is displayed for accessability", x => 
+            new("Colorless Indicator", new string[]{"Off", "On"}, "If on, additional info is displayed for accessability", x =>
             {
                 BombManager.ColorlessHelp = x == 1;
                 if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Main_Menu")
                     BombUI.UpdateTracker();
-            }, () => BombManager.ColorlessHelp ? 1 : 0)
+            }, () => BombManager.ColorlessHelp ? 1 : 0),
+            new("Move counter", new string[]{"Up", "Up"}, "Moves the bomb counter slighly up.", x =>
+            {
+                BombUI.TrackerPosition += new Vector3(0, 0.1f);
+                if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Main_Menu")
+                    BombUI.UpdateTracker();
+            }, () => 0),
+            new("Move counter", new string[]{"Down", "Down"}, "Moves the bomb counter slighly down.", x =>
+            {
+                BombUI.TrackerPosition -= new Vector3(0, 0.1f);
+                if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Main_Menu")
+                    BombUI.UpdateTracker();
+            }, () => 0),
+            new("Move counter", new string[]{"Left", "Left"}, "Moves the bomb counter slighly left.", x =>
+            {
+                BombUI.TrackerPosition -= new Vector3(0.1f, 0f);
+                if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Main_Menu")
+                    BombUI.UpdateTracker();
+            }, () => 0),
+            new("Move counter", new string[]{"Right", "Right"}, "Moves the bomb counter slighly right.", x =>
+            {
+                BombUI.TrackerPosition += new Vector3(0.1f, 0f);
+                if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Main_Menu")
+                    BombUI.UpdateTracker();
+            }, () => 0),
         };
     }
 

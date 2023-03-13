@@ -71,10 +71,11 @@ internal class BridgeGuardControl : MonoBehaviour
             if (hitInstance.AttackType != AttackTypes.Nail || ReadyToJump)
                 hitInstance.DamageDealt = 0;
             else
+            { 
                 hitInstance.DamageDealt = 1;
-            orig(self, hitInstance);
-            if (hitInstance.DamageDealt == 1)
                 ReadyToJump = true;
+            }
+            orig(self, hitInstance);
         }
         else
             orig(self, hitInstance);

@@ -26,7 +26,7 @@ internal class ShellSalvagerLocation : AutoLocation
     {
         {"Crossroads_10", new(36.52f, 3.41f) },
         {"Fungus3_48", new(40.88f, 94.41f) },
-        {"Waterways_13", new(7.9f, 18.41f) },
+        {"Waterways_13", new(97.9f, 18.41f) },
         {"Waterways_15", new(14.09f, 4.41f) },
         {"Room_Mansion", new(22f, 6.41f) }
     };
@@ -203,6 +203,12 @@ internal class ShellSalvagerLocation : AutoLocation
         if (_hitChests.Any() && _hitChests.Last() == name)
             return;
         _hitChests.Add(knightName);
+        if (_hitChests.Count > 5)
+        {
+            _hitChests = _hitChests.Distinct().ToList();
+            while(_hitChests.Count > 5)
+                _hitChests.RemoveAt(0);
+        }
 
         if (_hitChests.Count == 5)
         {

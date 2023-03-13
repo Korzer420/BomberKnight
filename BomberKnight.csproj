@@ -5,7 +5,7 @@
         <TargetFramework>net472</TargetFramework>
         <RootNamespace>BomberKnight</RootNamespace>
         <AssemblyTitle>BomberKnight</AssemblyTitle>
-        <AssemblyVersion>1.1.0.0</AssemblyVersion>
+        <AssemblyVersion>1.2.0.0</AssemblyVersion>
         <Deterministic>true</Deterministic>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <LangVersion>latest</LangVersion>
@@ -16,7 +16,7 @@
         <ExportDir>bin\Publish</ExportDir>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <DocumentationFile></DocumentationFile>
-        <FileVersion>1.0.0.0</FileVersion>
+        <FileVersion>1.2.0.0</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>

@@ -26,7 +26,6 @@ internal class ShellSalvagerChestHint : MonoBehaviour
                 GameHelper.DisplayMessage("An inscription of five knights is visible.");
                 _hintCooldown = 3f;
             }
-        
     }
 
     void OnCollisionEnter2D(Collision2D collision)

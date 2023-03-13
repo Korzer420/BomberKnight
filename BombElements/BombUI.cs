@@ -47,7 +47,7 @@ public static class BombUI
                     GameObject hudCanvas = GameObject.Find("_GameCameras").transform.Find("HudCamera/Hud Canvas").gameObject;
                     _tracker = Object.Instantiate(prefab, hudCanvas.transform, true);
                     _tracker.name = "Bomb Counter";
-                    _tracker.transform.localPosition = new(-2.1455f, -2.4491f, 0f);
+                    _tracker.transform.localPosition = TrackerPosition;
                     _tracker.transform.localScale = new(1.3824f, 1.3824f, 1.3824f);
                     _tracker.GetComponent<DisplayItemAmount>().playerDataInt = "BombAmount";
                     _tracker.GetComponent<DisplayItemAmount>().textObject.text = "";
@@ -71,6 +71,8 @@ public static class BombUI
             return _tracker;
         }
     }
+
+    public static Vector3 TrackerPosition { get; set; } = new(-2.1455f, -2.4491f, 0f);
 
     #endregion
 
@@ -437,7 +439,7 @@ public static class BombUI
             }
             else if (_colorless != null && _colorless.activeSelf)
                 _colorless.SetActive(false);
-            Tracker.transform.localPosition = new(-2.1455f, -2.4491f, 0f);
+            Tracker.transform.localPosition = TrackerPosition;
             Tracker.transform.localScale = new(1.3824f, 1.3824f, 1.3824f);
         }
         catch (System.Exception exception)

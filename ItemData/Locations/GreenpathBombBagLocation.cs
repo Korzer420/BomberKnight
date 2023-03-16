@@ -39,6 +39,7 @@ internal class GreenpathBombBagLocation : AutoLocation
         if (self.IsCorrectContext("grass ball control", null, "Break"))
         {
             GameObject gameObject = GameObject.Instantiate(Bomb.Explosion);
+            gameObject.name = "Enemy Bomb";
             Component.Destroy(gameObject.LocateMyFSM("damages_enemy"));
             gameObject.transform.position = self.Fsm.GameObject.transform.position;
             ParticleSystem.MainModule settings = gameObject.GetComponentInChildren<ParticleSystem>().main;

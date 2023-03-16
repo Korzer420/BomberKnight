@@ -36,6 +36,8 @@ public static class BombManager
 
     private static Coroutine _miningCounter;
 
+    private static MethodInfo _invincible;
+
     #endregion
 
     #region Properties
@@ -104,6 +106,7 @@ public static class BombManager
         BombSpell.AddBombSpell();
         BombUI.UpdateBombPage();
         BombUI.UpdateTracker();
+        _invincible = typeof(HeroController).GetMethod("CanTakeDamage", BindingFlags.Instance | BindingFlags.NonPublic);
     }
 
     private static IEnumerator UIManager_ReturnToMainMenu(On.UIManager.orig_ReturnToMainMenu orig, UIManager self)
@@ -182,11 +185,10 @@ public static class BombManager
         {
             if (go?.name.StartsWith("Fake Explosion") == true)
                 damageAmount = 0;
-            else if (go?.name.Contains("Explosion") == true && CharmHelper.EquippedCharm("Pyromaniac")
-                && go?.name == "Enemy Explosion" == false)
+            else if (go?.name.Contains("Explosion") == true && CharmHelper.EquippedCharm("Pyromaniac") && go?.name != "Enemy Explosion")
             {
                 damageAmount = 0;
-                if (UnityEngine.Random.Range(0, 4) == 0)
+                if (UnityEngine.Random.Range(0, 4) == 0 && ((bool?)_invincible?.Invoke(self, null) == true))
                     HeroController.instance.AddHealth(1);
                 GameManager.instance.StartCoroutine((IEnumerator)HeroController.instance.GetType()
                     .GetMethod("Invulnerable", BindingFlags.NonPublic | BindingFlags.Instance)

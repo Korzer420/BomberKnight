@@ -2,7 +2,6 @@
 A Hollow Knight Mod which adds bombs. (Requires ItemChanger, SFCore and KorzUtils)
 
 ## Content
-
 - Adds a "spell" to the game, which drops a bomb that explodes after 3 seconds dealing damage and breaking damaged floors (like dive does).
 - Adds 3 new charms that synergies with bombs.
 - Adds 14 interactions with other charms.
@@ -85,6 +84,31 @@ Bombs are further amplified by vanilla charms:
 - Quick Focus: Decreases the cooldown to drop bombs by 2.5 seconds.
 - Thorns of Agony: Bombs deals contact damage equal to your nail damage on enemy contact. Has a 5% to explode upon dealing damage.
 - Grubsong: Bombs grant 2 soul per tick when in contact with enemies.
+
+## Puzzle Solutions/Item Locations
+These will list all locations and their respective puzzles to obtain the items. It is recommended to search this out by yourself obviously, so **SPOILERS**:
+
+- Bomb Bag: Killing the Moss Knight in the arena below the Lifeblood will advise you to not come back. If you ignore that warning the moss knight in the arena will be buffed but drops the bag after killing them
+
+- Bomb Bag In kingdoms edge to the right of Oro is a dummy which you can repeatedly hit to spawn a "few" great hoppers. One of them seems to have eaten one of the bomb bags. Killing them, will pass the bag to you.
+
+- Bomb Bag In distant village, at the bottom of the room, you'll notice a few platforms. Entering the big one at the center of the bottom will let a purple spider appear, which throws with bombs. Again, Killing them grant the bomb bag.
+
+- Spore bomb: In fungal core, next to the big mushroom corpse you'll notice a gray bomb. Listening to the dream nail dialogue will hint at what you have to do: First, let a Spore cloud (from Spore shroom or a Spore bomb itself) touch the bomb. It will change the color to yellow. Second, place a bomb next to it. Afterwards the bomb will blink and follow you through the room. Lastly, let the bomb touch the orange goo that the mushroom ogres spit.
+
+- Bounce Bomb: On the bridge to the toll bench in city (where Zote can appear), you'll notice a stone sentry in the background. Bombing it will start the encounter against them. Defeat them to obtain the bombs
+
+- Echo Bombs: In the resting grounds room before the seer a purple bomb will appear that slowly fades away while moving somewhere. If you follow the bomb to its destination (a wall at the bottom left) and place a bomb there, you can enter that wall. This will place you in the dream shield room, with the difference that the bomb item will spawn.
+
+- Gold bombs: Killing the gorgeous husk, will hint at you that something is leaking to the floor. If you exit the room and go the water in the middle of the room, some geo is around there without you ever.. 
+doing something there. Also the water is slightly yellow. If you jump in there you'll be Hazard respawned. But if you throw a bomb in there, the golden bombs will appear!
+
+- Powerbombs: In the lifeblood core room, 5 transparent bombs are visible above the charm pedestal. If you place all other 5 different types of bombs on the pedestal, the power bomb will spawn. Note that the 5 bomb drops have to be done in one visit
+
+- Pyromaniac: In the fog canyon room where you normally obtain a charm notch a Bugs corpse is visible in the top right. Killing enough enemies/popping enough explosive bubbles will repeatedly display messages that you have to go on. After killing every enemy and letting every bubble explode, you can fulfill the bugs last wish and combust them via a bomb which will drop the charm. Idea by Exempt-Medic :grublove: 
+
+- Bomb Master: In the Cornifer room in QG a big red bomb is placed right next to the ghosts. Listening to them reveals that they stole that from a bug in Crystal peak. The bomb is quite unstable and blows up after 7 minutes in your inventory. Bringing this bomb to the crystallized bug, which you can found above the entrance to the crystal heart room, and bombing him with exactly this bomb, will spawn the charm. Fun Fact: This bomb does actually have a unique damage value that is above most other types of bombs. Only gold bombs with greed and enough geo, power bombs and the combined damage of echo bombs exceed this.
+-Shell Salvager: In the junk pit, you might notice the big golden chest. Inspecting it will tell you that the inscription of 5 knights are visible. Furthermore (if you can see colors at least), you might notice that the other five chest have unique colors as well. If you don't skip the description on the item screen for echo bombs, you might remember that they can "invoke memories". Placing an echo bomb at ismas corpse, dryyas corpse, Hegemols shell (after defeating FK), in the Grey mourner room and next to Dung Defender sleeping place, will trigger a "memory" in which order the chest have to be hit. If you play with colorless indicator they will give the position of the chest rather than there color. Hitting the five chest in the correct order will open the golden chest. The order is randomized each time. Quite a hard one, I admit.
 
 ## Mod interaction
 

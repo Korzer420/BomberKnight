@@ -1,14 +1,11 @@
-using BomberKnight.Enums;
 using BomberKnight.UnityComponents;
 using HutongGames.PlayMaker.Actions;
 using ItemChanger;
-using ItemChanger.Extensions;
 using ItemChanger.FsmStateActions;
 using ItemChanger.Locations;
 using KorzUtils.Helper;
 using System.Collections;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace BomberKnight.ItemData.Locations;
@@ -65,7 +62,7 @@ internal class EdgeBombBagLocation : AutoLocation
                 ItemHelper.SpawnShiny(new(40f, 3.41f), Placement);
             else
             {
-                fsm.GetState("Land Anim").AddLastAction(new Lambda(() =>
+                fsm.GetState("Land Anim").AddActions(new Lambda(() =>
                 {
                     GameObject shockwaveLeft = GameObject.Instantiate(Shockwave);
                     shockwaveLeft.transform.localScale = new(1.25f, 1.25f);

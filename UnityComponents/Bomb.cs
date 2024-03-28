@@ -1,7 +1,6 @@
 using BomberKnight.BombElements;
 using BomberKnight.Data;
 using BomberKnight.Enums;
-using ItemChanger.Extensions;
 using ItemChanger.FsmStateActions;
 using KorzUtils.Enums;
 using KorzUtils.Helper;

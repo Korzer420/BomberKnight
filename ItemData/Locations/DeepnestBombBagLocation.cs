@@ -4,13 +4,8 @@ using ItemChanger;
 using ItemChanger.Extensions;
 using ItemChanger.FsmStateActions;
 using ItemChanger.Locations;
-using KorzUtils.Helper;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -96,7 +91,7 @@ internal class DeepnestBombBagLocation : AutoLocation
         if (Placement.Items.Any(x => !x.IsObtained()))
         {
             if (Placement.Items.All(x => x.WasEverObtained()))
-                ItemHelper.SpawnShiny(new(30.25f, 4.5f), Placement);
+                KorzUtils.Helper.ItemHelper.SpawnShiny(new(30.25f, 4.5f), Placement);
             else
             {
                 GameObject spiderBoss = GameObject.Instantiate(Spider);

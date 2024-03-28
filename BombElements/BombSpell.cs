@@ -2,7 +2,6 @@ using BomberKnight.Enums;
 using BomberKnight.UnityComponents;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
-using ItemChanger.Extensions;
 using ItemChanger.FsmStateActions;
 using KorzUtils.Enums;
 using KorzUtils.Helper;
@@ -140,14 +139,14 @@ internal static class BombSpell
             };
             powerBomb.AddTransition("FINISHED", "Spell End");
 
-            placeBomb.AddTransition("BOMB", normalBomb);
-            placeBomb.AddTransition("POWERBOMB", powerBomb);
+            placeBomb.AddTransition("BOMB", normalBomb.Name);
+            placeBomb.AddTransition("POWERBOMB", powerBomb.Name);
 
             fsm.GetState("Can Cast? QC").AddTransition("CANCEL", "Inactive");
-            fsm.GetState("Can Cast? QC").AddTransition("BOMB", placeBomb);
+            fsm.GetState("Can Cast? QC").AddTransition("BOMB", placeBomb.Name);
 
             fsm.GetState("Can Cast?").AddTransition("CANCEL", "Inactive");
-            fsm.GetState("Can Cast?").AddTransition("BOMB", placeBomb);
+            fsm.GetState("Can Cast?").AddTransition("BOMB", placeBomb.Name);
         }
         catch (System.Exception exception)
         {

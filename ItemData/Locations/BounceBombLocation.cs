@@ -1,7 +1,6 @@
 using BomberKnight.UnityComponents;
 using HutongGames.PlayMaker.Actions;
 using ItemChanger;
-using ItemChanger.Extensions;
 using ItemChanger.FsmStateActions;
 using ItemChanger.Locations;
 using KorzUtils.Helper;
@@ -70,7 +69,7 @@ internal class BounceBombLocation : AutoLocation
             HealthManager enemy = sentry.GetComponent<HealthManager>();
             enemy.hp = 5000;
 
-            fsm.GetState("Single Swipe").AddLastAction(new Lambda(() =>
+            fsm.GetState("Single Swipe").AddActions(new Lambda(() =>
             {
                 if (BridgeGuardControl.ReadyToJump)
                     return;
@@ -89,10 +88,10 @@ internal class BounceBombLocation : AutoLocation
                     sentryAttack.Move = (MoveType)enemy.hp;
                 bomb.SetActive(true);
             }));
-            fsm.GetState("Run Stop").AddLastAction(new Wait() { time = new HutongGames.PlayMaker.FsmFloat() { Value = 0.1f } });
+            fsm.GetState("Run Stop").AddActions(new Wait() { time = new HutongGames.PlayMaker.FsmFloat() { Value = 0.1f } });
 
             bool intialize = true;
-            fsm.GetState("Swipe").AddLastAction(new Lambda(() =>
+            fsm.GetState("Swipe").AddActions(new Lambda(() =>
             {
                 sentry.transform.position = new(3.5595f, 18.4081f, 0.004f);
                 if (intialize)
@@ -117,16 +116,16 @@ internal class BounceBombLocation : AutoLocation
                     sentry.transform.localScale = new(-1.2f, 1.2f);
                     HeroController.instance.SetHazardRespawn(new Vector3(97f, 18.41f), false);
                     if (enemy.hp == 1)
-                        fsm.GetState("Attack CD").GetFirstActionOfType<WaitRandom>().timeMax = 0.2f;
+                        fsm.GetState("Attack CD").GetFirstAction<WaitRandom>().timeMax = 0.2f;
                 }
             }));
-            fsm.GetState("Launch").AddLastAction(new Lambda(() =>
+            fsm.GetState("Launch").AddActions(new Lambda(() =>
             {
                 if (intialize)
                     sentry.transform.position = new(57.24f, 21.3f, 0.004f);
             }));
 
-            fsm.GetState("Attack CD").AddLastAction(new Lambda(() =>
+            fsm.GetState("Attack CD").AddActions(new Lambda(() =>
             {
                 if (BridgeGuardControl.ReadyToJump)
                 {

@@ -5,7 +5,6 @@ using BomberKnight.ModInterop;
 using BomberKnight.UnityComponents;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
-using ItemChanger.Extensions;
 using KorzUtils.Enums;
 using KorzUtils.Helper;
 using Modding;
@@ -249,7 +248,7 @@ public static class BombManager
                     new Trigger2dEvent()
                     {
                         collideTag = new() { Value = "Wall Breaker", RawValue = "Wall Breaker"},
-                        sendEvent = self.GetState("Transient").GetFirstActionOfType<Trigger2dEvent>().sendEvent,
+                        sendEvent = self.GetState("Transient").GetFirstAction<Trigger2dEvent>().sendEvent,
                         storeCollider = new("None"),
                         collideLayer = new()
                     }
@@ -266,7 +265,7 @@ public static class BombManager
                     new Trigger2dEvent()
                     {
                         collideTag = new() { Value = "Wall Breaker", RawValue = "Wall Breaker"},
-                        sendEvent = self.GetState("Transient").GetFirstActionOfType<Trigger2dEvent>().sendEvent,
+                        sendEvent = self.GetState("Transient").GetFirstAction<Trigger2dEvent>().sendEvent,
                         storeCollider = new("None"),
                         collideLayer = new()
                     }
@@ -283,9 +282,9 @@ public static class BombManager
                 multipleBreak.AddTransition("QUAKE FALL END", "Explosion Quake");
                 multipleBreak.AddTransition("VANISHED", "Transient");
 
-                self.GetState("Solid").AddTransition("BOMBED", explosionState);
+                self.GetState("Solid").AddTransition("BOMBED", explosionState.Name);
                 self.GetState("Solid").AddTransition("POWERBOMBED", "PD Bool?");
-                self.GetState("Transient").AddTransition("BOMBED", multipleBreak);
+                self.GetState("Transient").AddTransition("BOMBED", multipleBreak.Name);
                 self.GetState("Transient").AddTransition("POWERBOMBED", "PD Bool?");
             }
             else if (string.Equals(self.FsmName, "Detect Quake"))

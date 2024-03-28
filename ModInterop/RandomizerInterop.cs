@@ -4,6 +4,7 @@ using BomberKnight.ModInterop.Randomizer;
 using ItemChanger;
 using KorzUtils.Helper;
 using Modding;
+using RandomizerCore.Json;
 using RandomizerCore.Logic;
 using RandomizerCore.LogicItems;
 using RandomizerCore.StringLogic;
@@ -87,7 +88,7 @@ internal class RandomizerInterop
     {
         textWriter.WriteLine("Bomber Knight settings:");
         using Newtonsoft.Json.JsonTextWriter jsonTextWriter = new(textWriter) { CloseOutput = false, };
-        JsonUtil._js.Serialize(jsonTextWriter, Settings);
+        RandomizerMod.RandomizerData.JsonUtil._js.Serialize(jsonTextWriter, Settings);
         textWriter.WriteLine();
     }
 
@@ -140,10 +141,11 @@ internal class RandomizerInterop
     {
         if (Settings.Enabled)
         {
+            JsonLogicFormat jsonLogicFormat = new();
             ItemManager.Seed = settings.Seed;
             BombManager.Active = true;
             using Stream termStream = ResourceHelper.LoadResource<BomberKnight>("ItemChangerData.Randomizer.Terms.json");
-            builder.DeserializeJson(LogicManagerBuilder.JsonType.Terms, termStream);
+            builder.DeserializeFile(LogicFileType.Terms, jsonLogicFormat, termStream);
 
             builder.AddItem(new SingleItem(ItemManager.BombBag, new RandomizerCore.TermValue(builder.GetTerm("BOMBBAG"), 1)));
             builder.AddItem(new SingleItem(ItemManager.BombMasterCharm, new RandomizerCore.TermValue(builder.GetTerm("CHARMS"), 1)));
@@ -156,7 +158,7 @@ internal class RandomizerInterop
             builder.AddItem(new SingleItem(ItemManager.PowerBomb, new RandomizerCore.TermValue(builder.GetTerm("POWERBOMB"), 1)));
 
             using Stream locationStream = ResourceHelper.LoadResource<BomberKnight>("ItemChangerData.Randomizer.LocationLogic.json");
-            builder.DeserializeJson(LogicManagerBuilder.JsonType.Locations, locationStream);
+            builder.DeserializeFile(LogicFileType.Locations, jsonLogicFormat, locationStream);
 
             Dictionary<string, LogicClause> macros = ReflectionHelper.GetField<LogicProcessor, Dictionary<string, LogicClause>>(builder.LP, "macros");
             foreach (string term in macros.Keys.ToList())

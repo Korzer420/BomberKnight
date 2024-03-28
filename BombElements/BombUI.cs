@@ -2,7 +2,6 @@ using BomberKnight.Enums;
 using BomberKnight.Resources;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
-using ItemChanger.Extensions;
 using ItemChanger.FsmStateActions;
 using KorzUtils.Helper;
 using Modding;
@@ -216,7 +215,7 @@ public static class BombUI
         FsmState currentWorkingState = fsm.GetState("Init Heart Piece");
         currentWorkingState.Name = "Init Bombs";
         currentWorkingState.RemoveTransitionsTo("L Arrow");
-        currentWorkingState.AddLastAction(new Lambda(() =>
+        currentWorkingState.AddActions(new Lambda(() =>
         {
             int runs = 0;
             foreach (Transform child in fsm.transform)
@@ -298,7 +297,7 @@ public static class BombUI
         currentWorkingState = fsm.GetState("Left Press");
         currentWorkingState.AddTransition("OUT", "L Arrow");
         currentWorkingState.AddTransition("FINISHED", "Highlight");
-        currentWorkingState.AddLastAction(new Lambda(() =>
+        currentWorkingState.AddActions(new Lambda(() =>
         {
             if (indexVariable.Value == 0)
             {
@@ -318,7 +317,7 @@ public static class BombUI
         currentWorkingState = fsm.GetState("Right Press");
         currentWorkingState.AddTransition("OUT", "R Arrow");
         currentWorkingState.AddTransition("FINISHED", "Highlight");
-        currentWorkingState.AddLastAction(new Lambda(() =>
+        currentWorkingState.AddActions(new Lambda(() =>
         {
             if (indexVariable.Value == 6)
             {
@@ -336,7 +335,7 @@ public static class BombUI
         // Up
         currentWorkingState = fsm.GetState("Up Press");
         currentWorkingState.AddTransition("FINISHED", "Highlight");
-        currentWorkingState.AddLastAction(new Lambda(() =>
+        currentWorkingState.AddActions(new Lambda(() =>
         {
             if (indexVariable.Value < 6 && indexVariable.Value >= 0)
                 indexVariable.Value = indexVariable.Value < 2
@@ -348,7 +347,7 @@ public static class BombUI
         // Down
         currentWorkingState = fsm.GetState("Down Press");
         currentWorkingState.AddTransition("FINISHED", "Highlight");
-        currentWorkingState.AddLastAction(new Lambda(() =>
+        currentWorkingState.AddActions(new Lambda(() =>
         {
             if (indexVariable.Value < 6 && indexVariable.Value >= 0)
                 indexVariable.Value = indexVariable.Value < 4

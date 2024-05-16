@@ -94,8 +94,8 @@ internal static class BombSpell
             FsmState placeBomb = new(fsm.Fsm)
             {
                 Name = "Place bomb",
-                Actions = new FsmStateAction[]
-                {
+                Actions =
+                [
                     new Lambda(() =>
                     {
                         // Fail save
@@ -111,17 +111,19 @@ internal static class BombSpell
                         else
                             fsm.SendEvent("BOMB");
                     })
-                }
+                ]
             };
+            fsm.AddState(placeBomb);
 
             FsmState normalBomb = new(fsm.Fsm)
             {
                 Name = "Normal bomb",
-                Actions = new FsmStateAction[]
-                {
+                Actions =
+                [
                     new Lambda(() => SpawnBomb())
-                }
+                ]
             };
+            fsm.AddState(normalBomb);
             normalBomb.AddTransition("FINISHED", "Spell End");
 
             FsmState powerBomb = new(fsm.Fsm)
@@ -137,6 +139,7 @@ internal static class BombSpell
                 })
                 }
             };
+            fsm.AddState(powerBomb);
             powerBomb.AddTransition("FINISHED", "Spell End");
 
             placeBomb.AddTransition("BOMB", normalBomb.Name);
